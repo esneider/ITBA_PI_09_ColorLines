@@ -4,9 +4,11 @@ headers=( error game colors mytime commands)
 
 comp_options="-Wall -pedantic -std=c99 -O0 -lm"
 
-libpath="back_end/lib/"
+libpath="lib/"
 
-includepath="back_end/include/"
+includepath="include/"
+
+sourcepath="source/"
 
 #################################################################
 
@@ -15,7 +17,7 @@ paths=""
 function libcompile {
     touch $libpath$1.a $libpath$1.o
     rm $libpath$1.a $libpath$1.o
-    gcc $comp_options -I$includepath -L$libpath -c $libpath$1.c
+    gcc $comp_options -I$includepath -L$libpath -c $sourcepath$1.c
     mv $1.o $libpath
     ar r $libpath$1.a $libpath$1.o
     ranlib $libpath$1.a

@@ -9,10 +9,10 @@ typedef char ** board_t;
 // GAME struct
 typedef struct{
 	board_t board;
+	board_t lastBoard;
 	int points;
 	bool canPlay;
 	bool canUndo;
-	board_t lastBoard;
 } player_t;
 
 typedef struct{
@@ -26,14 +26,15 @@ typedef struct{
 	size_t height;
 	size_t width;
 	int num_colors;
-	int tokens_per_line; // minimum number of consecutive pieces to consider it a line
-	int tokens_per_turn; // new random pieces at each round
-} options_t
+	int tokensPerLine; // minimum number of consecutive pieces to consider it a line
+	int tokensPerTurn; // new random pieces at each round
+} options_t;
 
 typedef struct{
+	options_t options;
 	player_t * players;
 	state_t state;
-} game;
+} game_t;
 
 
 // creates a new game
