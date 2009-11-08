@@ -3,7 +3,10 @@
 
 	#include "unix_colors.c"
 
-#elif defined(__win32__)
+#elif defined(__win32__)   || defined(__WIN32__) || \
+	  defined(win32)       || defined(WIN32)     || \
+	  defined(__win32)     || defined(__WIN32)   || \
+	  defined(__windows__) || defined(__WINDOWS__)
 
 	#include "win_colors.c"
 

@@ -3,7 +3,7 @@
 #define COLORS_H
 
 
-typedef enum color{
+typedef enum {
 	NEGRO        ,
 	ROJO         ,
 	VERDE        ,
@@ -23,7 +23,7 @@ typedef enum color{
 	
 } color;
 
-typedef enum attr{
+typedef enum {
 	CLEAR        ,
 	NONE         ,
 	
