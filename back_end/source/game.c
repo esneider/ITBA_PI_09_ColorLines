@@ -121,7 +121,7 @@ void writeGame( game_t * game, char * file ){
 	raise_error_if(i==0,FILEERROR,);
 }
 
-game * read_game(char * file){
+game_t * readGame(char * file){
 	int i,x,y;
 	options_t options;
 	state_t state;
