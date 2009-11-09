@@ -103,52 +103,55 @@ bool quit( game * G, char * err ){
 }
 
 
-bool new_command( game * G, char * s, char * err ){
-	int x1, y1, x2, y2;
-	int args;
-	char s1[ MAX_COMMAND_LENGTH ], s2[ MAX_COMMAND_LENGTH ];
+bool newCommand( game_t * game, char * s, char * err ){
+	int argc;
 
 // COORDS
-	args = sscanf( s, "[%d,%d][%d,%d]", &y1, &x1, &y2, &x2 );
-	if( args > 0 ){
-		if( args < 4 ){
+	int x1, y1, x2, y2;
+	argc = sscanf( s, "[%d,%d][%d,%d]", &y1, &x1, &y2, &x2 );
+	if( argc > 0 ){
+		if( argc < 4 ){
 			sprintf( err, "Error en formato.\nDebe ser \"[ fila_1, columna_1 ][ fila_2, columna_2 ]\"" );
 			return false;
 		}
-		return move_piece( G, x1, y1, x2, y2, err );
+		return movePiece( game, x1, y1, x2, y2, err );
 	}
 
 // OTHERS
 
-	args = sscanf( s, "%s %s", s1, s2 );
+	char argv[10][ MAX_COMMAND_LENGTH ];
+	argc = sscanf( s, "%s %s %s %s %s %s %s %s %s %s",
+				   argv[0], argv[1], argv[2], argv[3], argv[4],
+				   argv[5], argv[6], argv[7], argv[8], argv[9] );
 
-// two string commands
-	if( args > 1 && s2[0]!='\n' && s2[0]!='\r' ){
+	if( argc == 0 ) return true;
+
+// #define TEST_COMMAND( s, f ) if( strcmp( argv[0], s ) == 0 ) return f( game, argc, argv, err )
+// 
+// 	TEST_COMMAND("save",save);
+// 	TEST_COMMAND("buy",buyitem);
+// 	TEST_COMMAND("throw",throwItem);
+// 	TEST_COMMAND("undo",undo);
+// 	TEST_COMMAND("quit",quit);
 
 // SAVE
-		if( strcmp( s1, "save" ) == 0 ){
-			return save( G, s2, err );
-		}
+	if( strcmp( argv[0], "save" ) == 0 )
+		return save( game, argc, argv, err );
 // BUY
-		if( strcmp( s1, "buy" ) == 0 )
-			return buy_item( G, s2, err );
+	if( strcmp( argv[0], "buy" ) == 0 )
+		return buyItem( game, argc, argv, err );
 // THROW
-		if( strcmp( s1, "throw" ) == 0 )
-			return throw_item( G, s2, err );
-	}
-
-// one string commands
-	if( args == 1 && s1[0]!='\n' && s1[0]!='\r' ){
-
+	if( strcmp( s1, "throw" ) == 0 )
+		return throwItem( game, argc, argv, err );
 // UNDO
-		if( strcmp( s1, "undo" ) == 0 )
-			return undo( G, err );
+	if( strcmp( s1, "undo" ) == 0 )
+		return undo( game, argc, argv, err );
 // QUIT
-		if( strcmp( s1, "quit" ) == 0 )
-			return quit( G, err );
+	if( strcmp( s1, "quit" ) == 0 )
+		return quit( game, argc, argv, err );
 // more commands
-	}
-	
-	sprintf( err, "Comando desconocido");
+
+
+	sprintf( err, "Unknown command");
 	return false;
 }

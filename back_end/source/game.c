@@ -63,13 +63,13 @@ game_t * newGame( options_t * options ){
 	}
 
 	for( i = 0 ; i < sol->numPlayers ; i++ ){
-		sol->players[i].board     = newMatrix( sol->options.height, sol->options.width );
-		sol->players[i].lastBoard = newMatrix( sol->options.height, sol->options.width );
+		sol->players[i].board.board     = newMatrix( sol->options.height, sol->options.width );
+		sol->players[i].lastBoard.board = newMatrix( sol->options.height, sol->options.width );
 		
-		if( !sol->players[i].board || !sol->players[i].lastBoard ){
+		if( !sol->players[i].board.board || !sol->players[i].lastBoard.board ){
 			for( j = 0 ; j <= i ; j++ ){
-				freeMatrix( sol->players[j].lastBoard, sol->options.height );
-				freeMatrix( sol->players[j].board, sol->options.height );
+				freeMatrix( sol->players[j].lastBoard.board, sol->options.height );
+				freeMatrix( sol->players[j].board.board, sol->options.height );
 			}
 			free( sol->players );
 			free( sol );
@@ -80,6 +80,8 @@ game_t * newGame( options_t * options ){
 		sol->players[i].points = 0;
 		sol->players[i].emptySpots = sol->options.height * sol->options.width;
 		sol->players[i].canUndo = false;
+		sol->players[i].board.height = sol->options.height;
+		sol->players[i].board.width = sol->options.width;
 	}
 
 	sol->state.next = 0;
@@ -115,7 +117,7 @@ void writeGame( game_t * game, char * file ){
 		SAFE_FWRITE_INT( game->players[i].points );
 		for( y = 0 ; y < game->options.height ; y++ )
 			for( x = 0 ; x < game->options.width ; x++ )
-				SAFE_FWRITE_CHAR( game->players[i].board[y][x] );
+				SAFE_FWRITE_CHAR( game->players[i].board.board[y][x] );
 
 	i = fclose(out);
 	raise_error_if(i==0,FILEERROR,);
@@ -156,10 +158,12 @@ game_t * readGame(char * file){
 		SAFE_FREAD_INT( game->players[i].points );
 		game->players[i].canUndo = false;
 		game->players[i].emptySpots = 0;
+		game->players[i].board.height = sol->options.height;
+		game->players[i].board.width = sol->options.width;
 		for( y = 0 ; y < game->options.height ; y++ )
 			for( x = 0 ; x < game->options.width ; x++ ){
-				SAFE_FREAD_CHAR( game->players[i].board[y][x] );
-				game->players[i].emptySpots += game->players[i].board[y][x] == 0;
+				SAFE_FREAD_CHAR( game->players[i].board.board[y][x] );
+				game->players[i].emptySpots += game->players[i].board.board[y][x] == 0;
 			}
 	}
 

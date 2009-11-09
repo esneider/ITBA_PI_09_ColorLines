@@ -4,19 +4,23 @@
 
 #include <stdbool.h>
 
-typedef char ** board_t;
+// typedef char ** board_t;
 
 typedef enum{
 	SINGLEMODE, TIMEMODE, MULTIPLMODE
 } mode_t;
 
-// GAME struct
+typedef struct{
+	char ** board;
+	size_t height;
+	size_t width;
+} board_t;
+
 typedef struct{
 	board_t board;
 	board_t lastBoard;
 	int points;
 	int emptySpots;
-// 	bool canPlay;
 	bool canUndo;
 } player_t;
 
