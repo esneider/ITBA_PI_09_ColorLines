@@ -1,6 +1,6 @@
 #!/bin/bash
 
-headers=( error game commands)
+headers=( error utils game commands)
 
 comp_options="-Wall -pedantic -std=c99 -O0 -lm"
 

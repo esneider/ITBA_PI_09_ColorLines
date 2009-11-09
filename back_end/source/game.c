@@ -1,36 +1,11 @@
 // game.c
-#include <assert.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
 #include "error.h"
+#include "utils.h"
 #include "game.h"
 
-
-static void freeMatrix( char ** mat, int height ){
-	int i;
-	for( i = 0 ; i < height ; i++ )
-		free( mat[i] );
-	free(mat);
-}
-
-// creates a new matrix of height x width and 0es it
-static char ** newMatrix( int height, int width ){
-	int i;
-	char ** sol = malloc( height * sizeof(char*) );
-	raiseErrorIf( sol, MEMORYERROR, NULL );
-
-	for( i = 0 ; i < height ; i++ ){
-		sol[i] = calloc( width, sizeof(char) );
-		// free allocated memory in case of error
-		if( !sol ){
-			freeMatrix( sol, i-1 );
-			raiseError( MEMORYERROR );
-			return NULL;
-		}
-	}
-	return sol;
-}
 
 // creates a new game
 game_t * newGame( options_t * options ){
