@@ -6,7 +6,7 @@
 #include "commands.h"
 
 #define MAX_ARGS 10
-#define MAX_COMM_LEN 100
+#define MAX_COM_LEN 100
 
 // b \in [a,b)   WARNING: evalua b 2 veces!!
 #define entre(a,b,c) ((a)<=(b)&&(b)<(c))
@@ -144,7 +144,12 @@ bool newCommand( game_t * game, char * s, char * err ){
 
 // OTHERS
 
-	char ** argv = newMatrix( MAX_ARGS, MAX_COMM_LEN );
+// 	char ** argv = newMatrix( MAX_ARGS, MAX_COM_LEN );
+
+	char * argv[ MAX_ARGS ];
+	char str[ MAX_ARGS * MAX_COM_LEN ];
+	for( int i = 0 ; i < MAX_ARGS ; i++ )
+		argv[i] = & str[ i * MAX_COM_LEN ];
 
 	argc = sscanf( s, "%s %s %s %s %s %s %s %s %s %s",
 				   argv[0], argv[1], argv[2], argv[3], argv[4],
