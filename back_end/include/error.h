@@ -16,29 +16,29 @@ typedef enum{
 } error;
 
 // Quita errores pasados
-void clear_error();
+void clearError();
 
 // Actual error code
-error error_code();
+error errorCode();
 
 // if "comp" is TRUE raise error "num" and return "ret"
-#define raise_error_if( comp, num, ret ) { if(!(comp)){raise_error(num); return ret;} } 
+#define raiseErrorIf( comp, num, ret ) { if(!(comp)){raiseError(num); return ret;} } 
 
 // raise error "num"
-void raise_error(error num);
+void raiseError( error num );
 
 // error message for error code "num"
-char * error_message(error num);
+char * errorMessage( error num );
 
 
 #ifdef DEBUG
 	#include <stdio.h>
-	#undef raise_error_if
-	#define raise_error_if( comp, num, ret )								\
+	#undef raiseErrorIf
+	#define raiseErrorIf( comp, num, ret )								\
 		{ if (!(comp)){														\
-			raise_error(num);												\
-			printf( "In file %s\n%d :: %s => %s\nAsertion failed: %s\n\n",	\
-					__FILE__,__LINE__,__func__,error_message(num),#comp),	\
+			raiseError(num);												\
+			printf( "\nIn file %s\n%d :: %s => %s\nAsertion failed: %s\n",	\
+					__FILE__,__LINE__,__func__,errorMessage(num),#comp),	\
 			fflush(stdout);													\
 			return ret;														\
 		  } }

@@ -3,102 +3,127 @@
 #include <stdlib.h>
 #include <string.h>
 #include "error.h"
-#include "mytime.h"
 #include "commands.h"
 
-#define MAX_COMMAND_LENGTH 100
+#define MAX_ARGS 10
+#define MAX_COMM_LEN 100
 
 // b \in [a,b)   WARNING: evalua b 2 veces!!
 #define entre(a,b,c) ((a)<=(b)&&(b)<(c))
 
-bool move_piece( game * G, int x1, int y1, int x2, int y2, char * err ){
-	if( ! entre( 0, y1, G->height ) ){
-		sprintf( err, "Error de rango.\nLa primer fila debe pertenecer al intervalo [0,%d]", G->height-1 );
+
+void freeMatrix( char ** mat, int height ){
+	int i;
+	for( i = 0 ; i < height ; i++ )
+		free( mat[i] );
+	free(mat);
+}
+
+// creates a new matrix of height x width and 0es it
+char ** newMatrix( int height, int width ){
+	int i;
+	char ** sol = malloc( height * sizeof(char*) );
+	raiseErrorIf( sol, MEMORYERROR, NULL );
+	
+	for( i = 0 ; i < height ; i++ ){
+		sol[i] = calloc( width, sizeof(char) );
+		// free allocated memory in case of error
+		if( !sol ){
+			freeMatrix( sol, i-1 );
+			raiseError( MEMORYERROR );
+			return NULL;
+		}
+	}
+	return sol;
+}
+
+
+bool movePiece( game_t * game, int x1, int y1, int x2, int y2, char * err ){
+	if( ! entre( 0, y1, game->options.height ) ){
+		sprintf( err, "Error de rango.\nLa primer fila debe pertenecer al intervalo [0,%d]", game->options.height-1 );
 		return false;
 	}
-	if( ! entre( 0, x1, G->width ) ){
-		sprintf( err, "Error de rango.\nLa primer columna debe pertenecer al intervalo [0,%d]", G->width-1 );
+	if( ! entre( 0, x1, game->options.width ) ){
+		sprintf( err, "Error de rango.\nLa primer columna debe pertenecer al intervalo [0,%d]", game->options.width-1 );
 		return false;
 	}
-	if( ! entre( 0, y2, G->height ) ){
-		sprintf( err, "Error de rango.\nLa segunda fila debe pertenecer al intervalo [0,%d]", G->height-1 );
+	if( ! entre( 0, y2, game->options.height ) ){
+		sprintf( err, "Error de rango.\nLa segunda fila debe pertenecer al intervalo [0,%d]", game->options.height-1 );
 		return false;
 	}
-	if( ! entre( 0, x2, G->width ) ){
-		sprintf( err, "Error de rango.\nLa segunda columna debe pertenecer al intervalo [0,%d]", G->width-1 );
+	if( ! entre( 0, x2, game->options.width ) ){
+		sprintf( err, "Error de rango.\nLa segunda columna debe pertenecer al intervalo [0,%d]", game->options.width-1 );
 		return false;
 	}
 	
-	char ** pl;
+/*	char ** pl;
 	int * plpoints;
 	
-	if( G->mode == 2 && G->un.next == 2 ){
-		// player 2 turn
-		pl = G->p2;
-		plpoints = &( G->p2point );
+	if( game->options.mode == MULTIPLMODE && game->state.next == 1 ){
+		player 2 turn
+		pl = game->p2;
+		plpoints = &( game->p2point );
 	}else{
-		// player 1 turn
-		pl = G->p1;
-		plpoints = &( G->p1point );
-	}
+		player 1 turn
+		pl = game->p1;
+		plpoints = &( game->p1point );
+	}*/
 	
-	if( pl[y1][x1] == 0 ){
+/*	if( pl[y1][x1] == 0 ){
 		sprintf( err, "La posicion de origen no debe estar vacia" );
 		return false;
 	}
 	if( pl[y2][x2] != 0 ){
 		sprintf( err, "La posicion de destino debe estar vacia" );
 		return false;
-	}
-	// TODO
-	// BFS para encontrar el camino minimo
-	// bool connected = bfs()
-	#undef p1
-	#undef p1points
+	}*/
+// 	TODO
+// 	BFS para encontrar el camino minimo
+// 	bool connected = bfs()
 	return true;
 }
 
-bool save( game * G, char * s2, char * err ){
-	if( G->mode == 1 ){
-		G->un.time = time_left(G);
+bool save( game_t * game, int argc, char ** argv, char * err ){
+/*	if( game->mode == 1 ){
+		game->un.time = time_left(game);
 		reset_time();
 	}
 
-	clear_error();
-	write_game( G, s2 );
-	err = error_message( error_code() );
-
-	return error_code() == NOERROR;
+	clearError();
+	writeGame( game, s2 );
+	err = errorMessage( error_code() );
+*/
+	return errorCode() == NOERROR;
 }
 
-bool buy_item( game * G, char * s2, char * err ){
+bool buyItem( game_t * game, int argc, char ** argv, char * err ){
 	return true;
 }
 
-bool throw_item( game * G, char * s2, char * err ){
+bool throwItem( game_t  * game, int argc, char ** argv, char * err ){
 	return true;
 }
 
-bool undo( game * G, char * err ){
-	if( G->mode > 1 ){
-		sprintf( err, "Comando undo no disponible para modo multijugador" );
-		return false;
-	}
-	if( G->p2points == -1 ){
-		sprintf( err, "El comando undo no se puede usar dos veces seguidas en un mismo turno, y despues de la primer jugada" );
-		return false;
-	}
-
-	G->p1points = G->p2points;
-	G->p2points = -1;
-	char ** aux = G->p1;
-	G->p1 = G->p2;
-	G->p2 = aux;
+bool undo( game_t * game, int argc, char ** argv, char * err ){
+// 	if( ->mode > 1 ){
+// 		sprintf( err, "Comando undo no disponible para modo multijugador" );
+// 		return false;
+// 	}
+// 	if( game->p2points == -1 ){
+// 		sprintf( err, "El comando undo no se puede usar dos veces seguidas en un mismo turno, y despues de la primer jugada" );
+// 		return false;
+// 	}
+// 
+// 	game->p1points = game->p2points;
+// 	game->p2points = -1;
+// 	char ** aux = game->p1;
+// 	game->p1 = game->p2;
+// 	game->p2 = aux;
 
 	return true;
 }
 
-bool quit( game * G, char * err ){
+bool quit( game_t * game, int argc, char ** argv, char * err ){
 	return true;
 }
 
@@ -119,7 +144,8 @@ bool newCommand( game_t * game, char * s, char * err ){
 
 // OTHERS
 
-	char argv[10][ MAX_COMMAND_LENGTH ];
+	char ** argv = newMatrix( MAX_ARGS, MAX_COMM_LEN );
+
 	argc = sscanf( s, "%s %s %s %s %s %s %s %s %s %s",
 				   argv[0], argv[1], argv[2], argv[3], argv[4],
 				   argv[5], argv[6], argv[7], argv[8], argv[9] );
@@ -141,13 +167,13 @@ bool newCommand( game_t * game, char * s, char * err ){
 	if( strcmp( argv[0], "buy" ) == 0 )
 		return buyItem( game, argc, argv, err );
 // THROW
-	if( strcmp( s1, "throw" ) == 0 )
+	if( strcmp( argv[0], "throw" ) == 0 )
 		return throwItem( game, argc, argv, err );
 // UNDO
-	if( strcmp( s1, "undo" ) == 0 )
+	if( strcmp( argv[0], "undo" ) == 0 )
 		return undo( game, argc, argv, err );
 // QUIT
-	if( strcmp( s1, "quit" ) == 0 )
+	if( strcmp( argv[0], "quit" ) == 0 )
 		return quit( game, argc, argv, err );
 // more commands
 

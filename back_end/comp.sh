@@ -1,6 +1,6 @@
 #!/bin/bash
 
-headers=( error game colors mytime commands)
+headers=( error game commands)
 
 comp_options="-Wall -pedantic -std=c99 -O0 -lm"
 
@@ -15,13 +15,14 @@ sourcepath="source/"
 paths=""
 
 function libcompile {
-#     touch $libpath$1.a 
-# 	touch $libpath$1.o
-#     rm $libpath$1.a $libpath$1.o
+    touch $libpath$1.a 
+    touch $libpath$1.o
+    rm $libpath$1.a
+    rm $libpath$1.o
     gcc $comp_options -I$includepath -L$libpath -c $sourcepath$1.c
     mv $1.o $libpath
-#     ar r $libpath$1.a $libpath$1.o
-#     ranlib $libpath$1.a
+    ar r $libpath$1.a $libpath$1.o
+    ranlib $libpath$1.a
    # rm $libpath$1.o
     
     paths=$paths" $libpath$1.o"

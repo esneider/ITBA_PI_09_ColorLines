@@ -1,21 +1,21 @@
 // errno2.c
 #include "error.h"
 
-static error nerror;
+static error nError;
 
-void clear_error(){
-	nerror = NOERROR;
+void clearError(){
+	nError = NOERROR;
 }
 
-error error_code(){
-	return nerror;
+error errorCode(){
+	return nError;
 }
 
-void raise_error(error num){
-	nerror = num;
+void raiseError( error num ){
+	nError = num;
 }
 
-char * error_message(error num){
+char * errorMessage( error num ){
 	switch(num){
 		case NOERROR: 			return "No error";
 		case ARITHMETICERROR: 	return "Arithmetic error";

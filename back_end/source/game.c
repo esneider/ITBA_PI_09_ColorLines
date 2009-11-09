@@ -24,7 +24,7 @@ char ** newMatrix( int height, int width ){
 		sol[i] = calloc( width, sizeof(char) );
 		// free allocated memory in case of error
 		if( !sol ){
-			freeMatrix( sol, j-1 );
+			freeMatrix( sol, i-1 );
 			raiseError( MEMORYERROR );
 			return NULL;
 		}
@@ -55,7 +55,7 @@ game_t * newGame( options_t * options ){
 			break;
 	};
 
-	sol->players = malloc( numPlayers * sizeof(player_t) );
+	sol->players = malloc( sol->numPlayers * sizeof(player_t) );
 	if( !sol->players ){
 		free( sol );
 		raiseError( MEMORYERROR );
@@ -97,15 +97,15 @@ void writeGame( game_t * game, char * file ){
 	int int_;
 	char char_;
 	FILE * out = fopen(file, "wb");
-	raise_error_if(out,FILEERROR,);
+	raiseErrorIf(out,FILEERROR,);
 
-	#define SAFE_FWRITE_INT( x ) raiseErrorIf( fwrite( &( int_ = (int)(x), sizeof(int_), 1, out ) ), FILEERROR,)
-	#define SAFE_FWRITE_CHAR( x ) raiseErrorIf( fwrite( &( char_ = (char)(x), sizeof(char_), 1, out ) ), FILEERROR,)
+	#define SAFE_FWRITE_INT( x ) { int_ = (int)(x); raiseErrorIf( fwrite( &int_, sizeof(int_), 1, out ), FILEERROR,); }
+	#define SAFE_FWRITE_CHAR( x ) { char_ = (char)(x); raiseErrorIf( fwrite( &char_, sizeof(char_), 1, out ), FILEERROR,); }
 
 	SAFE_FWRITE_INT( game->options.mode );
-	if( game->options.mode == TIMEMODE )
+	if( game->options.mode == TIMEMODE ){
 		SAFE_FWRITE_INT( game->state.timeLeft / CLOCKS_PER_SEC );
-	else
+	}else
 	if( game->options.mode == MULTIPLMODE )
 		SAFE_FWRITE_INT( game->state.next + 1 );
 	SAFE_FWRITE_INT( game->options.height );
@@ -118,19 +118,19 @@ void writeGame( game_t * game, char * file ){
 		for( y = 0 ; y < game->options.height ; y++ )
 			for( x = 0 ; x < game->options.width ; x++ )
 				SAFE_FWRITE_CHAR( game->players[i].board.board[y][x] );
-
+	}
 	i = fclose(out);
-	raise_error_if(i==0,FILEERROR,);
+	raiseErrorIf(i==0,FILEERROR,);
 }
 
 game_t * readGame(char * file){
 	int i,x,y;
 	options_t options;
 	state_t state;
-	game_t * game;
+	game_t * sol;
 
 	FILE * in  = fopen(file,"rb");
-	raise_error_if(in,FILEERROR,NULL);
+	raiseErrorIf(in,FILEERROR,NULL);
 
 	#define SAFE_FREAD_INT( x ) raiseErrorIf( fread( &(x), sizeof(int), 1, in ), FILEERROR, NULL )
 	#define SAFE_FREAD_CHAR( x ) raiseErrorIf( fread( &(x), sizeof(char), 1, in ), FILEERROR, NULL )
@@ -150,25 +150,25 @@ game_t * readGame(char * file){
 	SAFE_FREAD_INT( options.tokensPerLine );
 	SAFE_FREAD_INT( options.tokensPerTurn );
 
-	game = newGame( options );
-	game->state = state;
-	game->state.lastTime = clock();
+	sol = newGame( &options );
+	sol->state = state;
+	sol->state.lastTime = clock();
 
-	for( i = 0 ; i < game->numPlayers ; i++ ){
-		SAFE_FREAD_INT( game->players[i].points );
-		game->players[i].canUndo = false;
-		game->players[i].emptySpots = 0;
-		game->players[i].board.height = sol->options.height;
-		game->players[i].board.width = sol->options.width;
-		for( y = 0 ; y < game->options.height ; y++ )
-			for( x = 0 ; x < game->options.width ; x++ ){
-				SAFE_FREAD_CHAR( game->players[i].board.board[y][x] );
-				game->players[i].emptySpots += game->players[i].board.board[y][x] == 0;
+	for( i = 0 ; i < sol->numPlayers ; i++ ){
+		SAFE_FREAD_INT( sol->players[i].points );
+		sol->players[i].canUndo = false;
+		sol->players[i].emptySpots = 0;
+		sol->players[i].board.height = sol->options.height;
+		sol->players[i].board.width = sol->options.width;
+		for( y = 0 ; y < sol->options.height ; y++ )
+			for( x = 0 ; x < sol->options.width ; x++ ){
+				SAFE_FREAD_CHAR( sol->players[i].board.board[y][x] );
+				sol->players[i].emptySpots += sol->players[i].board.board[y][x] == 0;
 			}
 	}
 
 	i = fclose(in);
-	raise_error_if(i==0,FILEERROR,NULL);
+	raiseErrorIf(i==0,FILEERROR,NULL);
 
 	return sol;
 }

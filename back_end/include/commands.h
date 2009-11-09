@@ -7,7 +7,7 @@
 #include "game.h"
 
 
-bool new_command( game * G, char * s, char * err );
+bool newCommand( game_t * game, char * s, char * err );
 
 
 #endif

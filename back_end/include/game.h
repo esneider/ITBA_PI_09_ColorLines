@@ -3,6 +3,7 @@
 #define GAME_H
 
 #include <stdbool.h>
+#include <time.h>
 
 // typedef char ** board_t;
 
