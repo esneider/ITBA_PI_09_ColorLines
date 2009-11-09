@@ -8,14 +8,14 @@ const char color2font_bkcolor[] =
 const char attr2font_attr[] =
 { 0,10,1,4,5,7,22,24,25,27 };
 
-void textcolor(char c){
+void textcolor( color c ){
 	printf( "\033[%dm", color2font_color[(int)c] );
 }
 
-void backcolor(char c){
+void backcolor( color c ){
 	printf( "\033[%dm", color2font_bkcolor[(int)c] );
 }
 
-void textattr(char a){
+void textattr( attr a ){
 	printf( "\033[%dm", attr2font_attr[(int)a] );
 }

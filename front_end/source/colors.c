@@ -1,4 +1,6 @@
 // colors.c
+#include "colors.h"
+
 #if defined(__unix__)
 
 	#include "unix_colors.c"
