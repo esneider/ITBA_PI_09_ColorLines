@@ -11,48 +11,25 @@
 // b \in [a,b)   WARNING: evalua b 2 veces!!
 #define entre(a,b,c) ((a)<=(b)&&(b)<(c))
 
-
-void freeMatrix( char ** mat, int height ){
-	int i;
-	for( i = 0 ; i < height ; i++ )
-		free( mat[i] );
-	free(mat);
-}
-
-// creates a new matrix of height x width and 0es it
-char ** newMatrix( int height, int width ){
-	int i;
-	char ** sol = malloc( height * sizeof(char*) );
-	raiseErrorIf( sol, MEMORYERROR, NULL );
-	
-	for( i = 0 ; i < height ; i++ ){
-		sol[i] = calloc( width, sizeof(char) );
-		// free allocated memory in case of error
-		if( !sol ){
-			freeMatrix( sol, i-1 );
-			raiseError( MEMORYERROR );
-			return NULL;
-		}
-	}
-	return sol;
-}
-
-
 bool movePiece( game_t * game, int x1, int y1, int x2, int y2, char * err ){
 	if( ! entre( 0, y1, game->options.height ) ){
-		sprintf( err, "Error de rango.\nLa primer fila debe pertenecer al intervalo [0,%d]", game->options.height-1 );
+		sprintf( err, "Error de rango.\nLa primer fila debe pertenecer al "
+						"intervalo [0,%d]", game->options.height-1 );
 		return false;
 	}
 	if( ! entre( 0, x1, game->options.width ) ){
-		sprintf( err, "Error de rango.\nLa primer columna debe pertenecer al intervalo [0,%d]", game->options.width-1 );
+		sprintf( err, "Error de rango.\nLa primer columna debe pertenecer al "
+						"intervalo [0,%d]", game->options.width-1 );
 		return false;
 	}
 	if( ! entre( 0, y2, game->options.height ) ){
-		sprintf( err, "Error de rango.\nLa segunda fila debe pertenecer al intervalo [0,%d]", game->options.height-1 );
+		sprintf( err, "Error de rango.\nLa segunda fila debe pertenecer al "
+						"intervalo [0,%d]", game->options.height-1 );
 		return false;
 	}
 	if( ! entre( 0, x2, game->options.width ) ){
-		sprintf( err, "Error de rango.\nLa segunda columna debe pertenecer al intervalo [0,%d]", game->options.width-1 );
+		sprintf( err, "Error de rango.\nLa segunda columna debe pertenecer al "
+						"intervalo [0,%d]", game->options.width-1 );
 		return false;
 	}
 	
@@ -110,7 +87,8 @@ bool undo( game_t * game, int argc, char ** argv, char * err ){
 // 		return false;
 // 	}
 // 	if( game->p2points == -1 ){
-// 		sprintf( err, "El comando undo no se puede usar dos veces seguidas en un mismo turno, y despues de la primer jugada" );
+// 		sprintf( err, "El comando undo no se puede usar dos veces seguidas en "
+// 						"un mismo turno, y despues de la primer jugada" );
 // 		return false;
 // 	}
 // 
@@ -136,7 +114,8 @@ bool newCommand( game_t * game, char * s, char * err ){
 	argc = sscanf( s, "[%d,%d][%d,%d]", &y1, &x1, &y2, &x2 );
 	if( argc > 0 ){
 		if( argc < 4 ){
-			sprintf( err, "Error en formato.\nDebe ser \"[ fila_1, columna_1 ][ fila_2, columna_2 ]\"" );
+			sprintf( err, "Error en formato.\nDebe ser \"[ fila_1, columna_1 ]"
+							"[ fila_2, columna_2 ]\"" );
 			return false;
 		}
 		return movePiece( game, x1, y1, x2, y2, err );
@@ -144,8 +123,7 @@ bool newCommand( game_t * game, char * s, char * err ){
 
 // OTHERS
 
-// 	char ** argv = newMatrix( MAX_ARGS, MAX_COM_LEN );
-
+// just to have a char ** argv, and don't have to free
 	char * argv[ MAX_ARGS ];
 	char str[ MAX_ARGS * MAX_COM_LEN ];
 	for( int i = 0 ; i < MAX_ARGS ; i++ )
@@ -157,7 +135,8 @@ bool newCommand( game_t * game, char * s, char * err ){
 
 	if( argc == 0 ) return true;
 
-// #define TEST_COMMAND( s, f ) if( strcmp( argv[0], s ) == 0 ) return f( game, argc, argv, err )
+// #define TEST_COMMAND( s, f ) if( strcmp( argv[0], s ) == 0 ) \
+// 									return f( game, argc, argv, err )
 // 
 // 	TEST_COMMAND("save",save);
 // 	TEST_COMMAND("buy",buyitem);

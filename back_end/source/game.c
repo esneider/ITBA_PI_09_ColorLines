@@ -7,7 +7,7 @@
 #include "game.h"
 
 
-void freeMatrix( char ** mat, int height ){
+static void freeMatrix( char ** mat, int height ){
 	int i;
 	for( i = 0 ; i < height ; i++ )
 		free( mat[i] );
@@ -15,7 +15,7 @@ void freeMatrix( char ** mat, int height ){
 }
 
 // creates a new matrix of height x width and 0es it
-char ** newMatrix( int height, int width ){
+static char ** newMatrix( int height, int width ){
 	int i;
 	char ** sol = malloc( height * sizeof(char*) );
 	raiseErrorIf( sol, MEMORYERROR, NULL );
@@ -31,7 +31,6 @@ char ** newMatrix( int height, int width ){
 	}
 	return sol;
 }
-
 
 // creates a new game
 game_t * newGame( options_t * options ){
@@ -63,8 +62,10 @@ game_t * newGame( options_t * options ){
 	}
 
 	for( i = 0 ; i < sol->numPlayers ; i++ ){
-		sol->players[i].board.board     = newMatrix( sol->options.height, sol->options.width );
-		sol->players[i].lastBoard.board = newMatrix( sol->options.height, sol->options.width );
+		sol->players[i].board.board     =
+			newMatrix( sol->options.height, sol->options.width );
+		sol->players[i].lastBoard.board =
+			newMatrix( sol->options.height, sol->options.width );
 		
 		if( !sol->players[i].board.board || !sol->players[i].lastBoard.board ){
 			for( j = 0 ; j <= i ; j++ ){
@@ -91,6 +92,15 @@ game_t * newGame( options_t * options ){
 	return sol;
 }
 
+void freeGame( game_t * game ){
+	int i;
+	for( i = 0 ; i <= game->numPlayers ; i++ ){
+		freeMatrix( game->players[i].lastBoard.board, game->options.height );
+		freeMatrix( game->players[i].board.board, game->options.height );
+	}
+	free( game->players );
+	free( game );
+}
 
 void writeGame( game_t * game, char * file ){
 	int i,x,y;
@@ -99,8 +109,15 @@ void writeGame( game_t * game, char * file ){
 	FILE * out = fopen(file, "wb");
 	raiseErrorIf(out,FILEERROR,);
 
-	#define SAFE_FWRITE_INT( x ) { int_ = (int)(x); raiseErrorIf( fwrite( &int_, sizeof(int_), 1, out ), FILEERROR,); }
-	#define SAFE_FWRITE_CHAR( x ) { char_ = (char)(x); raiseErrorIf( fwrite( &char_, sizeof(char_), 1, out ), FILEERROR,); }
+	#define SAFE_FWRITE_INT( x )											\
+		do{ int_ = (int)(x); 												\
+			raiseErrorIf( fwrite( &int_, sizeof(int_), 1, out ), FILEERROR,);\
+		}while(0)
+
+	#define SAFE_FWRITE_CHAR( x )											\
+		do{ char_ = (char)(x);												\
+			raiseErrorIf( fwrite( &char_, sizeof(char_), 1, out ), FILEERROR,);\
+		}while(0)
 
 	SAFE_FWRITE_INT( game->options.mode );
 	if( game->options.mode == TIMEMODE ){
@@ -132,8 +149,11 @@ game_t * readGame(char * file){
 	FILE * in  = fopen(file,"rb");
 	raiseErrorIf(in,FILEERROR,NULL);
 
-	#define SAFE_FREAD_INT( x ) raiseErrorIf( fread( &(x), sizeof(int), 1, in ), FILEERROR, NULL )
-	#define SAFE_FREAD_CHAR( x ) raiseErrorIf( fread( &(x), sizeof(char), 1, in ), FILEERROR, NULL )
+	#define SAFE_FREAD_INT( x )												\
+		raiseErrorIf( fread( &(x), sizeof(int), 1, in ), FILEERROR, NULL )
+	
+	#define SAFE_FREAD_CHAR( x )											\
+		raiseErrorIf( fread( &(x), sizeof(char), 1, in ), FILEERROR, NULL )
 
 	SAFE_FREAD_INT( options.mode );
 	if( options.mode == TIMEMODE ){

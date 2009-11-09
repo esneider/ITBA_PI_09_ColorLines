@@ -5,7 +5,6 @@
 #include <stdbool.h>
 #include <time.h>
 
-// typedef char ** board_t;
 
 typedef enum{
 	SINGLEMODE, TIMEMODE, MULTIPLMODE
@@ -36,7 +35,7 @@ typedef struct{
 	size_t height;
 	size_t width;
 	int numColors;
-	int tokensPerLine; // minimum number of consecutive pieces to consider it a line
+	int tokensPerLine; // minimum number of consecutive pieces to make a line
 	int tokensPerTurn; // new random pieces at each round
 	int initialTokens; // tokens located at random when starting
 	time_t initialSeconds; // seconds before game is over
@@ -53,6 +52,9 @@ typedef struct{
 // creates a new game
 game_t * newGame( options_t * options );
 
+// frees allocated space for game
+void freeGame( game_t * game );
+
 // writes game to file
 void writeGame( game_t * game, char * file );
 
@@ -60,4 +62,4 @@ void writeGame( game_t * game, char * file );
 game_t * readGame( char * file );
 
 
-#endif
+#endif // GAME_H

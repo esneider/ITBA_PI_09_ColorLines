@@ -10,4 +10,4 @@
 bool newCommand( game_t * game, char * s, char * err );
 
 
-#endif
+#endif // COMMANDS_H
