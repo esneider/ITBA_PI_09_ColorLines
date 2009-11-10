@@ -53,11 +53,11 @@ game_t * newGame( options_t * options ){
 			return NULL;
 		}
 
-		sol->players[i].points = 0;
-		sol->players[i].emptySpots = sol->options.height * sol->options.width;
+		sol->players[i].board.points = 0;
+		sol->players[i].board.emptySpots = sol->options.height * sol->options.width;
 		sol->players[i].canUndo = false;
-		sol->players[i].board.height = sol->options.height;
-		sol->players[i].board.width = sol->options.width;
+		sol->players[i].height = sol->options.height;
+		sol->players[i].width = sol->options.width;
 	}
 
 	sol->state.next = 0;
@@ -106,7 +106,7 @@ void writeGame( game_t * game, char * file ){
 	SAFE_FWRITE_INT( game->options.tokensPerLine );
 	SAFE_FWRITE_INT( game->options.tokensPerTurn );
 	for( i = 0 ; i < game->numPlayers ; i++ ){
-		SAFE_FWRITE_INT( game->players[i].points );
+		SAFE_FWRITE_INT( game->players[i].board.points );
 		for( y = 0 ; y < game->options.height ; y++ )
 			for( x = 0 ; x < game->options.width ; x++ )
 				SAFE_FWRITE_CHAR( game->players[i].board.board[y][x] );

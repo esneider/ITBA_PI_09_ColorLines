@@ -47,17 +47,18 @@ bool newCommand( game_t * game, char * s, char * err ){
 		err = errorMessage( errorCode() );
 		return false;
 	}
-	
+
 	argc = sscanf( s, "%s %s %s %s %s %s %s %s %s %s",
 				   argv[0], argv[1], argv[2], argv[3], argv[4],
 				   argv[5], argv[6], argv[7], argv[8], argv[9] );
-// 	printf("%s\n%d\n",s,argc);
+
 	if( argc == 0 ) return true;
 
 	sol = false;
 	sprintf( err, "Unknown command");
 	
 	for( i = 0 ; i < sizeof(commands)/ sizeof(command_t) ; i++ )
+
 		if( strncmp( argv[0], commands[i].com, strlen(commands[i].com) ) == 0 ){
 			sol = commands[i].func( game, argc, argv, err );
 
@@ -67,7 +68,7 @@ bool newCommand( game_t * game, char * s, char * err ){
 			}
 			break;
 		}
-	
+
 	freeMatrix( argv, MAX_ARGS );
 	return sol;
 }
@@ -131,12 +132,12 @@ bool save( game_t * game, int argc, char ** argv, char * err ){
 
 	if( argc == 1 ){
 		sprintf( err, "Missing file operand\n"
-					"Try 'save --help' for more information.");
+					"Try 'save --help' for more information");
 		return false;
 	}
 	if( argc > 2 ){
 		sprintf( err, "Wrong usage\n"
-					"Try 'save --help' for more information.");
+					"Try 'save --help' for more information");
 		return false;	
 	}
 	if( strcmp( argv[1], "--help" ) == 0 ){
@@ -159,21 +160,35 @@ bool throwItem( game_t  * game, int argc, char ** argv, char * err ){
 }
 
 bool undo( game_t * game, int argc, char ** argv, char * err ){
-// 	if( ->mode > 1 ){
-// 		sprintf( err, "Comando undo no disponible para modo multijugador" );
-// 		return false;
-// 	}
-// 	if( game->p2points == -1 ){
-// 		sprintf( err, "El comando undo no se puede usar dos veces seguidas en "
-// 						"un mismo turno, y despues de la primer jugada" );
-// 		return false;
-// 	}
-// 
-// 	game->p1points = game->p2points;
-// 	game->p2points = -1;
-// 	char ** aux = game->p1;
-// 	game->p1 = game->p2;
-// 	game->p2 = aux;
+	if( argc == 2 && strcmp( argv[1], "--help" ) == 0 ){
+		sprintf( err, "Usage: undo\n\n"
+					"Undoes the last move\n"
+					"It can only be used once some move has been done, "
+					"and it can't be used two consecutive times" );
+		return false;
+	}
+	if( argc > 1 ){
+		sprintf( err, "Wrong usage\n"
+					"Try 'save --help' for more information");
+		return false;
+	}
+	if( game->optons.mode != SINGLEMODE ){
+		sprintf( err, "undo command is only available in one player"
+					", no time mode" );
+		return false;
+	}
+	if( game->players[0].canUndo == false ){
+		sprintf( err, "undo command cannot be used twice in a row or in "
+					"the first turn" );
+		return false;
+	}
+	
+	char **
+	game->p1points = game->p2points;
+	game->p2points = -1;
+	char ** aux = game->p1;
+	game->p1 = game->p2;
+	game->p2 = aux;
 
 	return true;
 }
