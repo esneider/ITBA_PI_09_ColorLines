@@ -12,15 +12,15 @@ typedef enum{
 
 typedef struct{
 	char ** board;
-	size_t height;
-	size_t width;
+	int points;
+	int emptySpots;
 } board_t;
 
 typedef struct{
 	board_t board;
 	board_t lastBoard;
-	int points;
-	int emptySpots;
+	size_t height;
+	size_t width;
 	bool canUndo;
 } player_t;
 

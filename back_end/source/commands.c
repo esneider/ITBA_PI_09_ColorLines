@@ -89,27 +89,27 @@ bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 	int x1, y1, x2, y2;
 	i = sscanf( s, "[%d,%d][%d,%d]", &y1, &x1, &y2, &x2 );
 	if( i < 4 ){
-		sprintf( err, "Format error\n"
+		sprintf( err, "Format error:\n"
 					"Must be: [ row_1, column_1 ][ row_2, column_2 ]" );
 		return false;
 	}
 	if( ! entre( 0, y1, game->options.height ) ){
-		sprintf( err, "Rank error\nThe first row must belong to the "
+		sprintf( err, "Rank error:\nThe first row must belong to the "
 					"interval [0,%d]", game->options.height - 1 );
 		return false;
 	}
 	if( ! entre( 0, x1, game->options.width ) ){
-		sprintf( err, "Rank error\nThe first column must belong to the "
+		sprintf( err, "Rank error:\nThe first column must belong to the "
 					"interval [0,%d]", game->options.width - 1 );
 		return false;
 	}
 	if( ! entre( 0, y2, game->options.height ) ){
-		sprintf( err, "Rank error\nThe fsecond row must belong to the "
+		sprintf( err, "Rank error:\nThe fsecond row must belong to the "
 					"interval [0,%d]", game->options.height - 1 );
 		return false;
 	}
 	if( ! entre( 0, x2, game->options.width ) ){
-		sprintf( err, "Rank error\nThe second column must belong to the "
+		sprintf( err, "Rank error:\nThe second column must belong to the "
 					"interval [0,%d]", game->options.width - 1 );
 		return false;
 	}
@@ -141,8 +141,8 @@ bool save( game_t * game, int argc, char ** argv, char * err ){
 		return false;	
 	}
 	if( strcmp( argv[1], "--help" ) == 0 ){
-		sprintf( err, "Usage: save FILE\n\n"
-					"Saves the current game to file FILE");
+		sprintf( err, "Usage: save filename\n"
+					"Saves the current game to file 'filename'");
 		return false;
 	}
 
@@ -161,7 +161,7 @@ bool throwItem( game_t  * game, int argc, char ** argv, char * err ){
 
 bool undo( game_t * game, int argc, char ** argv, char * err ){
 	if( argc == 2 && strcmp( argv[1], "--help" ) == 0 ){
-		sprintf( err, "Usage: undo\n\n"
+		sprintf( err, "Usage: undo\n"
 					"Undoes the last move\n"
 					"It can only be used once some move has been done, "
 					"and it can't be used two consecutive times" );
@@ -169,26 +169,23 @@ bool undo( game_t * game, int argc, char ** argv, char * err ){
 	}
 	if( argc > 1 ){
 		sprintf( err, "Wrong usage\n"
-					"Try 'save --help' for more information");
+					"Try 'undo --help' for more information");
 		return false;
 	}
-	if( game->optons.mode != SINGLEMODE ){
-		sprintf( err, "undo command is only available in one player"
+	if( game->options.mode != SINGLEMODE ){
+		sprintf( err, "'undo' command is only available in one player"
 					", no time mode" );
 		return false;
 	}
-	if( game->players[0].canUndo == false ){
-		sprintf( err, "undo command cannot be used twice in a row or in "
+	if( game->players[ game->state.next ].canUndo == false ){
+		sprintf( err, "'undo' command cannot be used twice in a row or in "
 					"the first turn" );
 		return false;
 	}
-	
-	char **
-	game->p1points = game->p2points;
-	game->p2points = -1;
-	char ** aux = game->p1;
-	game->p1 = game->p2;
-	game->p2 = aux;
+
+	game->players[ game->state.next ].canUndo = false;
+	game->players[ game->state.next ].board =
+									game->players[ game->state.next ].lastBoard;
 
 	return true;
 }
@@ -198,5 +195,15 @@ bool quit( game_t * game, int argc, char ** argv, char * err ){
 }
 
 bool help     ( game_t * game, int argc, char ** argv, char * err ){
+	sprintf( err, "These commands are defined internally\n"
+				"Type 'name --help' to find out more about the function 'name'"
+				"\n\n{} indicate optional parameter\n\n"
+				"  [row_1,column_1][row_2,column_2]\n"
+				"  save filename\n"
+				"  undo\n"
+				"  quit\n"
+				"  help\n"
+				"  buy {item}\n"
+				"  throw {item}\n" );
 	return true;
 }

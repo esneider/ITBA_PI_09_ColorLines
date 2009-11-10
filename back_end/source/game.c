@@ -17,11 +17,11 @@ game_t * newGame( options_t * options ){
 	sol->options = *options;
 
 	switch( sol->options.mode ){
-		SINGLEMODE:
-		TIMEMODE:
+		case SINGLEMODE:
+		case TIMEMODE:
 			sol->numPlayers = 1;
 			break;
-		MULTIPLMODE:
+		case MULTIPLMODE:
 			sol->numPlayers = 2;
 			break;
 		default:
@@ -150,15 +150,16 @@ game_t * readGame(char * file){
 	sol->state.lastTime = clock();
 
 	for( i = 0 ; i < sol->numPlayers ; i++ ){
-		SAFE_FREAD_INT( sol->players[i].points );
+		SAFE_FREAD_INT( sol->players[i].board.points );
 		sol->players[i].canUndo = false;
-		sol->players[i].emptySpots = 0;
-		sol->players[i].board.height = sol->options.height;
-		sol->players[i].board.width = sol->options.width;
+		sol->players[i].board.emptySpots = 0;
+		sol->players[i].height = sol->options.height;
+		sol->players[i].width = sol->options.width;
 		for( y = 0 ; y < sol->options.height ; y++ )
 			for( x = 0 ; x < sol->options.width ; x++ ){
 				SAFE_FREAD_CHAR( sol->players[i].board.board[y][x] );
-				sol->players[i].emptySpots += sol->players[i].board.board[y][x] == 0;
+				sol->players[i].board.emptySpots += 
+										sol->players[i].board.board[y][x] == 0;
 			}
 	}
 
