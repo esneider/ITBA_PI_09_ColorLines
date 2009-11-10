@@ -37,3 +37,12 @@ bool entre( const int a, const int b, const int c ){
 void clearBuffer(){
 	while(getchar() != '\n');
 }
+
+bool validateInt( int a, int b, int c, char * err ){
+	if( !entre(a,b,c) ){
+		sprintf( err, "Rank error:\nIt must belong to the "
+		"interval [%d,%d]", a, c-1 );
+		return false;
+	}
+	return true;
+}
