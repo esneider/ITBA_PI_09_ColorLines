@@ -15,6 +15,7 @@ bool buyItem  ( game_t * game, int argc, char ** argv, char * err );
 bool throwItem( game_t * game, int argc, char ** argv, char * err );
 bool undo     ( game_t * game, int argc, char ** argv, char * err );
 bool quit     ( game_t * game, int argc, char ** argv, char * err );
+bool help     ( game_t * game, int argc, char ** argv, char * err );
 
 typedef struct{
 	char com[ MAX_COM_LEN ];
@@ -27,7 +28,8 @@ const command_t commands[]={
 	{"buy", buyItem},
 	{"throw", throwItem},
 	{"undo", undo},
-	{"quit", quit}
+	{"quit", quit},
+	{"help", help}
 };
 
 
@@ -49,7 +51,7 @@ bool newCommand( game_t * game, char * s, char * err ){
 	argc = sscanf( s, "%s %s %s %s %s %s %s %s %s %s",
 				   argv[0], argv[1], argv[2], argv[3], argv[4],
 				   argv[5], argv[6], argv[7], argv[8], argv[9] );
-
+// 	printf("%s\n%d\n",s,argc);
 	if( argc == 0 ) return true;
 
 	sol = false;
@@ -75,78 +77,77 @@ bool newCommand( game_t * game, char * s, char * err ){
 ******************************************************************* **/
 
 
-bool movePiece( game_t * game, int argc, char ** argv, char * err ){return true;}
-// bool movePiece( game_t * game, int x1, int y1, int x2, int y2, char * err ){
-// 	// COORDS
-// 	int x1, y1, x2, y2;
-// 	argc = sscanf( s, "[%d,%d][%d,%d]", &y1, &x1, &y2, &x2 );
-// 	if( argc > 0 ){
-// 		if( argc < 4 ){
-// 			sprintf( err, "Error en formato.\nDebe ser \"[ fila_1, columna_1 ]"
-// 			"[ fila_2, columna_2 ]\"" );
-// 			return false;
-// 		}
-// 		return movePiece( game, x1, y1, x2, y2, err );
-// 	}
-// 	if( ! entre( 0, y1, game->options.height ) ){
-// 		sprintf( err, "Error de rango.\nLa primer fila debe pertenecer al "
-// 						"intervalo [0,%d]", game->options.height-1 );
-// 		return false;
-// 	}
-// 	if( ! entre( 0, x1, game->options.width ) ){
-// 		sprintf( err, "Error de rango.\nLa primer columna debe pertenecer al "
-// 						"intervalo [0,%d]", game->options.width-1 );
-// 		return false;
-// 	}
-// 	if( ! entre( 0, y2, game->options.height ) ){
-// 		sprintf( err, "Error de rango.\nLa segunda fila debe pertenecer al "
-// 						"intervalo [0,%d]", game->options.height-1 );
-// 		return false;
-// 	}
-// 	if( ! entre( 0, x2, game->options.width ) ){
-// 		sprintf( err, "Error de rango.\nLa segunda columna debe pertenecer al "
-// 						"intervalo [0,%d]", game->options.width-1 );
-// 		return false;
-// 	}
-// 	
-// /*	char ** pl;
-// 	int * plpoints;
-// 	
-// 	if( game->options.mode == MULTIPLMODE && game->state.next == 1 ){
-// 		player 2 turn
-// 		pl = game->p2;
-// 		plpoints = &( game->p2point );
-// 	}else{
-// 		player 1 turn
-// 		pl = game->p1;
-// 		plpoints = &( game->p1point );
-// 	}*/
-// 	
-// /*	if( pl[y1][x1] == 0 ){
-// 		sprintf( err, "La posicion de origen no debe estar vacia" );
-// 		return false;
-// 	}
-// 	if( pl[y2][x2] != 0 ){
-// 		sprintf( err, "La posicion de destino debe estar vacia" );
-// 		return false;
-// 	}*/
-// // 	TODO
-// // 	BFS para encontrar el camino minimo
-// // 	bool connected = bfs()
-// 	return true;
-// }
+bool movePiece( game_t * game, int argc, char ** argv, char * err ){
+	int i;
+	char s[ argc * MAX_ARGS ];
 
-bool save( game_t * game, int argc, char ** argv, char * err ){
-/*	if( game->mode == 1 ){
-		game->un.time = time_left(game);
-		reset_time();
+	s[0] = 0;
+	for( i = 0 ; i < argc ; i++ )
+		strcat( s, argv[i] );
+
+	int x1, y1, x2, y2;
+	i = sscanf( s, "[%d,%d][%d,%d]", &y1, &x1, &y2, &x2 );
+	if( i < 4 ){
+		sprintf( err, "Format error\n"
+					"Must be: [ row_1, column_1 ][ row_2, column_2 ]" );
+		return false;
+	}
+	if( ! entre( 0, y1, game->options.height ) ){
+		sprintf( err, "Rank error\nThe first row must belong to the "
+					"interval [0,%d]", game->options.height - 1 );
+		return false;
+	}
+	if( ! entre( 0, x1, game->options.width ) ){
+		sprintf( err, "Rank error\nThe first column must belong to the "
+					"interval [0,%d]", game->options.width - 1 );
+		return false;
+	}
+	if( ! entre( 0, y2, game->options.height ) ){
+		sprintf( err, "Rank error\nThe fsecond row must belong to the "
+					"interval [0,%d]", game->options.height - 1 );
+		return false;
+	}
+	if( ! entre( 0, x2, game->options.width ) ){
+		sprintf( err, "Rank error\nThe second column must belong to the "
+					"interval [0,%d]", game->options.width - 1 );
+		return false;
+	}
+	if( game->players[ game->state.next ].board.board[y1][x1] == 0 ){
+		sprintf( err, "The origin position must not be empty" );
+		return false;
+	}
+	if( game->players[ game->state.next ].board.board[y2][x2] != 0 ){
+		sprintf( err, "The target position must not be occupied" );
+		return false;
 	}
 
-	clearError();
-	writeGame( game, s2 );
-	err = errorMessage( error_code() );
-*/
-	return errorCode() == NOERROR;
+	// 	TODO
+	// 	BFS para encontrar el camino minimo
+	
+	return true;
+}
+
+bool save( game_t * game, int argc, char ** argv, char * err ){
+
+	if( argc == 1 ){
+		sprintf( err, "Missing file operand\n"
+					"Try 'save --help' for more information.");
+		return false;
+	}
+	if( argc > 2 ){
+		sprintf( err, "Wrong usage\n"
+					"Try 'save --help' for more information.");
+		return false;	
+	}
+	if( strcmp( argv[1], "--help" ) == 0 ){
+		sprintf( err, "Usage: save FILE\n\n"
+					"Saves the current game to file FILE");
+		return false;
+	}
+
+	writeGame( game, argv[1] );
+
+	return true;
 }
 
 bool buyItem( game_t * game, int argc, char ** argv, char * err ){
@@ -181,3 +182,6 @@ bool quit( game_t * game, int argc, char ** argv, char * err ){
 	return true;
 }
 
+bool help     ( game_t * game, int argc, char ** argv, char * err ){
+	return true;
+}

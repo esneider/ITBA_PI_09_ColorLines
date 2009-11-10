@@ -2,7 +2,6 @@
 #ifndef COMMANDS_H
 #define COMMANDS_H
 
-
 #include <stdbool.h>
 #include "game.h"
 
