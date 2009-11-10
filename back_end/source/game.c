@@ -113,6 +113,9 @@ void writeGame( game_t * game, char * file ){
 	}
 	i = fclose(out);
 	raiseErrorIf(i==0,FILEERROR,);
+
+	#undef SAFE_FWRITE_INT
+	#undef SAFE_FWRITE_CHAR
 }
 
 game_t * readGame(char * file){
@@ -167,4 +170,7 @@ game_t * readGame(char * file){
 	raiseErrorIf(i==0,FILEERROR,NULL);
 
 	return sol;
+
+	#undef SAFE_FREAD_INT
+	#undef SAFE_FREAD_CHAR
 }

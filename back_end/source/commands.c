@@ -122,9 +122,55 @@ bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 		return false;
 	}
 
-	// 	TODO
 	// 	BFS para encontrar el camino minimo
+
+	struct coord{
+		int x,y;
+	} move[4] = { {-1,0}, {0,1}, {1,0}, {0,-1} };
+
+	struct node{
+		int x, y, parent;
+	} queue[ game->players[ game->state.next ].board.emptySpots + 1 ];
+
+	int read = -1, write = 0,x,y;
+
+	bool touched[ game->options.height ][ game->options.width ];
+
+	memset( &touched[0][0], false, sizeof(touched)/sizeof(bool) );
+	queue[write++] = (struct node){x1,y1,-1};
+
+	while( ++read < write ){
+		if( queue[read].x == x2 && queue[read].y == y2 )
+			break;
+		for( i = 0 ; i < sizeof(move)/sizeof(struct coord) ; i++ ){
+			x = queue[read].x + move[i].x;
+			y = queue[read].y + move[i].y;
+			if( entre(0,x,game->options.width) &&
+				entre(0,y,game->options.height) &&
+				game->players[ game->state.next ].board.board[y][x] == 0 &&
+				!touched[y][x] ){
+					touched[y][x] = true;
+					queue[write++] = (struct node){x,y,read};
+			}
+		}
+	}
 	
+	if( read >= write ){
+		sprintf( err, "There must be a path of unoccupied spaces from the "
+					"origin position to the target position" );
+		return false;
+	}
+
+	game->players[ game->state.next ].canUndo = true;
+	game->players[ game->state.next ].lastBoard =
+										game->players[ game->state.next ].board;
+
+	// draw movement TODO (needs front-end)
+
+	game->players[ game->state.next ].board.board[y2][x2] =
+						game->players[ game->state.next ].board.board[y1][x1];
+	game->players[ game->state.next ].board.board[y1][x1] = 0;
+
 	return true;
 }
 
@@ -152,10 +198,12 @@ bool save( game_t * game, int argc, char ** argv, char * err ){
 }
 
 bool buyItem( game_t * game, int argc, char ** argv, char * err ){
+	//TODO
 	return true;
 }
 
 bool throwItem( game_t  * game, int argc, char ** argv, char * err ){
+	//TODO
 	return true;
 }
 
@@ -191,6 +239,18 @@ bool undo( game_t * game, int argc, char ** argv, char * err ){
 }
 
 bool quit( game_t * game, int argc, char ** argv, char * err ){
+	if( argc == 2 && strcmp( argv[1], "--help" ) == 0 ){
+		sprintf( err, "Usage: quit\n"
+					"Quits the current game" );
+		return false;
+	}
+	if( argc > 1){
+		sprintf( err, "Wrong usage\n"
+			"Try 'quit --help' for more information");
+		return false;
+	}
+
+	//TODO
 	return true;
 }
 
