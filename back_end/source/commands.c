@@ -171,6 +171,9 @@ bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 						game->players[ game->state.next ].board.board[y1][x1];
 	game->players[ game->state.next ].board.board[y1][x1] = 0;
 
+	game->state.next++;
+	game->state.next %= game->numPlayers;
+
 	return true;
 }
 
