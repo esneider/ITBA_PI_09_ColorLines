@@ -1,52 +1,53 @@
-// Funciones que verifican el modo de juego y las opciones ingresadas por el jugador
+// Verifies the mode and the options of the game
 #include <string.h>
-#include <stdlib.h>
-#define MAX_X 500
-#define MAX_Y 500
+#include <stdbool.h>
+#define MIN_MODE 1
+#define MAX_MODE 5
+#define MAX_DIM 500
+#define MIN_DIM 5
+#define MIN_COLORS 2
+#define MAX_COLORS 9
+#define MIN_BALLS 2
 
-// Verifica modo
-bool
-validarModo(int modo){
-	if (modo>=1 && modo<=5)
+// Verifies mode
+bool validateMode(int mode){
+	if (mode>=MIN_MODE && mode<=MAX_MODE)
 		return true;
 	else
 		return false;
 }
 
-// Verifica las dimensiones del tablero
-bool
-validarDim(int x, int y, char * error){
-	if (x<5 || y<5){
-		strcpy(error, "Ambas deben ser mayor a 5");
+// Verifies the dimensions of the board
+bool validateDim(int x, int y, char * error){
+	if (x<MIN_DIM || y<MIN_DIM){
+		strcpy(error, "Both must be greater than 5, enter again");
 		return false;
 	}
-	// Tope es 500, ninguna dimension puede pasarlos
-	else if(x>MAX_X || y>MAX_Y){
-		strcpy(error, "Dimensiones demasiado grandes, ingrese nuevamente");
+	// The maximum is 500, you can't overcome any dimension
+	else if(x>MAX_DIM || y>MAX_DIM){
+		strcpy(error, "Dimensions to large, enter again");
 		return false;
 	}
 	else
 		return true;
 }
 
-// Verifica cantidad de colores
-bool
-validarColores(int colores){
-	if (colores>=2 && colores<= 9)
+// Check colors
+bool validateColors(int colors){
+	if (colors>=MIN_COLORS && colors<= MAX_COLORS)
 		return true;
 	else
 		return false;
 }
 
-// Verificas cantidad de bolillas que aparecen, que se agregan y que forman una linea
-bool
-validarBolillas(int bolillas, int x, int y, char * error){
-	if(bolillas<=0){
-		strcpy(error, "Tiene que ser mayor a 0");
+// Check number of balls that appear, to be aggregated and forming a line
+bool validateBalls(int balls, int x, int y, char * error){
+	if(balls<MIN_BALLS){
+		strcpy(error, "It must be greater than 1, enter again");
 		return false;
 	}
-	else if(bolillas>x*y){
-		strcpy(error, "Demasiadas bolillas para la dimension del tablero");
+	else if(balls>x*y){
+		strcpy(error, "Too many balls for the dimension of the board, enter again");
 		return false;
 	}
 	else
