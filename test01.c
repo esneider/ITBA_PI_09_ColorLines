@@ -5,9 +5,11 @@
 #include "commands.h"
 
 int main(){
-	clear_error();
-	game * G = new_game(0,0,7,7,9,5,3);
-	write_game(G,"el_juego.game");
-	G = read_game("el_juego.game");
-	printf("%d %d %d %d \n",G->height,G->width,G->p1points,G->colors);
+	clearError();
+	options_t options;
+	game_t * game = newGame(&options);
+	writeGame(game,"elJuego.game");
+	game = readGame("elJuego.game");
+	printf("%d %d %d %d \n", game->options.height, game->options.width,
+							game->options.numColors, game->options.mode );
 }
