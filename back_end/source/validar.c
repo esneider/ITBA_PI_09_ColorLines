@@ -1,13 +1,8 @@
-// Verifies the mode and the options of the game
+`// Verifies the mode and the options of the game
 #include <string.h>
 #include <stdbool.h>
 #define MIN_MODE 1
 #define MAX_MODE 5
-#define MAX_DIM 500
-#define MIN_DIM 5
-#define MIN_COLORS 2
-#define MAX_COLORS 9
-#define MIN_BALLS 2
 
 // Verifies mode
 bool validateMode(int mode){

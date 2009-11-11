@@ -16,17 +16,19 @@ typedef enum{
 // reads an integer and asserts it's in the interval [a,b]
 static int askInt( const int a, const int b){
 	int sol;
+	char c;
 	static char error[MAX_ERR_LEN];
+	static char buffer[MAX_COM_LEN];
 
 	error[0] = 0;
 	do{
 		printf( "%s", error );
-		if( scanf( "%d", &sol ) != 1 ){
+// 		clearBuffer();
+		fgets( buffer, MAX_COM_LEN, stdin );
+		if( sscanf( buffer, " %d%c", &sol, &c ) != 1 ){
 			sprintf( error, "Format error:\nMust be an integer\n");
-			clearBuffer();
 			continue;
-		}
-		clearBuffer();
+ 		}
 	}while( !validateInt( a, sol, b+1, error ) );
 
 	return sol;

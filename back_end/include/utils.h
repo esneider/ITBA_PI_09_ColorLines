@@ -10,6 +10,12 @@
 #define MAX_ARGS 10
 #define MAX_COM_LEN 100
 
+#define MIN_TAB_DIM 5
+#define MAX_TAB_DIM 500
+#define MIN_COLORS 2
+#define MAX_COLORS 9
+#define MIN_TOKENS 2
+
 
 // creates a new matrix of 'height' x 'width' and 0es it
 char ** newMatrix( const int height, const int width );
