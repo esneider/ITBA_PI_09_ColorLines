@@ -109,7 +109,7 @@ static options_t chooseOptions( mode_t mode ){
 	options.initialTokens = askInt(1, options.width * options.height );
 
 	printf("Enter the number of pieces that make a line:\n");
-	options.tokensPerLine = askInt(5, 700);
+	options.tokensPerLine = askInt(3, 700);
 	// 500 * sqrt(2) = 707
 
 	printf("Enter the number of pieces that are added on each turn:\n");
