@@ -1,13 +1,12 @@
 // Elegir el tipo de juego
 #include <stdio.h>
 
-
 #include "utils.h"
 #include "menu.h"
 
 #define MAX 100
 
-typedef enum{
+static typedef enum{
 	MODE0 = SINGLEMODE,
 	MODE1 = TIMEMODE,
 	MODE2 = MULTIPLMODE,
