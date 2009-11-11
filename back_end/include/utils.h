@@ -6,6 +6,11 @@
 #include <stdbool.h>
 
 
+#define MAX_ERR_LEN 200
+#define MAX_ARGS 10
+#define MAX_COM_LEN 100
+
+
 // creates a new matrix of 'height' x 'width' and 0es it
 char ** newMatrix( const int height, const int width );
 

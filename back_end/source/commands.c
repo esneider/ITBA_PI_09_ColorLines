@@ -6,9 +6,6 @@
 #include "utils.h"
 #include "commands.h"
 
-#define MAX_ARGS 10
-#define MAX_COM_LEN 100
-
 bool movePiece( game_t * game, int argc, char ** argv, char * err );
 bool save     ( game_t * game, int argc, char ** argv, char * err );
 bool buyItem  ( game_t * game, int argc, char ** argv, char * err );

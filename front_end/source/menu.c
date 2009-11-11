@@ -4,9 +4,7 @@
 #include "utils.h"
 #include "menu.h"
 
-#define MAX 100
-
-static typedef enum{
+typedef enum{
 	MODE0 = SINGLEMODE,
 	MODE1 = TIMEMODE,
 	MODE2 = MULTIPLMODE,
@@ -18,7 +16,7 @@ static typedef enum{
 // reads an integer and asserts it's in the interval [a,b]
 static int askInt( const int a, const int b){
 	int sol;
-	static char error[MAX];
+	static char error[MAX_ERR_LEN];
 
 	error[0] = 0;
 	do{
@@ -38,7 +36,7 @@ static int askInt( const int a, const int b){
 // and [a2,b2] respectively
 static void ask2Int( const int a1, int * n1, const int b1,
 					 const int a2, int * n2, const int b2 ){
-	static char error[MAX];
+	static char error[MAX_ERR_LEN];
 	
 	error[0] = 0;
 	do{
@@ -68,12 +66,12 @@ static char * askString( char * str ){
 
 // Choose game mode
 static modeOptions_t chooseMode(){
-	printf("Enter the game mode [1-5]:\n");
-	printf("  1. Single player normal mode\n");
-	printf("  2. Single player time mode\n");
-	printf("  3. Two players\n");
-	printf("  4. Recover game from file\n");
-	printf("  5. Quit\n");
+	printf("Enter the game mode [1-5]:\n"
+			"  1. Single player normal mode\n"
+			"  2. Single player time mode\n"
+			"  3. Two players\n"
+			"  4. Recover game from file\n"
+			"  5. Quit\n" );
 
 	switch( askInt(1,5) ){
 		case 1: return MODE0;
@@ -124,7 +122,7 @@ static options_t chooseOptions( mode_t mode ){
 game_t * menu(){
 	
 	options_t options;
-	char str[MAX];
+	char str[MAX_COM_LEN];
 	modeOptions_t mode = chooseMode();
 
 	switch( mode ){
