@@ -55,3 +55,4 @@ release: $(TARGET)
 clean:
 	rm -f $(OPATH)*.o
 	rm -f $(TARGET)
+	find ./ -name "*~" -delete
