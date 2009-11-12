@@ -23,13 +23,10 @@ static int askInt( const int a, const int b){
 	error[0] = 0;
 	do{
 		printf( "%s", error );
-// 		clearBuffer();
 		fgets( buffer, MAX_COM_LEN, stdin );
-		if( sscanf( buffer, " %d%c", &sol, &c ) != 1 ){
+		if ( ( c = sscanf( buffer, " %d %c ", &sol, &c ) ) != 1 )
 			sprintf( error, "Format error:\nMust be an integer\n");
-			continue;
- 		}
-	}while( !validateInt( a, sol, b+1, error ) );
+	}while( c != 1 || !validateInt( a, sol, b+1, error ) );
 
 	return sol;
 }
@@ -38,31 +35,31 @@ static int askInt( const int a, const int b){
 // and [a2,b2] respectively
 static void ask2Int( const int a1, int * n1, const int b1,
 					 const int a2, int * n2, const int b2 ){
+	char c;
 	static char error[MAX_ERR_LEN];
-	
+	static char buffer[MAX_COM_LEN];
+
 	error[0] = 0;
 	do{
 		printf( " %s", error );
-		if( scanf( " %d %d", n1, n2 ) != 2 ){
+		fgets( buffer, MAX_COM_LEN, stdin );
+		if( ( c = scanf( " %d %d %c", n1, n2, c ) ) != 2 )
 			sprintf( error, "Format error:\nMust be two integers, "
 						"space separated\n");
-			clearBuffer();
-			continue;
-		}
-		clearBuffer();
-	}while( !validateInt( a1, *n1, b1+1, error ) ||
-			!validateInt( a2, *n2, b2+2, error ) );
+	}while( c != 2 || !validateInt( a1, *n1, b1+1, error ) ||
+						!validateInt( a2, *n2, b2+2, error ) );
 }
 
 // reads a string and asserts it's not empty
 static char * askString( char * str ){
+	char c;
+	static char buffer[MAX_COM_LEN];
+
 	do{
-		if( scanf( " %s", str ) != 1 ){
+		fgets( buffer, MAX_COM_LEN, stdin );
+		if( ( c = sscanf( buffer, " %s", str ) ) != 1 )
 			printf("Format error:\nMust be a string\n");
-			clearBuffer();
-			continue;
-		}
-	}while(0);
+	}while( c != 1 );
 	return str;
 }
 
