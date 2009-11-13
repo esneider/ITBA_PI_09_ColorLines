@@ -13,7 +13,7 @@ int main(){
 	game_t * game = menu();
 	for( int i=0 ; i< game->options.width ; i++ )
 		for( int j=0 ; j< game->options.height ; j++ )
-			game->players[ game->state.next ].board.board[j][i] = rand()%game->options.numColors;
+			game->players[ game->state.next ].board.matrix[j][i] = rand()%game->options.numColors;
 	writeGame(game,"test.gam");
 	game = readGame("test.gam");
 /*	printf("%d %d %d %d \n", game->options.height, game->options.width,

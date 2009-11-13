@@ -37,15 +37,15 @@ game_t * newGame( options_t * options ){
 	}
 
 	for( i = 0 ; i < sol->numPlayers ; i++ ){
-		sol->players[i].board.board     =
+		sol->players[i].board.matrix=
 			newMatrix( sol->options.height, sol->options.width );
-		sol->players[i].lastBoard.board =
+		sol->players[i].lastBoard.matrix =
 			newMatrix( sol->options.height, sol->options.width );
 		
-		if( !sol->players[i].board.board || !sol->players[i].lastBoard.board ){
+			if( !sol->players[i].board.matrix || !sol->players[i].lastBoard.matrix ){
 			for( j = 0 ; j <= i ; j++ ){
-				freeMatrix( sol->players[j].lastBoard.board, sol->options.height );
-				freeMatrix( sol->players[j].board.board, sol->options.height );
+				freeMatrix( sol->players[j].lastBoard.matrix, sol->options.height );
+				freeMatrix( sol->players[j].board.matrix, sol->options.height );
 			}
 			free( sol->players );
 			free( sol );
@@ -70,8 +70,8 @@ game_t * newGame( options_t * options ){
 void freeGame( game_t * game ){
 	int i;
 	for( i = 0 ; i <= game->numPlayers ; i++ ){
-		freeMatrix( game->players[i].lastBoard.board, game->options.height );
-		freeMatrix( game->players[i].board.board, game->options.height );
+		freeMatrix( game->players[i].lastBoard.matrix, game->options.height );
+		freeMatrix( game->players[i].board.matrix, game->options.height );
 	}
 	free( game->players );
 	free( game );
@@ -109,7 +109,7 @@ void writeGame( game_t * game, char * file ){
 		SAFE_FWRITE_INT( game->players[i].board.points );
 		for( y = 0 ; y < game->options.height ; y++ )
 			for( x = 0 ; x < game->options.width ; x++ )
-				SAFE_FWRITE_CHAR( game->players[i].board.board[y][x] );
+				SAFE_FWRITE_CHAR( game->players[i].board.matrix[y][x] );
 	}
 	i = fclose(out);
 	raiseErrorIf(i==0,FILEERROR,);
@@ -160,9 +160,9 @@ game_t * readGame(char * file){
 		sol->players[i].width = sol->options.width;
 		for( y = 0 ; y < sol->options.height ; y++ )
 			for( x = 0 ; x < sol->options.width ; x++ ){
-				SAFE_FREAD_CHAR( sol->players[i].board.board[y][x] );
+				SAFE_FREAD_CHAR( sol->players[i].board.matrix[y][x] );
 				sol->players[i].board.emptySpots += 
-										sol->players[i].board.board[y][x] == 0;
+										sol->players[i].board.matrix[y][x] == 0;
 			}
 	}
 

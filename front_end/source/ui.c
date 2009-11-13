@@ -26,9 +26,9 @@ void drawTable( game_t * game ){
 
 			printf(" | ");
 
-// 			textcolor( colores[ (int)game->players[ game->state.next ].board.board[i][j] ] );
+// 			textcolor( colores[ (int)game->players[ game->state.next ].board.matrix[i][j] ] );
 
-// 			printf("%d", (int)game->players[ game->state.next ].board.board[i][j] );
+// 			printf("%d", (int)game->players[ game->state.next ].board.matrix[i][j] );
 
 			textcolor(BLANCO);
 		}

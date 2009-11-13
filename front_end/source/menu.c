@@ -41,9 +41,9 @@ static void ask2Int( const int a1, int * n1, const int b1,
 
 	error[0] = 0;
 	do{
-		printf( " %s", error );
+		printf( "%s", error );
 		fgets( buffer, MAX_COM_LEN, stdin );
-		if( ( c = scanf( " %d %d %c", n1, n2, c ) ) != 2 )
+		if( ( c = sscanf( buffer, " %d %d %c", n1, n2, &c ) ) != 2 )
 			sprintf( error, "Format error:\nMust be two integers, "
 						"space separated\n");
 	}while( c != 2 || !validateInt( a1, *n1, b1+1, error ) ||
@@ -90,26 +90,23 @@ static options_t chooseOptions( mode_t mode ){
 	options.mode = mode;
 	if( options.mode == TIMEMODE ){
 		printf("Enter the time limit (in minutes):\n");
-		options.initialSeconds = 60 * askInt(1, 10000);
-		// you cannot play more than one week :) 7 * 24 * 60 = 10080
+		options.initialSeconds = 60 * askInt( MIN_SECONDS, MAX_SECONDS );
 	}
 
 	printf("Enter the dimensions of the board "
 		"(rows and columns space separated):\n");
-	ask2Int(5, &h, 500, 5, &w, 500);
+	ask2Int( MIN_TAB_DIM, &h, MAX_TAB_DIM, MIN_TAB_DIM, &w, MAX_TAB_DIM );
 	options.height = h;
 	options.width = w;
-	// I don't think you have a bigger monitor
 
 	printf("Enter the number of colors with which you wish to play:\n");
-	options.numColors = askInt(2, 9);
+	options.numColors = askInt( MIN_COLORS, MAX_COLORS );
 
 	printf("Enter the number of pieces that are initially on the board:\n");
 	options.initialTokens = askInt(1, options.width * options.height );
 
 	printf("Enter the number of pieces that make a line:\n");
-	options.tokensPerLine = askInt(3, 700);
-	// 500 * sqrt(2) = 707
+	options.tokensPerLine = askInt( MIN_TOK_PER_LINE, MAX_TOK_PER_LINE );
 
 	printf("Enter the number of pieces that are added on each turn:\n");
 	options.tokensPerTurn = askInt(1, options.width * options.height );

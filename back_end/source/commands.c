@@ -113,11 +113,11 @@ bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 					"interval [0,%d]", game->options.width - 1 );
 		return false;
 	}
-	if( game->players[ game->state.next ].board.board[y1][x1] == 0 ){
+	if( game->players[ game->state.next ].board.matrix[y1][x1] == 0 ){
 		sprintf( err, "The origin position must not be empty" );
 		return false;
 	}
-	if( game->players[ game->state.next ].board.board[y2][x2] != 0 ){
+	if( game->players[ game->state.next ].board.matrix[y2][x2] != 0 ){
 		sprintf( err, "The target position must not be occupied" );
 		return false;
 	}
@@ -147,7 +147,7 @@ bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 			y = queue[read].y + move[i].y;
 			if( entre(0,x,game->options.width) &&
 				entre(0,y,game->options.height) &&
-				game->players[ game->state.next ].board.board[y][x] == 0 &&
+				game->players[ game->state.next ].board.matrix[y][x] == 0 &&
 				!touched[y][x] ){
 					touched[y][x] = true;
 					queue[write++] = (struct node){x,y,read};
@@ -167,9 +167,9 @@ bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 
 	// draw movement TODO (needs front-end)
 
-	game->players[ game->state.next ].board.board[y2][x2] =
-						game->players[ game->state.next ].board.board[y1][x1];
-	game->players[ game->state.next ].board.board[y1][x1] = 0;
+	game->players[ game->state.next ].board.matrix[y2][x2] =
+						game->players[ game->state.next ].board.matrix[y1][x1];
+	game->players[ game->state.next ].board.matrix[y1][x1] = 0;
 
 	game->state.next++;
 	game->state.next %= game->numPlayers;
