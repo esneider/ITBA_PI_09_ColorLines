@@ -1,9 +1,9 @@
 // no_colors.c
-void textcolor(char c){
+void textcolor( color c ){
 }
 
-void backcolor(char c){
+void backcolor( color c ){
 }
 
-void textattr(char a){
+void textattr( attr a ){
 }
