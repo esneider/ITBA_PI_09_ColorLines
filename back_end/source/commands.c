@@ -164,7 +164,7 @@ bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 	game->players[ game->state.next ].canUndo = true;
 	game->players[ game->state.next ].lastBoard =
 										game->players[ game->state.next ].board;
-
+// contar puntos, fichas aleatorias si no hizo puntos
 	// draw movement TODO (needs front-end)
 
 	game->players[ game->state.next ].board.matrix[y2][x2] =
@@ -175,6 +175,8 @@ bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 	game->state.next %= game->numPlayers;
 
 	return true;
+	
+	// NO NEXT SON OF A BITCH... ONLY IF BOARD FULL>>> SUCK IT
 }
 
 /**********************************************************************
@@ -251,6 +253,7 @@ bool undo( game_t * game, int argc, char ** argv, char * err ){
 	}
 
 	game->players[ game->state.next ].canUndo = false;
+	// free old matrix
 	game->players[ game->state.next ].board =
 									game->players[ game->state.next ].lastBoard;
 
