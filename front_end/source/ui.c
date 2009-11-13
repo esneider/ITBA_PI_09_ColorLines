@@ -12,7 +12,7 @@ void clearViewPort(){
 
 void drawTable( game_t * game, int numModifiers, modifier_t modifiers[]  ){
 	int i, j;
-// 	static int colores[] = {GRIS,ROJO,AZUL_CLARO,VERDE,AMARILLO,CELESTE,ROSA,VIOLETA,MARRON,VERDE_CLARO};
+	static int colores[] = {GRIS,ROJO,AZUL_CLARO,VERDE,AMARILLO,CELESTE,ROSA,VIOLETA,MARRON,VERDE_CLARO};
 	backcolor(NEGRO);
 	textcolor(BLANCO);
 	//Modifiquemos la tabla de acuerdo a los modifiers! MENTIRA, NO ANDA
@@ -38,8 +38,7 @@ void drawTable( game_t * game, int numModifiers, modifier_t modifiers[]  ){
 			printf(" | ");
 
  			textcolor( colores[ (int)game->players[ game->state.next ].board.matrix[i][j] ] );
-
- 			printf("%d", (int)game->players[ game->state.next ].board.matrix[i][j] );
+			printf("%d", (int)game->players[ game->state.next ].board.matrix[i][j] );
 
 			textcolor(BLANCO);
 		}
