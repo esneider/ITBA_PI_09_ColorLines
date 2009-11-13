@@ -11,11 +11,7 @@ typedef enum{
 } mode_t;
 
 typedef struct{
-<<<<<<< .mine
-	char ** board; //matrix
-=======
 	char ** matrix;
->>>>>>> .r40
 	int points;
 	int emptySpots;
 } board_t;
