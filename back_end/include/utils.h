@@ -10,15 +10,14 @@
 #define MAX_ARGS 10
 #define MAX_COM_LEN 100
 
-#define MIN_SEC 1
-#define MAX_SEC 10000 // you cannot play more than one week: 7 * 24 * 60 = 10080
+#define MIN_MINUTES 1
+#define MAX_MINUTES 10000 // Max playing time: 1 week: 7 * 24 * 60 = 10080
 #define MIN_TAB_DIM 5
 #define MAX_TAB_DIM 500 // I don't think you have a bigger monitor
 #define MIN_COLORS 2
 #define MAX_COLORS 9
 #define MIN_TOK_PER_LINE 3
 #define MAX_TOK_PER_LINE 700 // 500 * sqrt(2) = 707
-#define MIN_TOKENS 2
 
 
 // creates a new matrix of 'height' x 'width' and 0es it

@@ -1,4 +1,4 @@
-// errno2.c
+// error.c
 #include "error.h"
 
 static error nError;

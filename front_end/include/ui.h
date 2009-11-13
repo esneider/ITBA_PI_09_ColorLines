@@ -3,19 +3,16 @@
 #define UI_H
 
 #include "game.h"
+#include "colors.h"
 
 typedef struct{
-
-int x,y,nBoard;
-
-char character;
-
-color_t color;
-
-} modifier_t; 
+	int x,y,nBoard;
+	char character;
+	color color;
+} modifier_t;
 
 void clearViewPort();
 
-void drawTable( game_t * game );
+void drawTable( game_t * game, int numModifiers, modifier_t modifiers[]  );
 
 #endif // UI_H

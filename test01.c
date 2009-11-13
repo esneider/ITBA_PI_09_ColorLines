@@ -19,5 +19,5 @@ int main(){
 /*	printf("%d %d %d %d \n", game->options.height, game->options.width,
 							game->options.numColors, game->options.mode );*/
 	clearViewPort();
-	drawTable( game );
+	drawTable( game, 0, NULL );
 }

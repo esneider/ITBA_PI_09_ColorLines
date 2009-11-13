@@ -1,4 +1,4 @@
-// Elegir el tipo de juego
+// menu.c
 #include <stdio.h>
 
 #include "utils.h"
@@ -90,7 +90,7 @@ static options_t chooseOptions( mode_t mode ){
 	options.mode = mode;
 	if( options.mode == TIMEMODE ){
 		printf("Enter the time limit (in minutes):\n");
-		options.initialSeconds = 60 * askInt( MIN_SECONDS, MAX_SECONDS );
+		options.initialSeconds = 60 * askInt( MIN_MINUTES, MAX_MINUTES );
 	}
 
 	printf("Enter the dimensions of the board "
