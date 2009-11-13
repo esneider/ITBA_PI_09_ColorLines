@@ -145,10 +145,10 @@ bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 		for( i = 0 ; i < sizeof(move)/sizeof(struct coord) ; i++ ){
 			x = queue[read].x + move[i].x;
 			y = queue[read].y + move[i].y;
-			if( entre(0,x,game->options.width) &&
-				entre(0,y,game->options.height) &&
-				game->players[ game->state.next ].board.matrix[y][x] == 0 &&
-				!touched[y][x] ){
+			if( entre(0,x,game->options.width)
+				&& entre(0,y,game->options.height)
+				&& game->players[ game->state.next ].board.matrix[y][x] == 0
+				&& !touched[y][x] ){
 					touched[y][x] = true;
 					queue[write++] = (struct node){x,y,read};
 			}
