@@ -100,7 +100,7 @@ static modeOption_t chooseMode(){
 }
 
 // Choose game options
-static options_t chooseOptions( mode_t mode ){
+static options_t chooseOptions( modus_t mode ){
 	options_t options;
 	int h, w;
 
@@ -150,7 +150,7 @@ game_t * menu(){
 		case MODE0:
 		case MODE1:
 		case MODE2:
-			options = chooseOptions( (mode_t)modeOption );
+			options = chooseOptions( (modus_t)modeOption );
 			raiseErrorIf( errorCode() == NOERROR, errorCode(), NULL );
 			return newGame( &options );
 		case READFROMFILE:

@@ -10,12 +10,11 @@
 int main(){
 
 	game_t * game;
-	bool quit;
-	bool exit = false;
+	bool commSuccess;
 	char command[ MAX_COM_LEN ];
 	char error[ MAX_ERR_LEN ];
 
-	while( !exit ){
+	while( true ){
 		clearError();
 		game = menu();
 		if( game == NULL )
@@ -27,13 +26,12 @@ int main(){
 			askCommand( command );
 			continue;
 		}
-		quit = false;
-		error[0] = 0;
-		while( !quit ){
+		commSuccess = true;
+		while( true ){
 			clearError();
 			clearScreen();
 			drawTable( game, 0, NULL );
-			drawPanel( error );
+			drawPanel( commSuccess ? NULL : error );
 			askCommand( command );
 			if( errorCode() != NOERROR ){
 				clearScreen();
@@ -42,9 +40,9 @@ int main(){
 				askCommand( command );
 				continue;
 			}
-			if( !newCommand( game, command, error ) && !error[0] ){
-				quit = true;
-			}
+			commSuccess = newCommand( game, command, error );
+			if( !commSuccess && !error[0] )
+				break;
 		}
 	}
 }
