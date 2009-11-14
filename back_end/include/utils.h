@@ -13,6 +13,9 @@
 #define MAX_PANEL_LINES 10
 #define MAX_TEXT 5000
 
+#define HOR_LINES false
+#define VER_LINES true
+
 #define MIN_MINUTES 1
 #define MAX_MINUTES 10000 // Max playing time: 1 week: 7 * 24 * 60 = 10080
 #define MIN_TAB_DIM 5

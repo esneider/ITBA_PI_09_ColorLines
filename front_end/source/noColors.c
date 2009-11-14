@@ -1,4 +1,4 @@
-// no_colors.c
+// noColors.c
 void textcolor( color c ){
 }
 

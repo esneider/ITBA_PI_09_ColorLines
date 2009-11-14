@@ -1,5 +1,4 @@
-// wincolors.c
-// 
+// winColors.c
 #include <windows.h>
 #include <wincon.h>
 #include <stdio.h>

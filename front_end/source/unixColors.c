@@ -1,4 +1,4 @@
-// unix_colors.c
+// unixColors.c
 #include <stdio.h>
 
 const char color2font_color[] = 
