@@ -4,7 +4,9 @@
 #include <time.h>
 #include "error.h"
 #include "utils.h"
+#include "playGame.h"
 #include "game.h"
+
 
 
 // creates a new game
@@ -58,6 +60,7 @@ game_t * newGame( options_t * options ){
 		sol->players[i].canUndo = false;
 		sol->players[i].height = sol->options.height;
 		sol->players[i].width = sol->options.width;
+		randFill( sol, i, sol->options.initialTokens, true );
 	}
 
 	sol->state.next = 0;

@@ -3,7 +3,7 @@
 # executable name
 TARGET=colorLines
 # sources names
-OBJS=error.o utils.o game.o commands.o colors.o menu.o userInterface.o colorsFront.o
+SOURCES=error utils playGame game commands colors menu userInterface colorsFront
 
 ### DIRECTORIES ###
 
@@ -33,7 +33,7 @@ CC=gcc
 ### possible targets: debug release clean
 all: debug
 
-
+OBJS=$(addsuffix .o,$(SOURCES) )
 OUTPUT_OPTION=-o $(OPATH)$@
 LDFLAGS += -L $(OPATH)
 CFLAGS += $(addprefix -I ,$(HPATH))

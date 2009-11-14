@@ -9,13 +9,16 @@ const char attr2font_attr[] =
 { 0,10,1,4,5,7,22,24,25,27 };
 
 void textcolor( color c ){
+	if( !USE_COLORS ) return;
 	printf( "\033[%dm", color2font_color[(int)c] );
 }
 
 void backcolor( color c ){
+	if( !USE_COLORS ) return;
 	printf( "\033[%dm", color2font_bkcolor[(int)c] );
 }
 
 void textattr( attr a ){
+	if( !USE_COLORS ) return;
 	printf( "\033[%dm", attr2font_attr[(int)a] );
 }

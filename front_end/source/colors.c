@@ -1,4 +1,6 @@
 // colors.c
+#include "stdbool.h"
+#include "defines.h"
 #include "colors.h"
 
 #if defined(__unix__)

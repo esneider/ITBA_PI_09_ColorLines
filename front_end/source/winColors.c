@@ -39,6 +39,7 @@ void textcolor( color c ){
 	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 	
+	if( !USE_COLORS ) return;
 	if(GetConsoleScreenBufferInfo(hStdOut, &csbi)){
 		wColor = (csbi.wAttributes & 0xF0) + ( crazyWinColorsMap[c] & 0x0F);
 		SetConsoleTextAttribute(hStdOut, wColor);
@@ -50,6 +51,7 @@ void backcolor( color c ){
 	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 	
+	if( !USE_COLORS ) return;
 	if(GetConsoleScreenBufferInfo(hStdOut, &csbi)){
 		wColor = (csbi.wAttributes & 0x0F) + ( crazyWinColorsMap[c] & 0xF0);
 		SetConsoleTextAttribute(hStdOut, wColor);
@@ -57,7 +59,9 @@ void backcolor( color c ){
 }
 
 void textattr( attr a ){
+	if( !USE_COLORS ) return;
 	if( a == CLEAR ){
-		//DO SOMETHING
+		backcolor(NEGRO);
+		frontcolor(BLANCO);
 	}
 }
