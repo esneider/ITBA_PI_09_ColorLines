@@ -1,7 +1,7 @@
 #!/bin/bash
 
 extensions=".h .c"
-nothaving="back colors test draw_table opciones validar"
+nothaving="colors test"
 
 files=""
 nothaving=`echo $nothaving | sed "s# #|#g"`
