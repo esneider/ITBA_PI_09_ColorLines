@@ -3,7 +3,7 @@
 
 #if defined(__unix__)
 
-	#include "unix_colors.c"
+	#include "unixColors.c"
 
 #elif defined(__win32__)   || defined(__WIN32__) || \
 	  defined(win32)       || defined(WIN32)     || \

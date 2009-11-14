@@ -3,7 +3,7 @@
 # executable name
 TARGET=colorLines
 # sources names
-OBJS=error.o utils.o game.o commands.o colors.o menu.o ui.o test01.o
+OBJS=error.o utils.o game.o commands.o colors.o menu.o ui.o colorsFront.o
 
 ### DIRECTORIES ###
 

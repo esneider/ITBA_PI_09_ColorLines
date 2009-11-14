@@ -4,6 +4,7 @@
 #include <string.h>
 #include "error.h"
 #include "utils.h"
+#include "defines.h"
 #include "commands.h"
 
 bool movePiece( game_t * game, int argc, char ** argv, char * err );
@@ -276,6 +277,9 @@ bool quit( game_t * game, int argc, char ** argv, char * err ){
 		return false;
 	}
 
+	//TODO
+	err[0]=0;
+	return false;
 	//TODO
 	return true;
 }

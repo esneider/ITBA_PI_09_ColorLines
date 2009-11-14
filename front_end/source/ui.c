@@ -1,8 +1,16 @@
 // ui.c
 #include <stdio.h>
 #include <string.h>
-#include "utils.h"
+#include "error.h"
+#include "defines.h"
 #include "ui.h"
+
+
+static char commandsBuffer[ MAX_PANEL_LINES ][ MAX_COM_LEN + 1 ];
+
+static int commandsBufferPos = -1;
+
+
 
 void clearScreen(){
 	int i;
@@ -12,9 +20,13 @@ void clearScreen(){
 	textattr(CLEAR);
 }
 
-void drawTable( game_t * game, int numModifiers, modifier_t modifiers[]  ){
+
+void drawTable( game_t * game, int numModifiers, modifier_t * modifiers  ){
 	int i, j, player, col;
-	static int colores[] = {NEGRO,ROJO,AZUL_CLARO,VERDE,AMARILLO,VIOLETA,ROSA,CELESTE,MARRON,VERDE_CLARO};
+	static const int colores[] = {
+		NEGRO, ROJO, AZUL_CLARO, VERDE, AMARILLO,
+		VIOLETA, ROSA, CELESTE, MARRON, VERDE_CLARO
+	};
 	backcolor(NEGRO);
 	textcolor(BLANCO);
 
@@ -68,26 +80,22 @@ void drawTable( game_t * game, int numModifiers, modifier_t modifiers[]  ){
 
 void drawText( char * str ){
 	static char buffer[ MAX_TEXT ] = "";
-	if( str )
+	if( str && str[0] )
 		strcpy( buffer, str );
-	else{
-		backcolor(NEGRO);
-		textcolor(BLANCO);
-		printf("%s",buffer);
-		textattr(CLEAR);
-	}
+	backcolor(NEGRO);
+	textcolor(BLANCO);
+	printf("%s",buffer);
+	textattr(CLEAR);
 }
 
-void askCommand( char * message, char * result ){
-	static int pos = -1;
-	static char buffer[ MAX_PANEL_LINES ][ MAX_COM_LEN + 1 ];
+
+void drawPanel( char * message ){
 	int i;
 	
-	if( pos == -1 ){
-		int i;
+	if( commandsBufferPos == -1 ){
 		for( i = 0 ; i < MAX_PANEL_LINES ; i++ )
-			sprintf( buffer[i], "\n" );
-		pos++;
+			sprintf( commandsBuffer[i], "\n" );
+		commandsBufferPos++;
 	}
 
 	backcolor(NEGRO);
@@ -95,31 +103,37 @@ void askCommand( char * message, char * result ){
 	if( message && message[0] ){
 		char * aux = strtok( message, "\n" );
 		while( aux ){
-			sprintf( buffer[pos++], "%s\n", aux );
-			pos %= MAX_PANEL_LINES;
+			sprintf( commandsBuffer[ commandsBufferPos++ ], "%s\n", aux );
+			commandsBufferPos %= MAX_PANEL_LINES;
 			aux = strtok( NULL, "\n" );
 		}
 	}
 
 	printf("\n\n");
 	for( i = 0 ; i < MAX_PANEL_LINES ; i++ ){
-		if( buffer[ (pos+i) % MAX_PANEL_LINES ][1] == '>' )
+		if( commandsBuffer[ (commandsBufferPos+i) % MAX_PANEL_LINES ][1] == '>' )
 			textcolor(BLANCO);
 		else
 			textcolor(GRIS);
-		printf( "%s", buffer[ (pos+i) % MAX_PANEL_LINES ] );
+		printf( "%s", commandsBuffer[ (commandsBufferPos+i) % MAX_PANEL_LINES ] );
 	}
 
 	textcolor(BLANCO);
 	printf( " > " );
-										// remember to catch fgets error (NULL)
-	result = fgets( result, MAX_COM_LEN, stdin );
-										// we make sure it's \n terminated
-	if( result[ MAX_COM_LEN-2 ] )
+	textattr(CLEAR);
+}
+
+void askCommand( char * result ){
+	backcolor(NEGRO);
+	textcolor(BLANCO);
+
+	raiseErrorIf( fgets( result, MAX_COM_LEN, stdin ), INPUTERROR, );
+
+	if( result[ MAX_COM_LEN-2 ] )		// we make sure it's \n terminated
 		result[ MAX_COM_LEN-2 ] = '\n';
 
-	sprintf( buffer[pos++], " > %s", result );
-	pos %= MAX_PANEL_LINES;
+	sprintf( commandsBuffer[ commandsBufferPos++ ], " > %s", result );
+	commandsBufferPos %= MAX_PANEL_LINES;
 
 	textattr(CLEAR);
 }

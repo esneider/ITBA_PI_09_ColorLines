@@ -13,7 +13,8 @@ typedef enum{
 	ARITHMETICERROR,
 	MEMORYERROR,
 	FILEERROR,
-	TIMEERROR
+	TIMEERROR,
+	INPUTERROR
 } error;
 
 // Quita errores pasados

@@ -1,7 +1,8 @@
 // menu.c
 #include <stdio.h>
-
+#include "error.h"
 #include "utils.h"
+#include "defines.h"
 #include "ui.h"
 #include "menu.h"
 
@@ -11,7 +12,7 @@ typedef enum{
 	MODE2 = MULTIPLMODE,
 	READFROMFILE,
 	QUIT
-} modeOptions_t;
+} modeOption_t;
 
 
 // reads an integer and asserts it's in the interval [a,b]
@@ -25,7 +26,10 @@ static int askInt( const int a, const int b){
 	do{
 		clearScreen();
 		drawText( NULL );
-		askCommand( error, buffer );
+		drawPanel( error );
+		askCommand( buffer );
+		raiseErrorIf( errorCode() == NOERROR, errorCode(), -1 );
+
 		if ( ( c = sscanf( buffer, " %d %c ", &sol, &c ) ) != 1 )
 			sprintf( error, "Format error:\nMust be an integer" );
 	}while( c != 1 || !validateInt( a, sol, b+1, error ) );
@@ -45,7 +49,10 @@ static void ask2Int( const int a1, int * n1, const int b1,
 	do{
 		clearScreen();
 		drawText( NULL );
-		askCommand( error, buffer );
+		drawPanel( error );
+		askCommand( buffer );
+		raiseErrorIf( errorCode() == NOERROR, errorCode(), );
+		
 		if( ( c = sscanf( buffer, " %d %d %c", n1, n2, &c ) ) != 2 )
 			sprintf( error, "Format error:\nMust be two integers, "
 						"space separated" );
@@ -62,7 +69,10 @@ static char * askString( char * str ){
 	do{
 		clearScreen();
 		drawText( NULL );
-		askCommand( error, buffer );
+		drawPanel( error );
+		askCommand( buffer );
+		raiseErrorIf( errorCode() == NOERROR, errorCode(), NULL );
+		
 		error[0] = 0;
 		if( ( c = sscanf( buffer, " %s", str ) ) != 1 )
 			sprintf( error, "Format error:\nMust be a string" );
@@ -71,7 +81,7 @@ static char * askString( char * str ){
 }
 
 // Choose game mode
-static modeOptions_t chooseMode(){
+static modeOption_t chooseMode(){
 	drawText("Enter the game mode [1-5]:\n"
 			"  1. Single player normal mode\n"
 			"  2. Single player time mode\n"
@@ -98,25 +108,32 @@ static options_t chooseOptions( mode_t mode ){
 	if( options.mode == TIMEMODE ){
 		drawText("Enter the time limit (in minutes):\n");
 		options.initialSeconds = 60 * askInt( MIN_MINUTES, MAX_MINUTES );
+		raiseErrorIf( errorCode() == NOERROR, errorCode(), options );
 	}
 
 	drawText("Enter the dimensions of the board "
 			"(rows and columns space separated):\n");
 	ask2Int( MIN_TAB_DIM, &h, MAX_TAB_DIM, MIN_TAB_DIM, &w, MAX_TAB_DIM );
+	raiseErrorIf( errorCode() == NOERROR, errorCode(), options );
+
 	options.height = h;
 	options.width = w;
 
 	drawText("Enter the number of colors with which you wish to play:\n");
 	options.numColors = askInt( MIN_COLORS, MAX_COLORS );
+	raiseErrorIf( errorCode() == NOERROR, errorCode(), options );
 
 	drawText("Enter the number of pieces that are initially on the board:\n");
 	options.initialTokens = askInt(1, options.width * options.height );
+	raiseErrorIf( errorCode() == NOERROR, errorCode(), options );
 
 	drawText("Enter the number of pieces that make a line:\n");
 	options.tokensPerLine = askInt( MIN_TOK_PER_LINE, MAX_TOK_PER_LINE );
+	raiseErrorIf( errorCode() == NOERROR, errorCode(), options );
 
 	drawText("Enter the number of pieces that are added on each turn:\n");
 	options.tokensPerTurn = askInt(1, options.width * options.height );
+	raiseErrorIf( errorCode() == NOERROR, errorCode(), options );
 
 	return options;
 }
@@ -126,13 +143,15 @@ game_t * menu(){
 	
 	options_t options;
 	char str[MAX_COM_LEN];
-	modeOptions_t mode = chooseMode();
+	modeOption_t modeOption = chooseMode();
+	raiseErrorIf( errorCode() == NOERROR, errorCode(), NULL );
 
-	switch( mode ){
+	switch( modeOption ){
 		case MODE0:
 		case MODE1:
 		case MODE2:
-			options = chooseOptions( (mode_t)mode );
+			options = chooseOptions( (mode_t)modeOption );
+			raiseErrorIf( errorCode() == NOERROR, errorCode(), NULL );
 			return newGame( &options );
 		case READFROMFILE:
 			drawText("Enter the name of the file:\n");
