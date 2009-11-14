@@ -3,7 +3,7 @@
 #include "error.h"
 #include "utils.h"
 #include "defines.h"
-#include "ui.h"
+#include "userInterface.h"
 #include "menu.h"
 
 typedef enum{

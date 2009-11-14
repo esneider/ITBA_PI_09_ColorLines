@@ -1,11 +1,11 @@
-#include <stdio.h>
+// colorsFront.c
 #include <stdbool.h>
 #include "error.h"
 #include "defines.h"
 #include "game.h"
 #include "commands.h"
 #include "menu.h"
-#include "ui.h"
+#include "userInterface.h"
 
 int main(){
 

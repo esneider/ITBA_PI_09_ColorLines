@@ -3,7 +3,7 @@
 #include <string.h>
 #include "error.h"
 #include "defines.h"
-#include "ui.h"
+#include "userInterface.h"
 
 
 static char commandsBuffer[ MAX_PANEL_LINES ][ MAX_COM_LEN + 1 ];
