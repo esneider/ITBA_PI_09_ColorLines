@@ -11,8 +11,13 @@ typedef struct{
 	color color;
 } modifier_t;
 
-void clearViewPort();
+void clearScreen();
 
 void drawTable( game_t * game, int numModifiers, modifier_t modifiers[]  );
+
+void drawText( char * str );
+
+void askCommand( char * message, char * result );
+
 
 #endif // UI_H

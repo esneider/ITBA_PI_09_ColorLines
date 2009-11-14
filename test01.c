@@ -18,6 +18,6 @@ int main(){
 	game = readGame("test.gam");
 /*	printf("%d %d %d %d \n", game->options.height, game->options.width,
 							game->options.numColors, game->options.mode );*/
-	clearViewPort();
+	clearScreen();
 	drawTable( game, 0, NULL );
 }

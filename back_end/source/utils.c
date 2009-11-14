@@ -41,7 +41,7 @@ void clearBuffer(){
 bool validateInt( int a, int b, int c, char * err ){
 	if( !entre(a,b,c) ){
 		sprintf( err, "Rank error:\nIt must belong to the "
-		"interval [%d,%d]\n", a, c-1 );
+		"interval [%d,%d]", a, c-1 );
 		return false;
 	}
 	return true;
