@@ -8,7 +8,7 @@
 
 typedef enum{
 	SINGLEMODE, TIMEMODE, MULTIPLMODE
-} mode_t;
+} modus_t; // mode_t is already defined in some compilers libraries
 
 typedef struct{
 	char ** matrix;
@@ -31,7 +31,7 @@ typedef struct{
 } state_t;
 
 typedef struct{
-	mode_t mode; // 0 normal, 1 time, 2 two-players
+	modus_t mode; // 0 normal, 1 time, 2 two-players
 	size_t height;
 	size_t width;
 	int numColors;
