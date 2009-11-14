@@ -50,7 +50,7 @@ bool newCommand( game_t * game, char * s, char * err ){
 				   argv[0], argv[1], argv[2], argv[3], argv[4],
 				   argv[5], argv[6], argv[7], argv[8], argv[9] );
 
-	if( argc == 0 ) return true;
+	if( argc < 1  ) return true;
 
 	sol = false;
 	sprintf( err, "Unknown command");
@@ -291,7 +291,7 @@ bool quit( game_t * game, int argc, char ** argv, char * err ){
 bool help     ( game_t * game, int argc, char ** argv, char * err ){
 	sprintf( err, "These commands are defined internally\n"
 				"Type 'name --help' to find out more about the function 'name'"
-				"\n\n{} indicate optional parameter\n\n"
+				"\n \n"
 				"  [row_1,column_1][row_2,column_2]\n"
 				"  save filename\n"
 				"  undo\n"

@@ -29,8 +29,8 @@ static int askInt( const int a, const int b){
 		drawPanel( error );
 		askCommand( buffer );
 		raiseErrorIf( errorCode() == NOERROR, errorCode(), -1 );
-
-		if ( ( c = sscanf( buffer, " %d %c ", &sol, &c ) ) != 1 )
+		error[0] = 0;
+		if ( ( c = sscanf( buffer, " %d %c ", &sol, &c ) ) != 1 && buffer[0] != '\n' )
 			sprintf( error, "Format error:\nMust be an integer" );
 	}while( c != 1 || !validateInt( a, sol, b+1, error ) );
 
@@ -52,8 +52,8 @@ static void ask2Int( const int a1, int * n1, const int b1,
 		drawPanel( error );
 		askCommand( buffer );
 		raiseErrorIf( errorCode() == NOERROR, errorCode(), );
-		
-		if( ( c = sscanf( buffer, " %d %d %c", n1, n2, &c ) ) != 2 )
+		error[0] = 0;
+		if( ( c = sscanf( buffer, " %d %d %c", n1, n2, &c ) ) != 2 && buffer[0] != '\n' )
 			sprintf( error, "Format error:\nMust be two integers, "
 						"space separated" );
 	}while( c != 2 || !validateInt( a1, *n1, b1+1, error ) ||
@@ -72,9 +72,8 @@ static char * askString( char * str ){
 		drawPanel( error );
 		askCommand( buffer );
 		raiseErrorIf( errorCode() == NOERROR, errorCode(), NULL );
-		
 		error[0] = 0;
-		if( ( c = sscanf( buffer, " %s", str ) ) != 1 )
+		if( ( c = sscanf( buffer, " %s", str ) ) != 1 && buffer[0] != '\n' )
 			sprintf( error, "Format error:\nMust be a string" );
 	}while( c != 1 );
 	return str;

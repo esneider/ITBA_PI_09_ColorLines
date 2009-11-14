@@ -1,5 +1,5 @@
 // colorsFront.c
-#include <stdbool.h>
+#include <stdlib.h>
 #include "error.h"
 #include "defines.h"
 #include "game.h"
@@ -10,39 +10,39 @@
 int main(){
 
 	game_t * game;
-	bool commSuccess;
 	char command[ MAX_COM_LEN ];
-	char error[ MAX_ERR_LEN ];
+	char message[ MAX_ERR_LEN ];
 
-	while( true ){
+	while(1){
 		clearError();
 		game = menu();
 		if( game == NULL )
 			break;
 		if( errorCode() != NOERROR ){
-			clearScreen();
 			drawText( errorMessage( errorCode() ) );
-			drawPanel( NULL );
-			askCommand( command );
 			continue;
 		}
-		commSuccess = true;
-		while( true ){
+		message[0]=0;
+		while(1){
 			clearError();
+			// start drawing
 			clearScreen();
 			drawTable( game, 0, NULL );
-			drawPanel( commSuccess ? NULL : error );
+			drawPanel( message );
+			// end drawing
+			message[0]=0;
 			askCommand( command );
 			if( errorCode() != NOERROR ){
-				clearScreen();
 				drawText( errorMessage( errorCode() ) );
-				drawPanel( NULL );
-				askCommand( command );
 				continue;
 			}
-			commSuccess = newCommand( game, command, error );
-			if( !commSuccess && !error[0] )
+			if( !newCommand( game, command, message ) && !message[0] )
 				break;
+			if( errorCode() != NOERROR ){
+				drawText( errorMessage( errorCode() ) );
+				continue;
+			}
 		}
 	}
+	return EXIT_SUCCESS;
 }
