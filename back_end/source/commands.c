@@ -54,7 +54,7 @@ bool newCommand( game_t * game, char * s, char * err ){
 
 	sol = false;
 	sprintf( err, "Unknown command");
-	
+
 	for( i = 0 ; i < sizeof(commands)/ sizeof(command_t) ; i++ )
 
 		if( strncmp( argv[0], commands[i].com, strlen(commands[i].com) ) == 0 ){
@@ -172,12 +172,18 @@ bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 						game->players[ game->state.next ].board.matrix[y1][x1];
 	game->players[ game->state.next ].board.matrix[y1][x1] = 0;
 
-	game->state.next++;
-	game->state.next %= game->numPlayers;
+	i = 0; 
+	do{
+		game->state.next++;
+		game->state.next %= game->numPlayers;
+		i++;
+	while( game->players[ game->state.next ].board.emptySpots <= 0 &&
+				i <= game->numPlayers );
+	if( i > game->numPlayers ){
+		// GAME OVER FOR EVERYONE
+	}
 
 	return true;
-	
-	// NO NEXT SON OF A BITCH... ONLY IF BOARD FULL>>> SUCK IT
 }
 
 /**********************************************************************
