@@ -4,11 +4,12 @@
 
 
 #define MAX_ERR_LEN 200
-#define MAX_ARGS 10
 #define MAX_COM_LEN 100
+#define MAX_ARGS 10
 
-#define MAX_PANEL_LINES 10
 #define MAX_TEXT 5000
+#define MAX_PANEL_LINES 25
+#define PANEL_LINES 10
 
 #define HOR_LINES true
 #define VER_LINES true
@@ -22,7 +23,6 @@
 #define MIN_COLORS 2
 #define MAX_COLORS 9
 #define MIN_TOK_PER_LINE 3
-#define MAX_TOK_PER_LINE 700 // 500 * sqrt(2) = 707
 
 
 #endif // DEFINES_H

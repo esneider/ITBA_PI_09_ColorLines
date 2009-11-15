@@ -21,7 +21,7 @@ void randFill( game_t * game, int nPlayer, size_t cant, bool force ){
 		do{
 			x = rand() % game->options.width;
 			y = rand() % game->options.height;
-			c = rand() % game->options.numColors;
+			c = rand() % game->options.numColors + 1;
 		}while( game->players[nPlayer].board.matrix[y][x] != 0 ||
 				( force && notFree( game, nPlayer, x, y, c ) ) );
 		game->players[nPlayer].board.matrix[y][x] = c;

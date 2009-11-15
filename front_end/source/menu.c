@@ -127,7 +127,8 @@ static options_t chooseOptions( modus_t mode ){
 	raiseErrorIf( errorCode() == NOERROR, errorCode(), options );
 
 	drawText("Enter the number of pieces that make a line:\n");
-	options.tokensPerLine = askInt( MIN_TOK_PER_LINE, MAX_TOK_PER_LINE );
+	options.tokensPerLine = askInt( MIN_TOK_PER_LINE,
+										min( options.width, options.height ) );
 	raiseErrorIf( errorCode() == NOERROR, errorCode(), options );
 
 	drawText("Enter the number of pieces that are added on each turn:\n");

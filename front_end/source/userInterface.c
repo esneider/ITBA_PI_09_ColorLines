@@ -110,12 +110,12 @@ void drawPanel( char * message ){
 	}
 
 	printf("\n\n");
-	for( i = 0 ; i < MAX_PANEL_LINES ; i++ ){
-		if( commandsBuffer[ (commandsBufferPos+i) % MAX_PANEL_LINES ][1] == '>' )
+	for( i = PANEL_LINES ; i > 0 ; i-- ){
+		if( commandsBuffer[ (commandsBufferPos-i) % MAX_PANEL_LINES ][1] == '>' )
 			textcolor(BLANCO);
 		else
 			textcolor(GRIS);
-		printf( "%s", commandsBuffer[ (commandsBufferPos+i) % MAX_PANEL_LINES ] );
+		printf( "%s", commandsBuffer[ (commandsBufferPos-i) % MAX_PANEL_LINES ] );
 	}
 
 	textcolor(BLANCO);

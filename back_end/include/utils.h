@@ -21,4 +21,7 @@ bool validateInt( int a, int b, int c, char * err );
 // clears stdin buffer
 void clearBuffer();
 
+int min( int a, int b );
+
+
 #endif // UTILS_H

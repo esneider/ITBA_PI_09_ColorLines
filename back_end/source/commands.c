@@ -123,7 +123,7 @@ bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 		return false;
 	}
 
-	// 	BFS para encontrar el camino minimo
+	// BFS para encontrar el camino minimo
 
 	struct coord{
 		int x,y;
@@ -155,7 +155,7 @@ bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 			}
 		}
 	}
-	
+
 	if( read >= write ){
 		sprintf( err, "There must be a path of unoccupied spaces from the "
 					"origin position to the target position" );

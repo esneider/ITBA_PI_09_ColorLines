@@ -46,3 +46,7 @@ bool validateInt( int a, int b, int c, char * err ){
 	}
 	return true;
 }
+
+int min( int a, int b ){
+	return (a<=b)?a:b;
+}
