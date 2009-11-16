@@ -32,7 +32,7 @@ void drawTable( game_t * game, int numModifiers, modifier_t * modifiers  ){
 
 	printf("\n   ");
 	for( player = 0 ; player < game->numPlayers ; player++ ){
-		for( i=0 ; i < game->options.width ; i++ )
+		for( i = 0 ; i < game->options.width ; i++ )
 			printf("  %-2d",i);
 		printf("       ");
 	}
@@ -40,19 +40,19 @@ void drawTable( game_t * game, int numModifiers, modifier_t * modifiers  ){
 	if( HOR_LINES ){
 		printf("\n   ");
 		for( player = 0 ; player < game->numPlayers ; player++ ){
-			for( i=0 ; i < game->options.width ; i++ )
+			for( i = 0 ; i < game->options.width ; i++ )
 				printf("+---");
 			printf("+      ");
 		}	
 	}
 	printf("\n");
 
-	for( i=0 ; i < game->options.height ; i++ ){
+	for( i = 0 ; i < game->options.height ; i++ ){
 		
 		for( player = 0 ; player < game->numPlayers ; player++ ){
 			
 			printf("%2d",i);
-			for( j=0 ; j< game->options.width; j++ ){
+			for( j = 0 ; j < game->options.width; j++ ){
 				
 				col = game->players[ 
 				( game->state.next + player ) % game->numPlayers
@@ -75,6 +75,21 @@ void drawTable( game_t * game, int numModifiers, modifier_t * modifiers  ){
 		}
 		printf("\n");
 	}
+
+	char s[10], t[12];
+	for( player = 0 ; player < game->numPlayers ; player++ ){
+		printf("   %4d", game->players[ player ].board.points );
+		if( game->options.mode == TIMEMODE ){
+			sprintf( s, "%%-%dd", game->options.width-4 );
+			printf( s, game->state.timeLeft );
+		}else
+		if( game->options.mode == MULTIPLMODE ){
+			sprintf( t, "Player %d", player+1 );
+			sprintf( s, "%%-%ds", game->options.width-4 );
+			printf( s, t );
+		}
+	}
+
 	textattr(CLEAR);
 }
 
@@ -91,7 +106,7 @@ void drawText( char * str ){
 
 void drawPanel( char * message ){
 	int i;
-	
+
 	if( commandsBufferPos == -1 ){
 		for( i = 0 ; i < MAX_PANEL_LINES ; i++ )
 			sprintf( commandsBuffer[i], "\n" );
@@ -99,7 +114,7 @@ void drawPanel( char * message ){
 	}
 
 	backcolor(NEGRO);
-	
+
 	if( message && message[0] ){
 		char * aux = strtok( message, "\n" );
 		while( aux ){
@@ -111,11 +126,13 @@ void drawPanel( char * message ){
 
 	printf("\n\n");
 	for( i = PANEL_LINES ; i > 0 ; i-- ){
-		if( commandsBuffer[ (commandsBufferPos-i) % MAX_PANEL_LINES ][1] == '>' )
+		if( commandsBuffer[ (commandsBufferPos-i+MAX_PANEL_LINES) 
+												% MAX_PANEL_LINES ][1] == '>' )
 			textcolor(BLANCO);
 		else
 			textcolor(GRIS);
-		printf( "%s", commandsBuffer[ (commandsBufferPos-i) % MAX_PANEL_LINES ] );
+		printf( "%s", commandsBuffer[ (commandsBufferPos-i+MAX_PANEL_LINES)
+														% MAX_PANEL_LINES ] );
 	}
 
 	textcolor(BLANCO);

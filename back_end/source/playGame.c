@@ -6,7 +6,7 @@
 #include "colors.h"
 #include "playGame.h"
 
-static bool notFree( game_t * game, int nPlayer, size_t x, size_t y, color c){
+bool notFree( game_t * game, int nPlayer, size_t x, size_t y, color c){
 	return false;
 }
 

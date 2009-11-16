@@ -106,7 +106,7 @@ static options_t chooseOptions( modus_t mode ){
 	options.mode = mode;
 	if( options.mode == TIMEMODE ){
 		drawText("Enter the time limit (in minutes):\n");
-		options.initialSeconds = 60 * askInt( MIN_MINUTES, MAX_MINUTES );
+		options.initialSeconds = 60 * askInt( 1, MAX_MINUTES );
 		raiseErrorIf( errorCode() == NOERROR, errorCode(), options );
 	}
 

@@ -5,6 +5,7 @@
 #include "error.h"
 #include "utils.h"
 #include "defines.h"
+#include "playGame.h"
 #include "commands.h"
 
 bool movePiece( game_t * game, int argc, char ** argv, char * err );
@@ -58,6 +59,7 @@ bool newCommand( game_t * game, char * s, char * err ){
 	for( i = 0 ; i < sizeof(commands)/ sizeof(command_t) ; i++ )
 
 		if( strncmp( argv[0], commands[i].com, strlen(commands[i].com) ) == 0 ){
+			err[0] = 0;
 			sol = commands[i].func( game, argc, argv, err );
 
 			if( errorCode() != NOERROR ){
@@ -105,7 +107,7 @@ bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 		return false;
 	}
 	if( ! entre( 0, y2, game->options.height ) ){
-		sprintf( err, "Rank error:\nThe fsecond row must belong to the "
+		sprintf( err, "Rank error:\nThe second row must belong to the "
 					"interval [0,%d]", game->options.height - 1 );
 		return false;
 	}
@@ -165,12 +167,18 @@ bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 	game->players[ game->state.next ].canUndo = true;
 	game->players[ game->state.next ].lastBoard =
 										game->players[ game->state.next ].board;
-// contar puntos, fichas aleatorias si no hizo puntos
-	// draw movement TODO (needs front-end)
+	// contar puntos
 
-	game->players[ game->state.next ].board.matrix[y2][x2] =
+	// draw movement TODO (needs front-end)
+	if( ! notFree( game, game->state.next, x2, y2,
+					game->players[ game->state.next ].board.matrix[y1][x1] ) ){
+
+		game->players[ game->state.next ].board.matrix[y2][x2] =
 						game->players[ game->state.next ].board.matrix[y1][x1];
-	game->players[ game->state.next ].board.matrix[y1][x1] = 0;
+		game->players[ game->state.next ].board.matrix[y1][x1] = 0;
+
+		randFill( game, game->state.next, game->options.tokensPerTurn, false );
+	}
 
 	i = 0; 
 	do{
@@ -295,7 +303,7 @@ bool quit( game_t * game, int argc, char ** argv, char * err ){
 **********************************************************************/
 
 bool help     ( game_t * game, int argc, char ** argv, char * err ){
-	sprintf( err, "These commands are defined internally\n"
+	sprintf( err, //"These commands are defined internally\n"
 				"Type 'name --help' to find out more about the function 'name'"
 				"\n \n"
 				"  [row_1,column_1][row_2,column_2]\n"

@@ -9,14 +9,13 @@
 
 #define MAX_TEXT 5000
 #define MAX_PANEL_LINES 25
-#define PANEL_LINES 5	// may be a variable
+#define PANEL_LINES 10	// may be a variable
 
 #define HOR_LINES true	// may be a variable
 #define VER_LINES true	// may be a variable , not implemented yet
 
 #define USE_COLORS true	// may be a variable
 
-#define MIN_MINUTES 1
 #define MAX_MINUTES 10000 // Max playing time: 1 week: 7 * 24 * 60 = 10080
 #define MIN_TAB_DIM 5
 #define MAX_TAB_DIM 150 // I don't think you have a bigger monitor
