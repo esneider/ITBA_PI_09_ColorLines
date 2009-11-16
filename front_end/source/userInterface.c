@@ -43,21 +43,21 @@ void drawTable( game_t * game, int numModifiers, modifier_t * modifiers  ){
 			for( i = 0 ; i < game->options.width ; i++ )
 				printf("+---");
 			printf("+      ");
-		}	
+		}
 	}
 	printf("\n");
 
 	for( i = 0 ; i < game->options.height ; i++ ){
-		
+
 		for( player = 0 ; player < game->numPlayers ; player++ ){
-			
+
 			printf("%2d",i);
 			for( j = 0 ; j < game->options.width; j++ ){
-				
+
 				col = game->players[ 
-				( game->state.next + player ) % game->numPlayers
+						( game->state.next + player ) % game->numPlayers
 				].board.matrix[i][j];
-				
+
 				printf(" | ");
 				textcolor( colores[ (int)col ] );
 				printf("%d", (int)col );
@@ -78,16 +78,18 @@ void drawTable( game_t * game, int numModifiers, modifier_t * modifiers  ){
 
 	char s[10], t[12];
 	for( player = 0 ; player < game->numPlayers ; player++ ){
-		printf("   %4d", game->players[ player ].board.points );
-		if( game->options.mode == TIMEMODE ){
-			sprintf( s, "%%-%dd", game->options.width-4 );
-			printf( s, game->state.timeLeft );
-		}else
+		printf("    %4d", game->players[ player ].board.points );
+// 		if( game->options.mode == TIMEMODE ){
+// 			sprintf( s, "%%-%dd", game->options.width-4 );
+// 			printf( s, game->state.timeLeft );
+// 		}else
 		if( game->options.mode == MULTIPLMODE ){
-			sprintf( t, "Player %d", player+1 );
-			sprintf( s, "%%-%ds", game->options.width-4 );
+			sprintf( t, "Player %d",
+						( game->state.next + player ) % game->numPlayers + 1 );
+			sprintf( s, "%%%ds", game->options.width * 4 - 4  );
 			printf( s, t );
 		}
+		printf("   ");
 	}
 
 	textattr(CLEAR);
@@ -105,6 +107,7 @@ void drawText( char * str ){
 
 
 void drawPanel( char * message ){
+	char msg[ MAX_ERR_LEN ];
 	int i;
 
 	if( commandsBufferPos == -1 ){
@@ -116,7 +119,8 @@ void drawPanel( char * message ){
 	backcolor(NEGRO);
 
 	if( message && message[0] ){
-		char * aux = strtok( message, "\n" );
+		sprintf( msg, "%s", message );
+		char * aux = strtok( msg, "\n" );
 		while( aux ){
 			sprintf( commandsBuffer[ commandsBufferPos++ ], "%s\n", aux );
 			commandsBufferPos %= MAX_PANEL_LINES;

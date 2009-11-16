@@ -23,7 +23,7 @@ char * errorMessage( error num ){
 		case FILEERROR:			return "Error with file";
 		case TIMEERROR:			return "Error while geting time";
 		case INPUTERROR:		return "Error while reading input";
-		
+
 		default: 				return "Unknown error";
 	}
 }

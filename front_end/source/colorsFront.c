@@ -1,5 +1,6 @@
 // colorsFront.c
 #include <stdlib.h>
+#include <stdio.h>
 #include "error.h"
 #include "defines.h"
 #include "game.h"
@@ -16,14 +17,15 @@ int main(){
 	while(1){
 		clearError();
 		game = menu();
-		
-		if( game == NULL )
-// 			printf("blablabla\n%s\n",errorMessage( errorCode() )); fflush(stdout);
-			break;
+
 		if( errorCode() != NOERROR ){
-			drawText( errorMessage( errorCode() ) );
+// 			printf("%s\n", errorMessage( errorCode() ));
+// 			scanf("%s",message);
+			drawPanel( errorMessage( errorCode() ) );
 			continue;
 		}
+		if( game == NULL )
+			break;
 		message[0]=0;
 		while(1){
 			clearError();

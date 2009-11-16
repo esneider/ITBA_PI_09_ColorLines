@@ -43,7 +43,7 @@ game_t * newGame( options_t * options ){
 			newMatrix( sol->options.height, sol->options.width );
 		sol->players[i].lastBoard.matrix =
 			newMatrix( sol->options.height, sol->options.width );
-		
+
 			if( !sol->players[i].board.matrix || !sol->players[i].lastBoard.matrix ){
 			for( j = 0 ; j <= i ; j++ ){
 				freeMatrix( sol->players[j].lastBoard.matrix, sol->options.height );
@@ -132,7 +132,7 @@ game_t * readGame(char * file){
 
 	#define SAFE_FREAD_INT( x )												\
 		raiseErrorIf( fread( &(x), sizeof(int), 1, in ), FILEERROR, NULL )
-	
+
 	#define SAFE_FREAD_CHAR( x )											\
 		raiseErrorIf( fread( &(x), sizeof(char), 1, in ), FILEERROR, NULL )
 

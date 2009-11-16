@@ -140,7 +140,7 @@ static options_t chooseOptions( modus_t mode ){
 
 // Display game menu
 game_t * menu(){
-	
+
 	options_t options;
 	char str[MAX_COM_LEN];
 	modeOption_t modeOption = chooseMode();

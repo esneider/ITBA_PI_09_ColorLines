@@ -4,7 +4,7 @@
 
 // if DEBUG is defined, raise_error_if prints in screen the error, file,
 // function & line
-#define DEBUG
+// #define DEBUG
 
 
 // Error types
@@ -14,7 +14,8 @@ typedef enum{
 	MEMORYERROR,
 	FILEERROR,
 	TIMEERROR,
-	INPUTERROR
+	INPUTERROR,
+	FILEOVERWRITE
 } error;
 
 // Quita errores pasados
