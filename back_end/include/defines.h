@@ -9,7 +9,7 @@
 
 #define MAX_TEXT 5000
 #define MAX_PANEL_LINES 25
-#define PANEL_LINES 10	// may be a variable
+#define PANEL_LINES 5	// may be a variable
 
 #define HOR_LINES true	// may be a variable
 #define VER_LINES true	// may be a variable , not implemented yet

@@ -95,7 +95,7 @@ void drawPanel( char * message ){
 	if( commandsBufferPos == -1 ){
 		for( i = 0 ; i < MAX_PANEL_LINES ; i++ )
 			sprintf( commandsBuffer[i], "\n" );
-		commandsBufferPos++;
+		commandsBufferPos = 0;
 	}
 
 	backcolor(NEGRO);

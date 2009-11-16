@@ -177,7 +177,7 @@ bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 		game->state.next++;
 		game->state.next %= game->numPlayers;
 		i++;
-	while( game->players[ game->state.next ].board.emptySpots <= 0 &&
+	}while( game->players[ game->state.next ].board.emptySpots <= 0 &&
 				i <= game->numPlayers );
 	if( i > game->numPlayers ){
 		// GAME OVER FOR EVERYONE
