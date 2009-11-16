@@ -10,8 +10,6 @@ typedef struct {
 	int dir[2];
 }directions_t;
 
-static int lookForLine(game_t *game, size_t x, size_t y, directions_t *directions);
-
 bool notFree( game_t * game, int nPlayer, size_t x, size_t y, color c){
 	return false;
 }
@@ -33,6 +31,37 @@ void randFill( game_t * game, int nPlayer, size_t cant, bool force ){
 		game->players[nPlayer].board.matrix[y][x] = c;
 		game->players[nPlayer].board.emptySpots--;
 	}
+}
+
+
+static int
+lookForLine(game_t *game, size_t x, size_t y, directions_t *directions){
+	int i, j, aux;
+	// empiezo desde i = 1 porque i = 0 empezaria del x, y
+	for(i = 1 ; game->players[game->state.next].board.matrix[y][x] == 
+		game->players[game->state.next].board.matrix[y+i*directions->dir[0]][x+i*directions->dir[1]] &&
+		entre(0, x+i*directions->dir[0], game->options.width) &&
+		entre(0, y+i*directions->dir[1], game->options.height) ; i++)
+		;
+	aux = i-1;
+	// mientras aux != 0 ir borrando
+	while( aux ){
+		game->players[game->state.next].board.matrix[y+aux*directions->dir[0]][x+aux*directions->dir[1]] = 0;
+		aux--;
+	}
+	directions->dir[0] *= -1;
+	directions->dir[1] *= -1;
+	for(j = 1 ; game->players[game->state.next].board.matrix[y][x] == 
+		game->players[game->state.next].board.matrix[y+i*directions->dir[0]][x+j*directions->dir[1]] && 
+		entre(0, x+j*directions->dir[0], game->options.width) &&
+		entre(0, y+j*directions->dir[1], game->options.height) ; j++)
+		;
+	aux = j-1;
+	while( aux ){
+		game->players[game->state.next].board.matrix[y+aux*directions->dir[0]][x+aux*directions->dir[1]] = 0;
+		aux--;
+	}
+	return i+j-2;
 }
 
 int 
@@ -67,34 +96,4 @@ winningPlay(game_t *game, size_t x, size_t y, bool player){
 	game->players[game->state.next].board.emptySpots+= blanks;
 	return blanks;
 	
-}
-
-static int
-lookForLine(game_t *game, size_t x, size_t y, directions_t *directions){
-	int i, j, aux;
-	// empiezo desde i = 1 porque i = 0 empezaria del x, y
-	for(i = 1 ; game->players[game->state.next].board.matrix[y][x] == 
-					game->players[game->state.next].board.matrix[y+i*directions->dir[0]][x+i*directions->dir[1]] &&
-					entre(0, x+i*directions->dir[0], game->options.width) &&
-					entre(0, y+i*directions->dir[1], game->options.height) ; i++)
-		;
-	aux = i-1;
-	// mientras aux != 0 ir borrando
-	while( aux ){
-		game->players[game->state.next].board.matrix[y+aux*directions->dir[0]][x+aux*directions->dir[1]] = 0;
-		aux--;
-	}
-	directions->dir[0] *= -1;
-	directions->dir[1] *= -1;
-	for(j = 1 ; game->players[game->state.next].board.matrix[y][x] == 
-					game->players[game->state.next].board.matrix[y+i*directions->dir[0]][x+j*directions->dir[1]] && 
-					entre(0, x+j*directions->dir[0], game->options.width) &&
-					entre(0, y+j*directions->dir[1], game->options.height) ; j++)
-		;
-	aux = j-1;
-	while( aux ){
-		game->players[game->state.next].board.matrix[y+aux*directions->dir[0]][x+aux*directions->dir[1]] = 0;
-		aux--;
-	}
-	return i+j-2;
 }

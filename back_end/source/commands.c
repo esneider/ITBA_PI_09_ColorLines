@@ -168,7 +168,7 @@ bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 	game->players[ game->state.next ].lastBoard =
 										game->players[ game->state.next ].board;
 	// contar puntos
-	
+
 	// draw movement TODO (needs front-end)
 	if( ! notFree( game, game->state.next, x2, y2,
 					game->players[ game->state.next ].board.matrix[y1][x1] ) ){
