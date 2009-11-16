@@ -16,7 +16,9 @@ int main(){
 	while(1){
 		clearError();
 		game = menu();
+		
 		if( game == NULL )
+// 			printf("blablabla\n%s\n",errorMessage( errorCode() )); fflush(stdout);
 			break;
 		if( errorCode() != NOERROR ){
 			drawText( errorMessage( errorCode() ) );
