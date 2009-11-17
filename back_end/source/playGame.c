@@ -44,7 +44,7 @@ lookForLine(game_t *game, size_t x, size_t y, directions_t *directions){
 		game->players[game->state.next].board.matrix[y+i*directions->dir[0]][x+i*directions->dir[1]] &&
 		entre(0, x+i*directions->dir[0], game->options.width) &&
 		entre(0, y+i*directions->dir[1], game->options.height) ; i++)
-		;
+		; 
 	directions->dir[0] *= -1;
 	directions->dir[1] *= -1;
 	for(j = 1 ; game->players[game->state.next].board.matrix[y][x] == 
@@ -58,8 +58,10 @@ lookForLine(game_t *game, size_t x, size_t y, directions_t *directions){
 		while( aux ){
 			game->players[game->state.next].board.matrix[y+aux*directions->dir[0]][x+aux*directions->dir[1]] = 0;
 			aux--;
-		}		
-		aux = j-1;
+	}
+		directions->dir[0] *= -1;
+		directions->dir[1] *= -1;
+		aux = i-1;
 		while( aux ){
 			game->players[game->state.next].board.matrix[y+aux*directions->dir[0]][x+aux*directions->dir[1]] = 0;
 			aux--;
