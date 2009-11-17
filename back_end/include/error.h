@@ -14,8 +14,7 @@ typedef enum{
 	MEMORYERROR,
 	FILEERROR,
 	TIMEERROR,
-	INPUTERROR,
-	FILEOVERWRITE
+	INPUTERROR
 } error;
 
 // Quita errores pasados

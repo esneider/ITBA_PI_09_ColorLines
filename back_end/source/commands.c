@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "error.h"
 #include "utils.h"
 #include "defines.h"
@@ -167,23 +168,31 @@ bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 		return false;
 	}
 
+	// mantain undo
 	game->players[ game->state.next ].canUndo = true;
 	
-	game->players[ game->state.next ].lastBoard =
-										game->players[ game->state.next ].board;
-	// contar puntos
+	copyMatrix( game->players[ game->state.next ].board.matrix,
+				game->players[ game->state.next ].lastBoard. matrix,
+				game->options.height, game->options.width );
+	game->players[ game->state.next ].lastBoard.points =
+								game->players[ game->state.next ].board.points;
+	game->players[ game->state.next ].lastBoard.emptySpots =
+							game->players[ game->state.next ].board.emptySpots;
+	// count points
 
-	// draw movement TODO (needs front-end)
+	// mantain board
+	game->players[ game->state.next ].board.matrix[y2][x2] =
+					game->players[ game->state.next ].board.matrix[y1][x1];
+	game->players[ game->state.next ].board.matrix[y1][x1] = 0;
+
 	if( ! notFree( game, game->state.next, x2, y2,
 					game->players[ game->state.next ].board.matrix[y1][x1] ) ){
 
-		game->players[ game->state.next ].board.matrix[y2][x2] =
-						game->players[ game->state.next ].board.matrix[y1][x1];
-		game->players[ game->state.next ].board.matrix[y1][x1] = 0;
-
 		randFill( game, game->state.next, game->options.tokensPerTurn, false );
+		// check for lines
 	}
 
+	// change turn
 	i = 0; 
 	do{
 		game->state.next++;
@@ -191,7 +200,9 @@ bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 		i++;
 	}while( game->players[ game->state.next ].board.emptySpots <= 0 &&
 				i <= game->numPlayers );
-	if( i > game->numPlayers ){
+	// check for gameover
+	if( i > game->numPlayers ||
+		time(NULL) - game->state.lastTime >= game->state.timeLeft ){
 		// GAME OVER FOR EVERYONE
 	}
 

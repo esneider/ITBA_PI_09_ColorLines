@@ -7,10 +7,12 @@
 
 
 // creates a new matrix of 'height' x 'width' and 0es it
-char ** newMatrix( const int height, const int width );
+char ** newMatrix( int height, int width );
 
 // frees a matrix of created by newMatrix
-void freeMatrix( char ** mat, const int height );
+void freeMatrix( char ** mat, int height );
+
+void copyMatrix( char ** from, char ** to, int height, int width );
 
 // assert b \in [a,b)
 bool entre( const int a, const int b, const int c );
