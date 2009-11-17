@@ -46,10 +46,6 @@ lookForLine(game_t *game, size_t x, size_t y, directions_t *directions){
 		entre(0, y+i*directions->dir[1], game->options.height) ; i++)
 		;
 	aux = i-1;
-	// mientras aux != 0 ir borrando
-	while( aux ){
-		game->players[game->state.next].board.matrix[y+aux*directions->dir[0]][x+aux*directions->dir[1]] = 0;
-		aux--;
 	}
 	directions->dir[0] *= -1;
 	directions->dir[1] *= -1;
@@ -59,9 +55,18 @@ lookForLine(game_t *game, size_t x, size_t y, directions_t *directions){
 		entre(0, y+j*directions->dir[1], game->options.height) ; j++)
 		;
 	aux = j-1;
-	while( aux ){
-		game->players[game->state.next].board.matrix[y+aux*directions->dir[0]][x+aux*directions->dir[1]] = 0;
-		aux--;
+	if(i+j-2+1 >= game->options.tokensPerLine){
+		aux = i-1;
+		//mientras aux != 0 ir borrando
+		while( aux ){
+			game->players[game->state.next].board.matrix[y+aux*directions->dir[0]][x+aux*directions->dir[1]] = 0;
+			aux--;
+		}		
+		aux = j-1;
+		while( aux ){
+			game->players[game->state.next].board.matrix[y+aux*directions->dir[0]][x+aux*directions->dir[1]] = 0;
+			aux--;
+		}
 	}
 	return i+j-2;
 }

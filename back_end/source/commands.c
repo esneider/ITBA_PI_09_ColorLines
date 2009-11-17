@@ -88,7 +88,7 @@ bool areConnected( game_t * game, int x1, int y1, int x2, int y2 ){
 		int x, y;
 	} queue[ game->players[ game->state.next ].board.emptySpots + 1 ];
 
-	int read = -1, write = 0, x, y;
+	int read = -1, write = 0, x, y, i;
 	
 	bool touched[ game->options.height ][ game->options.width ];
 	
