@@ -1,12 +1,10 @@
 // playGame.c
 #include <stdbool.h>
-#include <time.h>
 #include "error.h"
 #include "defines.h"
 #include "utils.h"
 #include "colors.h"
 #include "playGame.h"
-#include "userInterface.h"
 
 typedef struct {
 	int dir[2];
@@ -41,27 +39,42 @@ lookForLine(game_t *game, size_t x, size_t y, directions_t *directions){
 	int i, j, aux;
 	// empiezo desde i = 1 porque i = 0 empezaria del x, y
 	for(i = 1 ; game->players[game->state.next].board.matrix[y][x] == 
-		game->players[game->state.next].board.matrix[y+i*directions->dir[0]][x+i*directions->dir[1]] &&
+		game->players[game->state.next].board.matrix[x+i*directions->dir[0]][y+i*directions->dir[1]] &&
 		entre(0, x+i*directions->dir[0], game->options.width) &&
 		entre(0, y+i*directions->dir[1], game->options.height) ; i++)
 		;
-	aux = i-1;
+	//wtf?
+	//aux = i-1;
 	// mientras aux != 0 ir borrando
-	while( aux ){
-		game->players[game->state.next].board.matrix[y+aux*directions->dir[0]][x+aux*directions->dir[1]] = 0;
-		aux--;
-	}
+	//while( aux ){
+	//	game->players[game->state.next].board.matrix[y+aux*directions->dir[0]][x+aux*directions->dir[1]] = 0;
+	//	aux--;
+	//}
 	directions->dir[0] *= -1;
 	directions->dir[1] *= -1;
 	for(j = 1 ; game->players[game->state.next].board.matrix[y][x] == 
-		game->players[game->state.next].board.matrix[y+i*directions->dir[0]][x+j*directions->dir[1]] && 
+		game->players[game->state.next].board.matrix[x+i*directions->dir[0]][y+j*directions->dir[1]] && 
 		entre(0, x+j*directions->dir[0], game->options.width) &&
 		entre(0, y+j*directions->dir[1], game->options.height) ; j++)
 		;
-	aux = j-1;
-	while( aux ){
-		game->players[game->state.next].board.matrix[y+aux*directions->dir[0]][x+aux*directions->dir[1]] = 0;
-		aux--;
+	//WTF 2
+	//aux = j-1;
+	//while( aux ){
+	//	game->players[game->state.next].board.matrix[y+aux*directions->dir[0]][x+aux*directions->dir[1]] = 0;
+	//	aux--;
+	//}
+	if(i+j-2+1 >= game->options.tokensPerLine){
+		aux = i-1;
+		mientras aux != 0 ir borrando
+		while( aux ){
+			game->players[game->state.next].board.matrix[y+aux*directions->dir[0]][x+aux*directions->dir[1]] = 0;
+			aux--;
+		}		
+		aux = j-1;
+		while( aux ){
+			game->players[game->state.next].board.matrix[y+aux*directions->dir[0]][x+aux*directions->dir[1]] = 0;
+			aux--;
+	}
 	}
 	return i+j-2;
 }
@@ -98,15 +111,4 @@ winningPlay(game_t *game, size_t x, size_t y, bool player){
 	game->players[game->state.next].board.emptySpots+= blanks;
 	return blanks;
 	
-}
-
-#include <stdio.h>
-void actualizeTimeLeft( game_t * game ){
-	
-	clock_t newTime = clock();
-	game->state.timeLeft -= newTime - game->state.lastTime;
-	char a[25];
-	sprintf( a, "\033[91m clocks: %ld\n", clock());
-	drawPanel(a);
-	game->state.lastTime = newTime;
 }

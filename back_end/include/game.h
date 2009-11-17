@@ -25,8 +25,8 @@ typedef struct{
 } player_t;
 
 typedef struct{
-	clock_t lastTime;
-	clock_t timeLeft; // seconds left (mode 1)
+	time_t lastTime;
+	time_t timeLeft; // seconds left (mode 1)
 	int next; // next player (mode 2)
 } state_t;
 

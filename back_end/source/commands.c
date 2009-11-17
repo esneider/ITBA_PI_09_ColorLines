@@ -77,6 +77,43 @@ bool newCommand( game_t * game, char * s, char * err ){
 ****************************** COMMANDS *******************************
 ******************************************************************* **/
 
+bool areConnected( game_t * game, int x1, int y1, int x2, int y2 ){
+	// BFS to find minimum path
+
+	struct coord{
+		int x,y;
+	} move[4] = { {-1,0}, {0,1}, {1,0}, {0,-1} };
+
+	struct node{
+		int x, y;
+	} queue[ game->players[ game->state.next ].board.emptySpots + 1 ];
+
+	int read = -1, write = 0, x, y;
+	
+	bool touched[ game->options.height ][ game->options.width ];
+	
+	memset( &touched[0][0], false, sizeof(touched) * sizeof(bool) );
+	queue[write++] = (struct node){x1,y1};
+	
+	while( ++read < write ){
+		if( queue[read].x == x2 && queue[read].y == y2 )
+			break;
+		for( i = 0 ; i < sizeof(move)/sizeof(struct coord) ; i++ ){
+			x = queue[read].x + move[i].x;
+			y = queue[read].y + move[i].y;
+			if( entre(0,x,game->options.width)
+				&& entre(0,y,game->options.height)
+				&& game->players[ game->state.next ].board.matrix[y][x] == 0
+				&& !touched[y][x] ){
+						touched[y][x] = true;
+						queue[write++] = (struct node){x,y};
+			}
+		}
+	}
+	
+	return read < write;
+}
+
 /**********************************************************************
 ****************************** movePiece ******************************
 **********************************************************************/
@@ -124,47 +161,14 @@ bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 		sprintf( err, "The target position must not be occupied" );
 		return false;
 	}
-
-	// BFS para encontrar el camino minimo
-
-	struct coord{
-		int x,y;
-	} move[4] = { {-1,0}, {0,1}, {1,0}, {0,-1} };
-
-	struct node{
-		int x, y, parent;
-	} queue[ game->players[ game->state.next ].board.emptySpots + 1 ];
-
-	int read = -1, write = 0,x,y;
-
-	bool touched[ game->options.height ][ game->options.width ];
-
-	memset( &touched[0][0], false, sizeof(touched)/sizeof(bool) );
-	queue[write++] = (struct node){x1,y1,-1};
-
-	while( ++read < write ){
-		if( queue[read].x == x2 && queue[read].y == y2 )
-			break;
-		for( i = 0 ; i < sizeof(move)/sizeof(struct coord) ; i++ ){
-			x = queue[read].x + move[i].x;
-			y = queue[read].y + move[i].y;
-			if( entre(0,x,game->options.width)
-				&& entre(0,y,game->options.height)
-				&& game->players[ game->state.next ].board.matrix[y][x] == 0
-				&& !touched[y][x] ){
-					touched[y][x] = true;
-					queue[write++] = (struct node){x,y,read};
-			}
-		}
-	}
-
-	if( read >= write ){
+	if( !areConnected( game, x1, y1, x2, y2 ) ){
 		sprintf( err, "There must be a path of unoccupied spaces from the "
 					"origin position to the target position" );
 		return false;
 	}
 
 	game->players[ game->state.next ].canUndo = true;
+	
 	game->players[ game->state.next ].lastBoard =
 										game->players[ game->state.next ].board;
 	// contar puntos
@@ -268,9 +272,12 @@ bool undo( game_t * game, int argc, char ** argv, char * err ){
 	}
 
 	game->players[ game->state.next ].canUndo = false;
-	// free old matrix
+	// swap boards;
+	board_t aux = game->players[ game->state.next ].board;
+
 	game->players[ game->state.next ].board =
 									game->players[ game->state.next ].lastBoard;
+	game->players[ game->state.next ].lastBoard = aux;
 
 	return true;
 }
@@ -291,18 +298,21 @@ bool quit( game_t * game, int argc, char ** argv, char * err ){
 		return false;
 	}
 
-	//TODO
 	err[0]=0;
 	return false;
-	//TODO
-	return true;
 }
 
 /**********************************************************************
 ********************************* help ********************************
 **********************************************************************/
 
-bool help     ( game_t * game, int argc, char ** argv, char * err ){
+bool help( game_t * game, int argc, char ** argv, char * err ){
+
+	if( argc == 2 && strcmp( argv[1], "--help" ) == 0 ){
+		sprintf( err, "Usage: help\n"
+					"Shows available commands" );
+		return false;
+	}
 	sprintf( err, //"These commands are defined internally\n"
 				"Type 'name --help' to find out more about the function 'name'"
 				"\n \n"
@@ -311,7 +321,7 @@ bool help     ( game_t * game, int argc, char ** argv, char * err ){
 				"  undo\n"
 				"  quit\n"
 				"  help\n"
-				"  buy {item}\n"
-				"  throw {item}\n" );
+				"  buy {item}  TODO\n"
+				"  throw {item}  TODO\n" );
 	return true;
 }

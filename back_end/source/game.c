@@ -64,8 +64,8 @@ game_t * newGame( options_t * options ){
 	}
 
 	sol->state.next = 0;
-	sol->state.lastTime = clock();
-	sol->state.timeLeft = sol->options.initialSeconds * CLOCKS_PER_SEC;
+	sol->state.lastTime = time(NULL);
+	sol->state.timeLeft = sol->options.initialSeconds;
 
 	return sol;
 }
@@ -99,7 +99,10 @@ void writeGame( game_t * game, char * file ){
 
 	SAFE_FWRITE_INT( game->options.mode );
 	if( game->options.mode == TIMEMODE ){
-		SAFE_FWRITE_INT( game->state.timeLeft / CLOCKS_PER_SEC );
+		time_t aux = time(NULL);
+		game->state.timeLeft -= aux - game->state.timeLeft;
+		game->state.timeLeft = aux;
+		SAFE_FWRITE_INT( game->state.timeLeft );
 	}else
 	if( game->options.mode == MULTIPLMODE )
 		SAFE_FWRITE_INT( game->state.next + 1 );
@@ -112,7 +115,7 @@ void writeGame( game_t * game, char * file ){
 		SAFE_FWRITE_INT( game->players[i].board.points );
 		for( y = 0 ; y < game->options.height ; y++ )
 			for( x = 0 ; x < game->options.width ; x++ )
-				SAFE_FWRITE_CHAR( game->players[i].board.matrix[y][x] );
+				SAFE_FWRITE_CHAR( game->players[i].board.matrix[y][x] + '0' );
 	}
 	i = fclose(out);
 	raiseErrorIf(i==0,FILEERROR,);
@@ -139,7 +142,6 @@ game_t * readGame(char * file){
 	SAFE_FREAD_INT( options.mode );
 	if( options.mode == TIMEMODE ){
 		SAFE_FREAD_INT( state.timeLeft );
-		state.timeLeft *= CLOCKS_PER_SEC;
 	} else
 	if( options.mode == MULTIPLMODE ){
 		SAFE_FREAD_INT( state.next );
@@ -153,7 +155,7 @@ game_t * readGame(char * file){
 
 	sol = newGame( &options );
 	sol->state = state;
-	sol->state.lastTime = clock();
+	sol->state.lastTime = time(NULL);
 
 	for( i = 0 ; i < sol->numPlayers ; i++ ){
 		SAFE_FREAD_INT( sol->players[i].board.points );
@@ -164,6 +166,7 @@ game_t * readGame(char * file){
 		for( y = 0 ; y < sol->options.height ; y++ )
 			for( x = 0 ; x < sol->options.width ; x++ ){
 				SAFE_FREAD_CHAR( sol->players[i].board.matrix[y][x] );
+				sol->players[i].board.matrix[y][x] -= '0';
 				sol->players[i].board.emptySpots += 
 										sol->players[i].board.matrix[y][x] == 0;
 			}

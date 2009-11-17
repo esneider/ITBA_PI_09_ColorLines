@@ -1,6 +1,7 @@
 // ui.c
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 #include "error.h"
 #include "defines.h"
 #include "userInterface.h"
@@ -21,7 +22,7 @@ void clearScreen(){
 }
 
 
-void drawTable( game_t * game, int numModifiers, modifier_t * modifiers  ){
+void drawTable( game_t * game ){
 	int i, j, player, col;
 	static const int colores[] = {
 		NEGRO, ROJO, AZUL_CLARO, VERDE, AMARILLO,
@@ -75,18 +76,23 @@ void drawTable( game_t * game, int numModifiers, modifier_t * modifiers  ){
 		}
 		printf("\n");
 	}
+// draw 
+	char s[10], t[10];
+	sprintf( s, "%%%ds", game->options.width * 4 - 4 );
 
-	char s[10], t[12];
 	for( player = 0 ; player < game->numPlayers ; player++ ){
-		printf("    %4d", game->players[ player ].board.points );
-// 		if( game->options.mode == TIMEMODE ){
-// 			sprintf( s, "%%-%dd", game->options.width-4 );
-// 			printf( s, game->state.timeLeft );
-// 		}else
+		i = ( game->state.next + player ) % game->numPlayers;
+		printf("    %-4d", game->players[i].board.points );
+		if( game->options.mode == TIMEMODE ){
+			j = game->state.timeLeft - time(NULL) + game->state.lastTime;
+			if( j >= 60 )
+				sprintf( t, "%d:%d", j/60, j%60 );
+			else
+				sprintf( t, "%d", j );
+			printf( s, t );
+		}else
 		if( game->options.mode == MULTIPLMODE ){
-			sprintf( t, "Player %d",
-						( game->state.next + player ) % game->numPlayers + 1 );
-			sprintf( s, "%%%ds", game->options.width * 4 - 4  );
+			sprintf( t, "Player %d", i + 1 );
 			printf( s, t );
 		}
 		printf("   ");

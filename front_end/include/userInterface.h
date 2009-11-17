@@ -13,7 +13,7 @@ typedef struct{
 
 void clearScreen();
 
-void drawTable( game_t * game, int numModifiers, modifier_t * modifiers  );
+void drawTable( game_t * game  );
 
 void drawText( char * str );
 

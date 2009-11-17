@@ -1,12 +1,13 @@
 // colorsFront.c
 #include <stdlib.h>
-#include <stdio.h>
+#include <stdbool.h>
 #include "error.h"
 #include "defines.h"
 #include "game.h"
 #include "commands.h"
 #include "menu.h"
 #include "userInterface.h"
+#include "playGame.h"
 
 int main(){
 
@@ -14,34 +15,39 @@ int main(){
 	char command[ MAX_COM_LEN ];
 	char message[ MAX_ERR_LEN ];
 
-	while(1){
+	while( true ){
 		clearError();
+				// show menu
 		game = menu();
-
+				// error
 		if( errorCode() != NOERROR ){
-// 			printf("%s\n", errorMessage( errorCode() ));
-// 			scanf("%s",message);
 			drawPanel( errorMessage( errorCode() ) );
 			continue;
 		}
+				// exit
 		if( game == NULL )
 			break;
+				// actual game-loop
 		message[0]=0;
-		while(1){
+		while( true ){
 			clearError();
-			// start drawing
+					// start drawing
 			clearScreen();
-			drawTable( game, 0, NULL );
+			drawTable( game );
 			drawPanel( message );
-			// end drawing
+					// end drawing
+					// ask command
 			message[0]=0;
 			askCommand( command );
+					//error asking command
 			if( errorCode() != NOERROR ){
 				drawText( errorMessage( errorCode() ) );
 				continue;
 			}
+					// analize command
 			if( !newCommand( game, command, message ) && !message[0] )
 				break;
+					// error analizing command
 			if( errorCode() != NOERROR ){
 				drawText( errorMessage( errorCode() ) );
 				continue;
