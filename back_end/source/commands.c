@@ -32,7 +32,15 @@ const command_t commands[] = {
 	{"quit", quit},
 	{"help", help}
 };
-
+/**
+* Handles the given command. 
+* 
+* @param game 	pointer to a game_t structure containing every information needed on the current game
+* @param s		string containing the command about to be processed
+* @param err    its an output string containing the type of error
+*
+* @return 		false if there is an error, otherwise true
+*/
 bool newCommand( game_t * game, char * s, char * err ){
 	int i;
 	bool sol;
@@ -47,7 +55,7 @@ bool newCommand( game_t * game, char * s, char * err ){
 		sprintf( err, "%s", errorMessage( errorCode() ) );
 		return false;
 	}
-
+	//reading the given command
 	argc = sscanf( s, "%s %s %s %s %s %s %s %s %s %s",
 				   argv[0], argv[1], argv[2], argv[3], argv[4],
 				   argv[5], argv[6], argv[7], argv[8], argv[9] );
@@ -58,11 +66,11 @@ bool newCommand( game_t * game, char * s, char * err ){
 	sprintf( err, "Unknown command" );
 	double auxsim, maxsim = 0;
 	int maxi;
-
+	
+	//calling the appropiate function depending on the command
 	for( i = 0 ; i < sizeof(commands)/ sizeof(command_t) ; i++ ){
-
 		if( strncmp( argv[0], commands[i].com, strlen(commands[i].com) ) == 0
-							&& !isalpha( argv[0][strlen(commands[i].com)] ) ){
+			&& !isalpha( argv[0][strlen(commands[i].com)] ) ){
 			maxsim = 0;
 			err[0] = 0;
 			sol = commands[i].func( game, argc, argv, err );
@@ -88,6 +96,18 @@ bool newCommand( game_t * game, char * s, char * err ){
 ****************************** COMMANDS *******************************
 ******************************************************************* **/
 
+
+/**
+* Checks if there is a valid path between two positions in the board
+*
+* @param game	pointer to a game_t structure containing every information needed on the current game
+* @param x1		initial x coordenate of the path about to be checked
+* @oaram y1		initial y coordenate of the path about to be checked
+* @param x2		final x coordenate of the path about to be checked
+* @param y2		final y coordenate of the path about to be checked
+*
+* @return 		true if there is a valid path, otherwise false
+*/
 bool areConnected( game_t * game, int x1, int y1, int x2, int y2 ){
 	// BFS to find minimum path
 
@@ -128,16 +148,29 @@ bool areConnected( game_t * game, int x1, int y1, int x2, int y2 ){
 ****************************** movePiece ******************************
 **********************************************************************/
 
+/**
+* Moves token from a position to another checking for winning and losing plays.	
+* 
+* @param game 	pointer to a game_t structure containing every information needed on the current game
+* @param argc	quantity of items in argv
+* @param argv   a vector of strings containing the parameters needed by the command
+* @param err    its an output string containing the type of error
+* 
+* @return		true if the move could be made. otherwise, false
+*/
 bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 	int i;
 	char s[ argc * MAX_ARGS ];
-
+    
+	
 	s[0] = 0;
+	//reading the command given in argv
 	for( i = 0 ; i < argc ; i++ )
 		strcat( s, argv[i] );
 	
 	int x1, y1, x2, y2;
 	i = sscanf( s, "[%d,%d][%d,%d]", &y1, &x1, &y2, &x2 );
+	//checking that the given command is valid
 	if( i < 4 ){
 		sprintf( err, "Format error:\n"
 					"Must be: [ row_1, column_1 ][ row_2, column_2 ]" );
@@ -217,8 +250,19 @@ bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 ******************************** save *********************************
 **********************************************************************/
 
+/**
+* Saves the current state of the game.	
+* 
+* @param game 	pointer to a game_t structure containing every information needed on the current game
+* @param argc	quantity of items in argv
+* @param argv   a vector of strings containing the parameters needed by the command
+* @param err    its an output string containing the type of error
+* 
+* @return		true if the game could be saved. otherwise, false
+*/
 bool save( game_t * game, int argc, char ** argv, char * err ){
 
+	//checking that the given command in argv is valid
 	if( argc > 2 || strcmp( "save", argv[0] ) != 0 ){
 		sprintf( err, "Wrong usage\n"
 		"Try 'save --help' for more information");
@@ -234,7 +278,7 @@ bool save( game_t * game, int argc, char ** argv, char * err ){
 					"Saves the current game to file 'filename'");
 		return false;
 	}
-
+    //writing and saving the game
 	writeGame( game, argv[1] );
 
 	return true;
@@ -244,6 +288,16 @@ bool save( game_t * game, int argc, char ** argv, char * err ){
 ******************************* buyItem *******************************
 **********************************************************************/
 
+/**
+* Buys an item so that the player can have much more fun!	
+* 
+* @param game 	pointer to a game_t structure containing every information needed on the current game
+* @param argc	quantity of items in argv
+* @param argv   a vector of strings containing the parameters needed by the command
+* @param err    its an output string containing the type of error
+* 
+* @return		true if the item could be bought. otherwise, false
+*/
 bool buyItem( game_t * game, int argc, char ** argv, char * err ){
 	//TODO
 	return true;
@@ -253,6 +307,16 @@ bool buyItem( game_t * game, int argc, char ** argv, char * err ){
 ****************************** throwItem ******************************
 **********************************************************************/
 
+/**
+* Throws the item! Total mayhem in the board!	
+* 
+* @param game 	pointer to a game_t structure containing every information needed on the current game
+* @param argc	quantity of items in argv
+* @param argv   a vector of strings containing the parameters needed by the command
+* @param err    its an output string containing the type of error
+* 
+* @return		true if the itme could be thrown. otherwise, false
+*/
 bool throwItem( game_t  * game, int argc, char ** argv, char * err ){
 	//TODO
 	return true;
@@ -262,7 +326,19 @@ bool throwItem( game_t  * game, int argc, char ** argv, char * err ){
 ********************************* undo ********************************
 **********************************************************************/
 
+/**
+* Undo the last move made.	
+* 
+* @param game 	pointer to a game_t structure containing every information needed on the current game
+* @param argc	quantity of items in argv
+* @param argv   a vector of strings containing the parameters needed by the command
+* @param err    its an output string containing the type of error
+* 
+* @return		true if the move could be undone. otherwise, false
+*/
 bool undo( game_t * game, int argc, char ** argv, char * err ){
+	
+	//checking that the given command in argv is valid
 	if( argc == 2 && strcmp( argv[1], "--help" ) == 0 ){
 		sprintf( err, "Usage: undo\n"
 					"Undoes the last move\n"
@@ -275,6 +351,7 @@ bool undo( game_t * game, int argc, char ** argv, char * err ){
 					"Try 'undo --help' for more information");
 		return false;
 	}
+	//checking that the player can undo
 	if( game->options.mode != SINGLEMODE ){
 		sprintf( err, "'undo' command is only available in one player"
 					", no time mode" );
@@ -285,7 +362,7 @@ bool undo( game_t * game, int argc, char ** argv, char * err ){
 					"the first turn" );
 		return false;
 	}
-
+    
 	game->players[ game->state.next ].canUndo = false;
 	// swap boards;
 	board_t aux = game->players[ game->state.next ].board;
@@ -301,7 +378,18 @@ bool undo( game_t * game, int argc, char ** argv, char * err ){
 ********************************* quit ********************************
 **********************************************************************/
 
+/**
+* Quits the game.	
+* 
+* @param game 	pointer to a game_t structure containing every information needed on the current game
+* @param argc	quantity of items in argv
+* @param argv   a vector of strings containing the parameters needed by the command
+* @param err    its an output string containing the type of error
+* 
+* @return		true if the parameters were valid. otherwise, false
+*/
 bool quit( game_t * game, int argc, char ** argv, char * err ){
+	//checking that the parameters in argv are valid
 	if( argc == 2 && strcmp( argv[1], "--help" ) == 0 ){
 		sprintf( err, "Usage: quit\n"
 					"Quits the current game" );
@@ -312,7 +400,8 @@ bool quit( game_t * game, int argc, char ** argv, char * err ){
 			"Try 'quit --help' for more information");
 		return false;
 	}
-
+    
+	//returning the appropiate data so that the game is quitted
 	err[0]=0;
 	return false;
 }
@@ -321,8 +410,19 @@ bool quit( game_t * game, int argc, char ** argv, char * err ){
 ********************************* help ********************************
 **********************************************************************/
 
+/**
+* Prints help for the user.	
+* 
+* @param game 	pointer to a game_t structure containing every information needed on the current game
+* @param argc	quantity of items in argv
+* @param argv   a vector of strings containing the parameters needed by the command
+* @param err    its an output string containing the type of error
+* 
+* @return		true if the parameters were valid. otherwise, false
+*/
 bool help( game_t * game, int argc, char ** argv, char * err ){
 
+	//checking the data given in argv
 	if( argc == 2 && strcmp( argv[1], "--help" ) == 0 ){
 		sprintf( err, "Usage: help\n"
 					"Shows available commands" );
@@ -333,6 +433,7 @@ bool help( game_t * game, int argc, char ** argv, char * err ){
 		"Try 'help --help' for more information");
 		return false;
 	}
+	//setting the return data so that it can be printed later
 	sprintf( err, //"These commands are defined internally\n"
 				"Type 'name --help' to find out more about the function 'name'"
 				"\n \n"
