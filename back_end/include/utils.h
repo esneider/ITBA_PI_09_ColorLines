@@ -9,9 +9,10 @@
 // creates a new matrix of 'height' x 'width' and 0es it
 char ** newMatrix( int height, int width );
 
-// frees a matrix of created by newMatrix
+// frees a matrix created by newMatrix
 void freeMatrix( char ** mat, int height );
 
+// copies a matrix created by newMatrix
 void copyMatrix( char ** from, char ** to, int height, int width );
 
 // assert b \in [a,b)

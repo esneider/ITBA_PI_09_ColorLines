@@ -39,7 +39,7 @@ int main(){
 					// ask command
 			message[0]=0;
 			askCommand( command );
-					//error asking command
+					// check for error while asking command
 			if( errorCode() != NOERROR ){
 				drawText( errorMessage( errorCode() ) );
 				continue;
@@ -47,7 +47,7 @@ int main(){
 					// analize command
 			if( !newCommand( game, command, message ) && !message[0] )
 				break;
-					// error analizing command
+					// check for error while analizing command
 			if( errorCode() != NOERROR ){
 				drawText( errorMessage( errorCode() ) );
 				continue;

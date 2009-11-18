@@ -90,12 +90,12 @@ bool areConnected( game_t * game, int x1, int y1, int x2, int y2 ){
 	} queue[ game->players[ game->state.next ].board.emptySpots + 1 ];
 
 	int read = -1, write = 0, x, y, i;
-	
+
 	bool touched[ game->options.height ][ game->options.width ];
-	
+
 	memset( &touched[0][0], false, sizeof(touched) * sizeof(bool) );
 	queue[write++] = (struct node){x1,y1};
-	
+
 	while( ++read < write ){
 		if( queue[read].x == x2 && queue[read].y == y2 )
 			break;
@@ -111,7 +111,7 @@ bool areConnected( game_t * game, int x1, int y1, int x2, int y2 ){
 			}
 		}
 	}
-	
+
 	return read < write;
 }
 
@@ -168,7 +168,7 @@ bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 		return false;
 	}
 
-	// mantain undo
+	// maintain undo
 	game->players[ game->state.next ].canUndo = true;
 	
 	copyMatrix( game->players[ game->state.next ].board.matrix,
@@ -178,33 +178,29 @@ bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 								game->players[ game->state.next ].board.points;
 	game->players[ game->state.next ].lastBoard.emptySpots =
 							game->players[ game->state.next ].board.emptySpots;
-	// count points
-
-	// mantain board
+	// maintain board
 	game->players[ game->state.next ].board.matrix[y2][x2] =
 					game->players[ game->state.next ].board.matrix[y1][x1];
 	game->players[ game->state.next ].board.matrix[y1][x1] = 0;
 
-	if( ! notFree( game, game->state.next, x2, y2,
-					game->players[ game->state.next ].board.matrix[y1][x1] ) ){
-
+	// if makes a line, erase it and count points (winning play)
+	// else, randFill() and change turn
+	if( ! winningPlay( game, x2, y2) ){
+		
 		randFill( game, game->state.next, game->options.tokensPerTurn, false );
-		// check for lines
+		i = 0; 
+		do{
+			game->state.next++;
+			game->state.next %= game->numPlayers;
+			i++;
+		}while( game->players[ game->state.next ].board.emptySpots <= 0 &&
+					i <= game->numPlayers );
 	}
-
-	// change turn
-	i = 0; 
-	do{
-		game->state.next++;
-		game->state.next %= game->numPlayers;
-		i++;
-	}while( game->players[ game->state.next ].board.emptySpots <= 0 &&
-				i <= game->numPlayers );
-	// check for gameover
-	if( i > game->numPlayers ||
-		time(NULL) - game->state.lastTime >= game->state.timeLeft ){
-		// GAME OVER FOR EVERYONE
-	}
+// 		check for gameover
+// 	if( i > game->numPlayers ||
+// 		time(NULL) - game->state.lastTime >= game->state.timeLeft ){
+// 			GAME OVER FOR EVERYONE
+// 	}
 
 	return true;
 }
