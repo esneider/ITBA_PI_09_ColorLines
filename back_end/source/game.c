@@ -140,6 +140,7 @@ game_t * readGame(char * file){
 		raiseErrorIf( fread( &(x), sizeof(char), 1, in ), FILEERROR, NULL )
 
 	SAFE_FREAD_INT( options.mode );
+	state.next = 0;
 	if( options.mode == TIMEMODE ){
 		SAFE_FREAD_INT( state.timeLeft );
 	} else
@@ -174,6 +175,8 @@ game_t * readGame(char * file){
 
 	i = fclose(in);
 	raiseErrorIf(i==0,FILEERROR,NULL);
+
+// 	raiseErrorIf(validateGame,CORRUPTFILE,NULL);
 
 	return sol;
 

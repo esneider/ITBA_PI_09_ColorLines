@@ -35,7 +35,7 @@ void randFill( game_t * game, int nPlayer, size_t cant, bool force ){
 typedef struct {
 	int x,y;
 }direction_t;
-#include <stdio.h>
+
 char dd[20];
 
 // returns new emptySpots a.k.a. tokens extrancted from the board
@@ -43,12 +43,6 @@ static int lookForLine( game_t * game, int x, int y, direction_t dir ){
 	int i, dx, dy, tokens = 1;
 
 	color c = game->players[game->state.next].board.matrix[y][x];
-	
-// 	sprintf(dd,"%d %d\n",dir.x,dir.y);
-//  	printf("%s",dd);
-// 	drawPanel(dd);
-// 	printf("bhjj\n");
-// 	drawPanel("bhjj\n");
 		// count how many tokens of the same color are aligned
 	dx = x + dir.x; dy = y + dir.y;
 	while ( entre( 0, dx, game->options.width ) &&
@@ -86,24 +80,15 @@ int winningPlay( game_t *game, int x, int y ){
 
 	for( i = 0 ; i < 4 ; i++){
 		aux = lookForLine( game, x, y, directions[i] );
-// 		sprintf(dd,"%d\n",aux);
-// 		printf("%s",dd);
-// 		drawPanel(dd);
 		if(aux){
 			lines++;
 			emptySpots += aux - 1;
 		}
 	}
-// 	sprintf(dd,"%d %d %d\n",emptySpots, lines, game->options.tokensPerLine);
-// 	printf("%s",dd);
-// 	drawPanel(dd);
-	
 	if(emptySpots){
 		emptySpots++;
 		game->players[game->state.next].board.matrix[y][x] = 0;
 		game->players[game->state.next].board.emptySpots += emptySpots;
-// 		sprintf(dd,"%d %d\n",emptySpots - game->options.tokensPerLine, lines);
-// 		drawPanel(dd);
 		if( lines > 1 )
 			game->players[game->state.next].board.points += 8;
 		else
@@ -125,7 +110,5 @@ int winningPlay( game_t *game, int x, int y ){
 					break;
 			}
 	}
-// 	sprintf(dd,"%d\n",game->players[game->state.next].board.points);
-// 	drawPanel(dd);
 	return emptySpots;
 }

@@ -152,15 +152,10 @@ bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 					"interval [0,%d]", game->options.width - 1 );
 		return false;
 	}
-	printf("%d %d %d\n",y1,x1, game->players[ game->state.next ].board.matrix[y1][x1]);
-	fflush(stdout);
 	if( game->players[ game->state.next ].board.matrix[y1][x1] == 0 ){
 		sprintf( err, "The origin position must not be empty" );
 		return false;
 	}
-	printf("bhjj\n");
-	fflush(stdout);
-	
 	if( game->players[ game->state.next ].board.matrix[y2][x2] != 0 ){
 		sprintf( err, "The target position must not be occupied" );
 		return false;
@@ -170,7 +165,6 @@ bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 					"origin position to the target position" );
 		return false;
 	}
-
 	// maintain undo
 	game->players[ game->state.next ].canUndo = true;
 	
