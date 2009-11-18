@@ -2,8 +2,9 @@
 #include "error.h"
 
 static error nError;
+
 /**
-* Sets the variable nError as there is no error.
+* Clears errors.
 *
 */
 void clearError(){
@@ -11,27 +12,29 @@ void clearError(){
 }
 
 /**
-* Returns the kind of error so that other functions can handle it.
+* Returns the current error code
 *
-* @return error depending on the kind of error
+* @return error code
 */
 error errorCode(){
 	return nError;
 }
+
 /**
-* Sets the variable nError as the according error.
+* Raise an error
 *
-* @param num	represents the kind of error
+* @param num	error code
 */
 void raiseError( error num ){
 	nError = num;
 }
 
 /**
-* Returns the appropieate message depending on the kind of error.
+* Returns the error message corresponding to the given error code.
 *
-* @param  error	represents the kind of error	
-* @return string depending on the kind of error
+* @param  error	error code
+*
+* @return		error message
 */
 char * errorMessage( error num ){
 	switch(num){

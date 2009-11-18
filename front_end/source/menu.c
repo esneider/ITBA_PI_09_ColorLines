@@ -1,7 +1,4 @@
-/**
-* @file menu.c
-* Main menu for the game Colored Lines.
-*/
+// menu.c
 #include <stdio.h>
 #include "error.h"
 #include "utils.h"
@@ -17,14 +14,21 @@ typedef enum{
 	QUIT
 } modeOption_t;
 
+
 /**
 * Reads an integer and asserts it's in the interval [@a a,@a b].
+*
+* @throws INPUTERROR	if input was larger than buffer
 *
 * @param a	lower bound
 * @param b	upper bound
 *
-* @return 	integer between a and b
+* @return integer between a and b
+*
+* @see askCommand()
+* @see validateInt()
 */
+
 static int askInt( const int a, const int b ){
 	int sol;
 	char c;
@@ -46,18 +50,22 @@ static int askInt( const int a, const int b ){
 	return sol;
 }
 
+
 /**
 * Reads two integers and asserts they are in the intervals [@a a1,@a b1] and
 * [@a a2,@a b2] respectively.
 *
-* @param a1 	lower bound for the first integer.
-* @param n1 	pointer to first element.
-* @param b1 	upper bound for the first integer.
-* @param a2 	lower bound for the second integer.
-* @param n2 	pointer to the second element.
-* @param b2 	upper bound for the second integer.
+* @throws INPUTERROR	if input was larger than buffer
 *
-* @return
+* @param a1			lower bound for @a n1
+* @param[out] n1	pointer to first element
+* @param b1			upper bound for @a n1
+* @param a2			lower bound for @a n2
+* @param[out] n2	pointer to the second element
+* @param b2			upper bound for @a n2
+*
+* @see askCommand()
+* @see validateInt()
 */
 
 static void ask2Int( const int a1, int * n1, const int b1,
@@ -81,12 +89,17 @@ static void ask2Int( const int a1, int * n1, const int b1,
 						!validateInt( a2, *n2, b2+1, error ) );
 }
 
+
 /**
 * Reads a string and asserts it's not empty.
 *
-* @param str	empty string
+* @throws INPUTERROR	if input was larger than buffer
 *
-* @return	 	string with the filename
+* @param[out] str	destination string
+*
+* @return string with the filename (@a str)
+*
+* @see askCommand()
 */
 
 static char * askString( char * str ){
@@ -108,9 +121,13 @@ static char * askString( char * str ){
 }
 
 /**
-* Choose game mode. Use {@link askInt()} to ask for an integer.
+* Displays mode menu and asks game mode.
 *
-* @return	game mode
+* @throws INPUTERROR	if input was larger than buffer
+*
+* @return game mode
+*
+* @see askInt()
 */
  
 static modeOption_t chooseMode(){
@@ -132,14 +149,17 @@ static modeOption_t chooseMode(){
 }
 
 /**
-* Choose game options. Use {@link ask2Int()} for dimensions of the matrix. 
-* Use {@link askInt()} for other game options.
+* Displays game options menu and asks for them.
 *
-* @param mode 	Game mode.
+* @throws INPUTERROR	if input was larger than buffer
 *
-* @return 		structure containing the options chosen.
+* @param mode 	game mode
+*
+* @return structure containing the options chosen.
+*
+* @see askInt()
+* @see ask2Int()
 */
-
 static options_t chooseOptions( modus_t mode ){
 	options_t options;
 	int h, w;
@@ -184,8 +204,15 @@ static options_t chooseOptions( modus_t mode ){
 * for @b MODE0, @b MODE1, @b MODE2 calls {@link chooseOptions()}
 * for @b READFROMFILE calls {@link readGame()}.
 *
-* @return 	If mode is Quit Null, else a pointer to the 
-* 			main structure of the game.
+* @throws INPUTERROR	if input was larger than buffer
+*
+* @return If mode is "quit" NULL, else a pointer to the 
+* 		  main structure of the game.
+*
+* @see chooseMode()
+* @see chooseOptions()
+* @see askString()
+* @see readGame()
 */
 
 game_t * menu(){
