@@ -4,10 +4,28 @@
 #include <time.h>
 #include "error.h"
 #include "utils.h"
+#include "defines.h"
 #include "playGame.h"
 #include "game.h"
 
 
+#define SAFE_FWRITE_INT( x )											\
+	do{ int_ = (int)(x); 												\
+		raiseErrorIf( fwrite( &int_, sizeof(int_), 1, out ), FILEERROR,);\
+	}while(0)
+
+#define SAFE_FWRITE_CHAR( x )											\
+	do{ char_ = (char)(x);												\
+		raiseErrorIf( fwrite( &char_, sizeof(char_), 1, out ), FILEERROR,);\
+	}while(0)
+
+#define SAFE_FREAD_INT( x )												\
+	do{ raiseErrorIf( fread( &(x), sizeof(int), 1, in ),				\
+					feof(in) ? CORRUPTFILE : FILEERROR, NULL ); }while(0)
+
+#define SAFE_FREAD_CHAR( x )											\
+	do{ raiseErrorIf( fread( &(x), sizeof(char), 1, in ),				\
+					feof(in) ? CORRUPTFILE : FILEERROR, NULL ); }while(0)
 
 // creates a new game
 game_t * newGame( options_t * options ){
@@ -87,16 +105,6 @@ void writeGame( game_t * game, char * file ){
 	FILE * out = fopen(file, "wb");
 	raiseErrorIf(out,FILEERROR,);
 
-	#define SAFE_FWRITE_INT( x )											\
-		do{ int_ = (int)(x); 												\
-			raiseErrorIf( fwrite( &int_, sizeof(int_), 1, out ), FILEERROR,);\
-		}while(0)
-
-	#define SAFE_FWRITE_CHAR( x )											\
-		do{ char_ = (char)(x);												\
-			raiseErrorIf( fwrite( &char_, sizeof(char_), 1, out ), FILEERROR,);\
-		}while(0)
-
 	SAFE_FWRITE_INT( game->options.mode );
 	if( game->options.mode == TIMEMODE ){
 		time_t aux = time(NULL);
@@ -119,11 +127,42 @@ void writeGame( game_t * game, char * file ){
 	}
 	i = fclose(out);
 	raiseErrorIf(i==0,FILEERROR,);
-
-	#undef SAFE_FWRITE_INT
-	#undef SAFE_FWRITE_CHAR
 }
 
+static bool validateGame( game_t * game ){
+	int i,x,y;
+	if( !entre( 0, game->options.mode, 3 ) )
+		return false;
+	if( game->options.mode == TIMEMODE &&
+						!entre( 0, game->state.timeLeft, 60*MAX_MINUTES + 1 ) )
+		return false;
+	if( game->options.mode == MULTIPLMODE && !entre( 0, game->state.next, 2 ) )
+		return false;
+	else
+	if( !entre( 0, game->state.next, 1 ) )
+		return false;
+	if( !entre( MIN_TAB_DIM, game->options.width, MAX_TAB_DIM + 1) )
+		return false;
+	if( !entre( MIN_TAB_DIM, game->options.height, MAX_TAB_DIM + 1 ) )
+		return false;
+	if( !entre( MIN_COLORS, game->options.numColors, MAX_COLORS + 1 ) )
+		return false;
+	if( !entre( MIN_TOK_PER_LINE, game->options.tokensPerLine,
+						min( game->options.width, game->options.height ) + 1 ) )
+		return false;
+	if( !entre( 1, game->options.tokensPerTurn,
+							game->options.width * game->options.height + 1 ) )
+		return false;
+	for( i = 0 ; i < game->numPlayers ; i++ ){
+		if( game->players[i].board.points < 0 )
+			return false;
+		for( y = 0 ; y < game->options.height ; y++ )
+			for( x = 0 ; x < game->options.width ; x++ )
+				if( !entre( 0, game->players[i].board.matrix[y][x], MAX_COLORS + 1 ) )
+					return false;
+	}
+	return true;
+}
 game_t * readGame(char * file){
 	int i,x,y;
 	options_t options;
@@ -132,12 +171,6 @@ game_t * readGame(char * file){
 
 	FILE * in  = fopen(file,"rb");
 	raiseErrorIf(in,FILEERROR,NULL);
-
-	#define SAFE_FREAD_INT( x )												\
-		raiseErrorIf( fread( &(x), sizeof(int), 1, in ), FILEERROR, NULL )
-
-	#define SAFE_FREAD_CHAR( x )											\
-		raiseErrorIf( fread( &(x), sizeof(char), 1, in ), FILEERROR, NULL )
 
 	SAFE_FREAD_INT( options.mode );
 	state.next = 0;
@@ -156,30 +189,22 @@ game_t * readGame(char * file){
 
 	sol = newGame( &options );
 	sol->state = state;
-	sol->state.lastTime = time(NULL);
 
 	for( i = 0 ; i < sol->numPlayers ; i++ ){
 		SAFE_FREAD_INT( sol->players[i].board.points );
-		sol->players[i].canUndo = false;
-		sol->players[i].board.emptySpots = 0;
-		sol->players[i].height = sol->options.height;
-		sol->players[i].width = sol->options.width;
 		for( y = 0 ; y < sol->options.height ; y++ )
 			for( x = 0 ; x < sol->options.width ; x++ ){
 				SAFE_FREAD_CHAR( sol->players[i].board.matrix[y][x] );
 				sol->players[i].board.matrix[y][x] -= '0';
-				sol->players[i].board.emptySpots += 
-										sol->players[i].board.matrix[y][x] == 0;
+				if( sol->players[i].board.matrix[y][x] )
+					sol->players[i].board.emptySpots --;
 			}
 	}
-
+	raiseErrorIf(!fread( &i, sizeof(int), 1, in ),CORRUPTFILE,NULL);
 	i = fclose(in);
 	raiseErrorIf(i==0,FILEERROR,NULL);
 
-// 	raiseErrorIf(validateGame,CORRUPTFILE,NULL);
+	raiseErrorIf(validateGame(sol),CORRUPTFILE,NULL);
 
 	return sol;
-
-	#undef SAFE_FREAD_INT
-	#undef SAFE_FREAD_CHAR
 }
