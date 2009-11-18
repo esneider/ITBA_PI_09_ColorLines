@@ -2,19 +2,39 @@
 #include "error.h"
 
 static error nError;
-
+/**
+* Sets the variable nError as there is no error.
+*
+* @return void
+*/
 void clearError(){
 	nError = NOERROR;
 }
 
+/**
+* Returns the kind of error so that other functions can handle it.
+*
+* @return error depending on the kind of error
+*/
 error errorCode(){
 	return nError;
 }
-
+/**
+* Sets the variable nError as the according error.
+*
+* @param num	represents the kind of error
+* @return void
+*/
 void raiseError( error num ){
 	nError = num;
 }
 
+/**
+* Returns the appropieate message depending on the kind of error.
+*
+* @param  error	represents the kind of error	
+* @return error depending on the kind of error
+*/
 char * errorMessage( error num ){
 	switch(num){
 		case NOERROR: 			return "No error";
