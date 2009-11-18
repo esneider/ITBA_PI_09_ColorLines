@@ -65,7 +65,6 @@ static int lookForLine( game_t * game, int x, int y, direction_t dir ){
 			game->players[ game->state.next ].board.matrix[dy][dx] = 0;
 		}
 		game->players[game->state.next].board.matrix[y][x] = c;
-	}
 	return tokens;
 /*	for(i = 1 ; game->players[game->state.next].board.matrix[y][x] == 
 		game->players[game->state.next].board.matrix[y+i*directions->dir[0]][x+i*directions->dir[1]] &&
