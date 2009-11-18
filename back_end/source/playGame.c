@@ -8,9 +8,6 @@
 #include "playGame.h"
 #include "userInterface.h"
 
-typedef struct {
-	int dir[2];
-}directions_t;
 
 bool notFree( game_t * game, int nPlayer, size_t x, size_t y, color c){
 	return false;
@@ -35,12 +32,42 @@ void randFill( game_t * game, int nPlayer, size_t cant, bool force ){
 	}
 }
 
+typedef struct {
+	int x,y;
+}direction_t;
 
-static int
-lookForLine(game_t *game, size_t x, size_t y, directions_t *directions){
-	int i, j, aux;
-	// empiezo desde i = 1 porque i = 0 empezaria del x, y
-	for(i = 1 ; game->players[game->state.next].board.matrix[y][x] == 
+static int lookForLine( game_t * game, int x, int y, direction_t dir ){
+	int i, dx, dy, tokens = 1;
+
+	color c = game->players[game->state.next].board.matrix[y][x];
+		// we count how many tokens of the same color are aligned
+	dx = x + dir.x; dy = y + dir.y;
+	while ( game->players[ game->state.next ].board.matrix[dy][dx] == c && 
+			entre( 0, dx, game->options.width ) &&
+			entre( 0, dy, game->options.height ) ){
+				dx += dir.x;
+				dy += dir.y;
+				tokens++;
+	}
+	dx = x - dir.x; dy = y - dir.y;
+	while ( game->players[ game->state.next ].board.matrix[dy][dx] == c && 
+			entre( 0, dx, game->options.width ) &&
+			entre( 0, dy, game->options.height ) ){
+				dx -= dir.x;
+				dy -= dir.y;
+				tokens++;
+	}
+		// we erase the line
+	if( tokens >= game->options.tokensPerLine ){
+		for( i = 0 ; i < tokens ; i++ )
+			dx += dir.x;
+			dy += dir.y;
+			game->players[ game->state.next ].board.matrix[dy][dx] = 0;
+		}
+		game->players[game->state.next].board.matrix[y][x] = c;
+	}
+	return tokens;
+/*	for(i = 1 ; game->players[game->state.next].board.matrix[y][x] == 
 		game->players[game->state.next].board.matrix[y+i*directions->dir[0]][x+i*directions->dir[1]] &&
 		entre(0, x+i*directions->dir[0], game->options.width) &&
 		entre(0, y+i*directions->dir[1], game->options.height) ; i++)
@@ -51,14 +78,14 @@ lookForLine(game_t *game, size_t x, size_t y, directions_t *directions){
 		game->players[game->state.next].board.matrix[y+i*directions->dir[0]][x+j*directions->dir[1]] && 
 		entre(0, x+j*directions->dir[0], game->options.width) &&
 		entre(0, y+j*directions->dir[1], game->options.height) ; j++)
-		;
-	if(i+j-2+1 >= game->options.tokensPerLine){
+		;*/
+/*	if(i+j-2+1 >= game->options.tokensPerLine){
 		aux = i-1;
 		//mientras aux != 0 ir borrando
 		while( aux ){
 			game->players[game->state.next].board.matrix[y+aux*directions->dir[0]][x+aux*directions->dir[1]] = 0;
 			aux--;
-	}
+		}
 		directions->dir[0] *= -1;
 		directions->dir[1] *= -1;
 		aux = i-1;
@@ -67,50 +94,45 @@ lookForLine(game_t *game, size_t x, size_t y, directions_t *directions){
 			aux--;
 		}
 	}
-	return i+j-2;
+	return i+j-2;*/
 }
 
-int 
-winningPlay(game_t *game, size_t x, size_t y, bool player){
-	int blanks=0;
-	int previousblanks;
-	int multilines = 0;
-	int i;
-	directions_t directions[]={ {{0,1}} , {{1,0}} , {{1,1}} , {{-1,1}} };
+int winningPlay( game_t *game, int x, int y, bool player ){
+
+	int i, aux, emptySpots=0, lines = 0;
+	direction_t directions[]={ {0,1}, {1,0}, {1,1}, {-1,1} };
+
 	for( i = 0 ; i < 4 ; i++){
-		previousblanks = blanks;
-		blanks += lookForLine(game, x, y, &directions[i]);
-		if (previousblanks!= blanks)
-			multilines++;
+		aux = lookForLine( game, x, y, directions[i] );
+		if(aux){
+			lines++;
+			emptySpots += aux;
+		}
 	}
-	if (blanks>0){
+	if(!emptySpots){
+		emptySpots++;
 		game->players[game->state.next].board.matrix[y][x] = 0;
-		blanks++;
+		game->players[game->state.next].board.emptySpots += emptySpots;
+		if( lines > 1 )
+			game->players[game->state.next].board.points += 8;
+		else
+			switch( emptySpots - game->options.tokensPerLine ){
+				case 0:
+					game->players[game->state.next].board.points += 1;
+					break;
+				case 1:
+					game->players[game->state.next].board.points += 2;
+					break;
+				case 2:
+					game->players[game->state.next].board.points += 4;
+					break;
+				case 3:
+					game->players[game->state.next].board.points += 6;
+					break;
+				default:
+					game->players[game->state.next].board.points += 8;
+					break;
+			}
 	}
-	if (player && multilines){
-		if (multilines > 1 || blanks-3 > game->options.tokensPerLine )
-			game->players[game->state.next].board.points+= 8;
-		else if (blanks == game->options.tokensPerLine)
-			game->players[game->state.next].board.points+= 1;
-		else if (blanks-1 == game->options.tokensPerLine)
-			game->players[game->state.next].board.points+= 2;
-		else if (blanks-2 == game->options.tokensPerLine)
-			game->players[game->state.next].board.points+= 4;
-		else if (blanks-3 == game->options.tokensPerLine)
-			game->players[game->state.next].board.points+= 6;
-	}
-	game->players[game->state.next].board.emptySpots+= blanks;
-	return blanks;
-	
-}
-
-#include <stdio.h>
-void actualizeTimeLeft( game_t * game ){
-	
-	clock_t newTime = clock();
-	game->state.timeLeft -= newTime - game->state.lastTime;
-	char a[25];
-	sprintf( a, "\033[91m clocks: %ld\n", clock());
-	drawPanel(a);
-	game->state.lastTime = newTime;
+	return emptySpots;
 }
