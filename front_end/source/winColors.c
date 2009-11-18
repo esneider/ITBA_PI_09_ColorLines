@@ -33,7 +33,11 @@ const char color2font_bkcolor[] =
   BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_BLUE | BACKGROUND_INTENSITY
 };
 
-
+/**
+* Sets the fontcolor if the operating system is windows.
+*
+* @param	c	a code depending on the desired color
+*/
 void textcolor( color c ){
 	WORD wColor; 
 	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -45,7 +49,11 @@ void textcolor( color c ){
 		SetConsoleTextAttribute(hStdOut, wColor);
 	}
 }
-
+/**
+* Sets the backcolor if the operating system is windows.
+*
+* @param	c	a code depending on the desired color
+*/
 void backcolor( color c ){
 	WORD wColor; 
 	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -57,7 +65,11 @@ void backcolor( color c ){
 		SetConsoleTextAttribute(hStdOut, wColor);
 	}
 }
-
+/**
+* Sets the text attribute if the operating system is windows.
+*
+* @param	c	a code depending on the desired color
+*/
 void textattr( attr a ){
 	if( !USE_COLORS ) return;
 	if( a == CLEAR ){
