@@ -1,7 +1,4 @@
-/**
-* playGame.c
-* Handles the gameplay, counts points and adds tokens per turn.
-*/
+// playGame.c
 #include <stdbool.h>
 #include <time.h>
 #include "error.h"
@@ -11,16 +8,19 @@
 #include "playGame.h"
 #include "userInterface.h"
 
+
 /**
 * WTF?
 *
 */
+
 bool notFree( game_t * game, int nPlayer, size_t x, size_t y, color c){
 	return false;
 }
 // TODO TODO TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // TODO TODO TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // TODO TODO TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 
 /**
 * Fills the board with a certain number of random tokens.
@@ -31,6 +31,7 @@ bool notFree( game_t * game, int nPlayer, size_t x, size_t y, color c){
 * @param force		indicates if when a line is made, and tokens are erased,
 *					tokens should still be filled until @a cant are reached
 */
+
 void randFill( game_t * game, int nPlayer, size_t cant, bool force ){
 	int i;
 	size_t x, y;
@@ -54,8 +55,9 @@ typedef struct {
 	int x,y;
 }direction_t;
 
+
 /**
-* Look for line, given a position [@a x,@a y] checks for tokens of the same 
+* Look for line, given a position [x,y] checks for tokens of the same 
 * color. If tokens is greater than or equal to tokens per line,
 * erases the line.
 *
@@ -63,7 +65,6 @@ typedef struct {
 * @param x 		Coordinate.
 * @param y 		Coordinate.
 * @param dir	Structure, where to move while checking for tokens.
-*
 * @return 		new emptySpots, tokens extrancted from the board.
 */
 
@@ -101,20 +102,23 @@ static int lookForLine( game_t * game, int x, int y, direction_t dir ){
 	return 0;
 }
 
+
 /**
-* Winning Play uses {@link lookForLine()}, if @a tokens returned by
-* {@c lookForLine} is greater than 1 erases position [@a x,@a y] 
-* and increases the score depending on number of lines
-* made and tokens aligned.
+* Winning Play uses {@link lookForLine}, if tokens return by lookForLine is
+* greater than 1 erases position [x,y], increases the score depending on
+* number of lines made and tokens aligned.
 *
-* @param game	Game structure.
-* @param x 		Coordinate.
-* @param y 		Coordinate.
+* @param game	game structure
+* @param x 		coordinate
+* @param y 		coordinate
+* @param 
 *
-* @return 		number of lines deleted.
+* @return number of lines deleted
+*
+* @see lookForLine()
 */
 
-int winningPlay( game_t *game, int x, int y ){
+int winningPlay( game_t *game, int x, int y, bool countPoints ){
 
 	int i, aux, emptySpots=0, lines = 0;
 	direction_t directions[]={ {0,1}, {1,0}, {1,1}, {-1,1} };
@@ -130,26 +134,28 @@ int winningPlay( game_t *game, int x, int y ){
 		emptySpots++;
 		game->players[game->state.next].board.matrix[y][x] = 0;
 		game->players[game->state.next].board.emptySpots += emptySpots;
-		if( lines > 1 )
-			game->players[game->state.next].board.points += 8;
-		else
-			switch( emptySpots - game->options.tokensPerLine ){
-				case 0:
-					game->players[game->state.next].board.points += 1;
-					break;
-				case 1:
-					game->players[game->state.next].board.points += 2;
-					break;
-				case 2:
-					game->players[game->state.next].board.points += 4;
-					break;
-				case 3:
-					game->players[game->state.next].board.points += 6;
-					break;
-				default:
-					game->players[game->state.next].board.points += 8;
-					break;
-			}
+		if( countPoints ){
+			if( lines > 1 )
+				game->players[game->state.next].board.points += 8;
+			else
+				switch( emptySpots - game->options.tokensPerLine ){
+					case 0:
+						game->players[game->state.next].board.points += 1;
+						break;
+					case 1:
+						game->players[game->state.next].board.points += 2;
+						break;
+					case 2:
+						game->players[game->state.next].board.points += 4;
+						break;
+					case 3:
+						game->players[game->state.next].board.points += 6;
+						break;
+					default:
+						game->players[game->state.next].board.points += 8;
+						break;
+				}
+		}
 	}
 	return emptySpots;
 }
