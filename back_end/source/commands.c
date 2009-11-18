@@ -33,7 +33,8 @@ const command_t commands[] = {
 	{"help", help}
 };
 /**
-* Handles the given command. 
+* Handles the given command. Use {@link #commands[](game_t *, int, char **,
+* char*)} to handle each command.
 * 
 * @param game 	contains every information needed of the current game
 * @param s		containins the command about to be processed
@@ -149,7 +150,9 @@ bool areConnected( game_t * game, int x1, int y1, int x2, int y2 ){
 **********************************************************************/
 
 /**
-* Moves token from a position to another checking for winning and losing plays.	
+* Moves token from a position to another checking for winning and losing plays.
+* Use {@link #areConnected(game_t *, int, int ,int int)} to check valid paths.
+* Use {@link #winningPlay(game_t *, int, int, bool)} to see if there are lines.
 * 
 * @param game 	contain every information needed on the current game
 * @param argc	quantity of items in argv
@@ -251,7 +254,8 @@ bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 **********************************************************************/
 
 /**
-* Saves the current state of the game.	
+* Saves the current state of the game.	Use {@link #writeGame(game_t *, char *)}
+* to write the acurrate file.
 * 
 * @param game 	contains every information needed on the current game
 * @param argc	quantity of items in argv

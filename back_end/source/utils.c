@@ -34,7 +34,6 @@ char ** newMatrix( int height, int width ){
 *
 * @param	mat		the matrix of characters about to be freed
 * @param	height	the height of the matrix
-* @return 	void	
 */
 void freeMatrix( char ** mat, int height ){
 	int i;
@@ -49,7 +48,6 @@ void freeMatrix( char ** mat, int height ){
 * @param	to		output matrix in wich from was copied
 * @param 	height	the height of the matrix
 * @param	width 	the width of the matrix
-* @return	void
 */
 void copyMatrix( char ** from, char ** to, int height, int width ){
 	for( height-- ; height >= 0 ; height-- )
@@ -69,7 +67,6 @@ bool entre( const int a, const int b, const int c ){
 /**
 * Clears the entrance buffer.
 *
-* @return	void
 */
 void clearBuffer(){
 	while(getchar() != '\n');

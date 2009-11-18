@@ -5,7 +5,6 @@ static error nError;
 /**
 * Sets the variable nError as there is no error.
 *
-* @return void
 */
 void clearError(){
 	nError = NOERROR;
@@ -23,7 +22,6 @@ error errorCode(){
 * Sets the variable nError as the according error.
 *
 * @param num	represents the kind of error
-* @return void
 */
 void raiseError( error num ){
 	nError = num;

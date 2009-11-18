@@ -31,7 +31,7 @@
 * Creates a new game.
 *
 * @param options	contains options about the current game
-* @return game_t 	structure with all the data about the game
+* @return game_t 	contains all the data about the game
 */
 game_t * newGame( options_t * options ){
 
@@ -96,7 +96,6 @@ game_t * newGame( options_t * options ){
 * Frees the momery of any reserved space by the game.
 *
 * @param  game	the information of the game about to be freed
-* @return void
 */
 void freeGame( game_t * game ){
 	int i;
@@ -112,7 +111,6 @@ void freeGame( game_t * game ){
 *
 * @param  game	contains all the data about the game
 * @param  file	contains the name of file about to be saved
-* @return void
 */
 void writeGame( game_t * game, char * file ){
 	int i,x,y;
@@ -189,9 +187,9 @@ static bool validateGame( game_t * game ){
 	return true;
 }
 /**
-* Reads a game from a file.
+* Reads a game from a file.  Use {@link #newGame(options_t)} to load the game.
 * 
-* @param file	contains the name of the file about to be read
+* @param file	contains the name of the file about to be read.
 * @return 		a pointer to a game_t containing all the data about the game
 */
 game_t * readGame(char * file){
