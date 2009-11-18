@@ -20,7 +20,7 @@ typedef enum{
 *@param a lower bound
 *@param b upper bound
 *
-*@return sol integer between a and b
+*@return integer between a and b
 */
 static int askInt( const int a, const int b ){
 	int sol;
@@ -44,7 +44,7 @@ static int askInt( const int a, const int b ){
 }
 
 /**
-*Reads two integers and asserts they are in the intervals [a1,b1] and [a2,b2] respectively.
+*Reads two integers and asserts they are in the intervals [a1,b1] and [a2,b2] *respectively.
 *
 *@param a1 lower bound for the first integer
 *@param *n1 pointer to first element
@@ -53,7 +53,7 @@ static int askInt( const int a, const int b ){
 *@param *n2 pointer to the second element
 *@param b2 upper bound for the second integer
 
-*@return void
+*@return
 */
 
 static void ask2Int( const int a1, int * n1, const int b1,
@@ -80,7 +80,9 @@ static void ask2Int( const int a1, int * n1, const int b1,
 /**
 *Reads a string and asserts it's not empty.
 *
-*
+*@param str empty string
+
+*@return string with the filename
 */
 
 static char * askString( char * str ){
@@ -104,9 +106,9 @@ static char * askString( char * str ){
 /**
 *Choose game mode. Use {@link askInt{1, 5}} to ask for an integer.
 *
-*@param void
+*@param
 
-*@return modeOption_t game mode
+*@return game mode
 */
  
 static modeOption_t chooseMode(){
@@ -132,7 +134,7 @@ static modeOption_t chooseMode(){
 *
 *@param mode game mode
 
-*@return options structure containing the options chosen.
+*@return structure containing the options chosen.
 */
 
 static options_t chooseOptions( modus_t mode ){
@@ -174,8 +176,16 @@ static options_t chooseOptions( modus_t mode ){
 	return options;
 }
 
+/**
+*Display game menu. Use {@link chooseMode},  for modes 1, 2 and 3 
+*use {@link chooseOptions} and {@link newGame}, for mode 4 
+*use {@link askString} and {@link readGame}.
+*
+*@param void
 
-// Display game menu
+*@return If mode is Quit Null, else a pointer to the main structure of the game.
+*/
+
 game_t * menu(){
 
 	options_t options;
