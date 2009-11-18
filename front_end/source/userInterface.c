@@ -166,6 +166,14 @@ void drawPanel( char * message ){
 	textattr(CLEAR);
 }
 
+/**
+* Makes sure a command is '\n' terminated and copies it into the buffer.
+*
+* @param restul	string from which to take the command.
+*
+* @return
+*/
+
 void askCommand( char * result ){
 	backcolor(NEGRO);
 	textcolor(BLANCO);
