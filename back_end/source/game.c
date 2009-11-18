@@ -207,6 +207,7 @@ game_t * readGame(char * file){
 	state.next = 0;
 	if( options.mode == TIMEMODE ){
 		SAFE_FREAD_INT( state.timeLeft );
+		state.lastTime = time(NULL);
 	} else
 	if( options.mode == MULTIPLMODE ){
 		SAFE_FREAD_INT( state.next );
