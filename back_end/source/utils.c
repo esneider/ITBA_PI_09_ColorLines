@@ -6,7 +6,13 @@
 #include "error.h"
 #include "utils.h"
 
-// creates a new matrix of height x width and 0es it
+/**
+* Creates a new matrix and starts its elemnts in 0.
+*
+* @param	height	height of the new matrix
+* @param 	width	width of the new matrix
+* @returns			a matrix of characters. every element in the matrix is a 0
+*/
 char ** newMatrix( int height, int width ){
 	int i;
 	char ** sol = malloc( height * sizeof(char*) );
@@ -23,27 +29,60 @@ char ** newMatrix( int height, int width ){
 	}
 	return sol;
 }
-
+/**
+* Frees the reserved memory for a matrix.
+*
+* @param	mat		the matrix of characters about to be freed
+* @param	height	the height of the matrix
+* @return 	void	
+*/
 void freeMatrix( char ** mat, int height ){
 	int i;
 	for( i = 0 ; i < height ; i++ )
 		free( mat[i] );
 	free(mat);
 }
-
+/**
+*	Copies a matrix to another one.
+*
+* @param	from	the matrix to be copied
+* @param	to		output matrix in wich from was copied
+* @param 	height	the height of the matrix
+* @param	width 	the width of the matrix
+* @return	void
+*/
 void copyMatrix( char ** from, char ** to, int height, int width ){
 	for( height-- ; height >= 0 ; height-- )
 		memcpy( to[height], from[height], width );
 }
-
+/**
+* Checks if a number is between two other numbers.
+*
+* @param	a	the lower limit b is permitted to be
+* @param	b	the number about to be compared
+* @param	c 	the upper limit b is permitted to be
+* @return		true if b is between a and c, otherwise, false
+*/
 bool entre( const int a, const int b, const int c ){
 	return a<=b && b<c;
 }
-
+/**
+* Clears the entrance buffer.
+*
+* @return	void
+*/
 void clearBuffer(){
 	while(getchar() != '\n');
 }
-
+/**
+* Checks if a number is between to other numbers. Might return an error.
+*
+* @param	a	the lower limit b is permitted to be
+* @param	b	the number about to be compared
+* @param	c 	the upper limit b is permitted to be
+* @param	err	an output string containing the type of error in case there is one
+* @return		true if b is between a and c, otherwise, false
+*/
 bool validateInt( int a, int b, int c, char * err ){
 	if( !entre(a,b,c) ){
 		sprintf( err, "Rank error:\nIt must belong to the "
@@ -52,15 +91,29 @@ bool validateInt( int a, int b, int c, char * err ){
 	}
 	return true;
 }
-
+/**
+* Calculetes the minimum between two numbers.
+*
+* @param a	one of the numbers to be compared
+* @param b	the other number to be compared
+* @return	the minimum of the two numbers
+*/
 int min( int a, int b ){
 	return (a<=b)?a:b;
 }
-
+/**
+* Calculetes the maximum between two numbers.
+*
+* @param a	one of the numbers to be compared
+* @param b	the other number to be compared
+* @return	the maximum of the two numbers
+*/
 int max( int a, int b ){
 	return (a>=b)?a:b;
 }
-
+/**
+* WTF HACE??????????????
+*/
 double editDistance( const char * str1, const char * str2 ){
 	int i,j,cost=0;
 	int s1len=strlen(str1);
