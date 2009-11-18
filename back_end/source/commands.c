@@ -1,4 +1,8 @@
-// commands.c
+/**
+* commands.c
+* Handles the commands enter by the user during gameplay.
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -259,7 +263,7 @@ bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 * to write the acurrate file.
 * 
 * @param game 	contains every information needed on the current game
-* @param argc	quantity of items in argv
+* @param argc	quantity of items in @a argv
 * @param argv   contains the parameters needed by the command
 * @param err    its an output string containing the type of error
 * 
@@ -335,7 +339,7 @@ bool throwItem( game_t  * game, int argc, char ** argv, char * err ){
 * Undo the last move made.	
 * 
 * @param game 	contains every information needed on the current game
-* @param argc	quantity of items in argv
+* @param argc	quantity of items in @a argv
 * @param argv   contains the parameters needed by the command
 * @param err    its an output containing the type of error
 * 
@@ -387,7 +391,7 @@ bool undo( game_t * game, int argc, char ** argv, char * err ){
 * Quits the game.	
 * 
 * @param game 	contains every information needed on the current game
-* @param argc	quantity of items in argv
+* @param argc	quantity of items in @a argv
 * @param argv   contains the parameters needed by the command
 * @param err    its an output containing the type of error
 * 
@@ -419,7 +423,7 @@ bool quit( game_t * game, int argc, char ** argv, char * err ){
 * Prints help for the user.	
 * 
 * @param game 	contains every information needed on the current game
-* @param argc	quantity of items in argv
+* @param argc	quantity of items in @a argv
 * @param argv   contains the parameters needed by the command
 * @param err    its an output containing the type of error
 * 
