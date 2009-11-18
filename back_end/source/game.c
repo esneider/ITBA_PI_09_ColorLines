@@ -124,8 +124,8 @@ void writeGame( game_t * game, char * file ){
 	SAFE_FWRITE_INT( game->options.mode );
 	if( game->options.mode == TIMEMODE ){
 		time_t aux = time(NULL);
-		game->state.timeLeft -= aux - game->state.timeLeft;
-		game->state.timeLeft = aux;
+		game->state.timeLeft -= aux - game->state.lastTime;
+		game->state.lastTime = aux;
 		SAFE_FWRITE_INT( game->state.timeLeft );
 	}else
 	if( game->options.mode == MULTIPLMODE )
@@ -146,8 +146,8 @@ void writeGame( game_t * game, char * file ){
 	raiseErrorIf(i==0,FILEERROR,);
 }
 /**
-* Validates if a game is valid.
-* 
+* Validates a game, in order to prevent corrupted input files.
+*
 * @param  game	contains all the data about the game
 * @return 		true if the game is valid, otherwise, false
 */
@@ -181,14 +181,15 @@ static bool validateGame( game_t * game ){
 			return false;
 		for( y = 0 ; y < game->options.height ; y++ )
 			for( x = 0 ; x < game->options.width ; x++ )
-				if( !entre( 0, game->players[i].board.matrix[y][x], MAX_COLORS +1))
+				if( !entre( 0, game->players[i].board.matrix[y][x],
+													game->options.numColors +1))
 					return false;
 	}
 	return true;
 }
 /**
 * Reads a game from a file.  Use {@link #newGame(options_t)} to load the game.
-* 
+*
 * @param file	contains the name of the file about to be read.
 * @return 		a pointer to a game_t containing all the data about the game
 */
@@ -200,7 +201,7 @@ game_t * readGame(char * file){
 	//opening the file
 	FILE * in  = fopen(file,"rb");
 	raiseErrorIf(in,FILEERROR,NULL);
-	
+
 	//reading the hole file
 	SAFE_FREAD_INT( options.mode );
 	state.next = 0;

@@ -18,8 +18,7 @@ typedef enum{
 * Reads an integer and asserts it's in the interval [a,b].
 *
 * @param a	lower bound
-* @param b 	upper bound
-*
+* @param b	upper bound
 * @return 	integer between a and b
 */
 static int askInt( const int a, const int b ){
@@ -48,10 +47,10 @@ static int askInt( const int a, const int b ){
 * respectively.
 *
 * @param a1 	lower bound for the first integer
-* @param *n1 	pointer to first element
+* @param n1 	pointer to first element
 * @param b1 	upper bound for the first integer
 * @param a2 	lower bound for the second integer
-* @param *n2 	pointer to the second element
+* @param n2 	pointer to the second element
 * @param b2 	upper bound for the second integer
 */
 
@@ -79,9 +78,8 @@ static void ask2Int( const int a1, int * n1, const int b1,
 /**
 * Reads a string and asserts it's not empty.
 *
-* @param str 	empty string
-*
-* @return string with the filename
+* @param str	empty string
+* @return	 	string with the filename
 */
 
 static char * askString( char * str ){
@@ -103,9 +101,7 @@ static char * askString( char * str ){
 }
 
 /**
-* Choose game mode. Use {@link askInt{1, 5}} to ask for an integer.
-*
-* @param
+* Choose game mode. Use {@link askInt()} to ask for an integer.
 *
 * @return	game mode
 */
@@ -129,11 +125,10 @@ static modeOption_t chooseMode(){
 }
 
 /**
-* Choose game options. Use {@link ask2Int} for dimensions of the matrix. 
-* Use {@link askInt} for other game options.
+* Choose game options. Use {@link ask2Int()} for dimensions of the matrix. 
+* Use {@link askInt()} for other game options.
 *
 * @param mode 	game mode
-*
 * @return 		structure containing the options chosen.
 */
 
@@ -177,12 +172,10 @@ static options_t chooseOptions( modus_t mode ){
 }
 
 /**
-* Display game menu. Use {@link chooseMode},  for modes 1, 2 and 3 
-* use {@link chooseOptions} and {@link newGame}, for mode 4 
-* use {@link askString} and {@link readGame}.
+* Displays the game menu. Uses {@link chooseMode()},
+* for @b MODE0, @b MODE1, @b MODE2 calls {@link chooseOptions()}
+* for @b READFROMFILE calls {@link readGame()}.
 *
-* @param
-
 * @return 	If mode is Quit Null, else a pointer to the 
 * 			main structure of the game.
 */
