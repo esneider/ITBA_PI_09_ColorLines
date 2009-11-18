@@ -9,9 +9,10 @@
 #include "menu.h"
 #include "userInterface.h"
 #include "playGame.h"
+
 /**
 * This function is actually the hole game loop. It takes care of calling every
-* other function, including the ones on the frontend, which prints everything,
+* other function, including the ones on the frontend, which print everything,
 * and the ones on the back end, which process everything.
 *
 * @return	a code to be handled by the operating system depending of the state

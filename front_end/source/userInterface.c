@@ -115,7 +115,7 @@ void drawTable( game_t * game ){
 /**
 * prints a text on screen.
 *
-* @param	str	contains what it is about to be printed
+* @param str	contains what it is about to be printed
 */
 void drawText( char * str ){
 	static char buffer[ MAX_TEXT ] = "";

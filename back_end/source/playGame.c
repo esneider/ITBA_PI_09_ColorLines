@@ -22,10 +22,11 @@ bool notFree( game_t * game, int nPlayer, size_t x, size_t y, color c){
 /**
 * Fills the board with a certain number of random tokens.
 *
-* @param	game	contains all the information about the current game
-* @param	nPlayer	indicates the current player
-* @param	cant 	indicates the number of tokens about to be placed
-* @param	force	indicates if the tokens can be overstepped (ES ESO?)
+* @param game		contains all the information about the current game
+* @param nPlayer	indicates the current player
+* @param cant 		indicates the number of tokens about to be placed
+* @param force		indicates if when a line is made, and tokens are erased,
+*					tokens should still be filled until @a cant are reached
 */
 void randFill( game_t * game, int nPlayer, size_t cant, bool force ){
 	int i;
