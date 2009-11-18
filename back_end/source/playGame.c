@@ -38,7 +38,6 @@ typedef struct {
 	int x,y;
 }direction_t;
 
-char dd[20];
 /**
 * Look for line, given a position [x,y] checks for tokens of the same 
 * color. If tokens is greater than or equal to tokens per line,
@@ -48,8 +47,7 @@ char dd[20];
 * @param x 		Coordinate.
 * @param y 		Coordinate.
 * @param dir	Structure, where to move while checking for tokens.
-
-* return 		new emptySpots, tokens extrancted from the board.
+* @return 		new emptySpots, tokens extrancted from the board.
 */
 
 static int lookForLine( game_t * game, int x, int y, direction_t dir ){
@@ -94,8 +92,7 @@ static int lookForLine( game_t * game, int x, int y, direction_t dir ){
 * @param game	Game structure.
 * @param x 		Coordinate.
 * @param y 		Coordinate.
-
-*@return 		number of lines deleted.
+* @return 		number of lines deleted.
 */
 
 int winningPlay( game_t *game, int x, int y ){

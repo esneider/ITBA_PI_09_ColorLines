@@ -14,9 +14,6 @@ static int commandsBufferPos = -1;
 /**
 * Clears the screen printing '\n'
 *
-* @param
-
-* @return
 */
 
 void clearScreen(){
@@ -32,8 +29,6 @@ void clearScreen(){
 * necessary the time left.
 *
 * @param game 	Game structure
-
-*@return
 */
 
 void drawTable( game_t * game ){

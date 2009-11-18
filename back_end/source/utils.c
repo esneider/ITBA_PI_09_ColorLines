@@ -9,9 +9,9 @@
 /**
 * Creates a new matrix and starts its elemnts in 0.
 *
-* @param	height	height of the new matrix
-* @param 	width	width of the new matrix
-* @returns			a matrix of characters. every element in the matrix is a 0
+* @param height	height of the new matrix
+* @param width	width of the new matrix
+* @return		a matrix of characters. every element in the matrix is a 0
 */
 char ** newMatrix( int height, int width ){
 	int i;
@@ -29,11 +29,12 @@ char ** newMatrix( int height, int width ){
 	}
 	return sol;
 }
+
 /**
 * Frees the reserved memory for a matrix.
 *
-* @param	mat		the matrix of characters about to be freed
-* @param	height	the height of the matrix
+* @param mat	the matrix of characters about to be freed
+* @param height	the height of the matrix
 */
 void freeMatrix( char ** mat, int height ){
 	int i;
@@ -41,29 +42,32 @@ void freeMatrix( char ** mat, int height ){
 		free( mat[i] );
 	free(mat);
 }
+
 /**
-*	Copies a matrix to another one.
+* Copies a matrix to another one.
 *
-* @param	from	the matrix to be copied
-* @param	to		output matrix in wich from was copied
-* @param 	height	the height of the matrix
-* @param	width 	the width of the matrix
+* @param from	the matrix to be copied
+* @param to		output matrix in wich from was copied
+* @param height	the height of the matrix
+* @param width 	the width of the matrix
 */
 void copyMatrix( char ** from, char ** to, int height, int width ){
 	for( height-- ; height >= 0 ; height-- )
 		memcpy( to[height], from[height], width );
 }
+
 /**
 * Checks if a number is between two other numbers.
 *
-* @param	a	the lower limit b is permitted to be
-* @param	b	the number about to be compared
-* @param	c 	the upper limit b is permitted to be
-* @return		true if b is between a and c, otherwise, false
+* @param a	the lower limit @a b is permitted to be
+* @param b	the number about to be compared
+* @param c 	the upper limit @a b is permitted to be
+* @return	true if @a b is between @a a and @a c, otherwise, false
 */
 bool entre( const int a, const int b, const int c ){
 	return a<=b && b<c;
 }
+
 /**
 * Clears the entrance buffer.
 *
@@ -71,14 +75,15 @@ bool entre( const int a, const int b, const int c ){
 void clearBuffer(){
 	while(getchar() != '\n');
 }
+
 /**
 * Checks if a number is between to other numbers. Might return an error.
 *
-* @param	a	the lower limit b is permitted to be
-* @param	b	the number about to be compared
-* @param	c 	the upper limit b is permitted to be
-* @param	err	an output string containing the type of error in case there is one
-* @return		true if b is between a and c, otherwise, false
+* @param a		the lower limit @a b is permitted to be
+* @param b		the number about to be compared
+* @param c 		the upper limit @a b is permitted to be
+* @param err	an output string containing the type of error in case there is one
+* @return		true if @a b is between @a a and @a c, otherwise, false
 */
 bool validateInt( int a, int b, int c, char * err ){
 	if( !entre(a,b,c) ){
@@ -88,6 +93,7 @@ bool validateInt( int a, int b, int c, char * err ){
 	}
 	return true;
 }
+
 /**
 * Calculetes the minimum between two numbers.
 *
@@ -98,8 +104,9 @@ bool validateInt( int a, int b, int c, char * err ){
 int min( int a, int b ){
 	return (a<=b)?a:b;
 }
+
 /**
-* Calculetes the maximum between two numbers.
+* Calculates the maximum between two numbers.
 *
 * @param a	one of the numbers to be compared
 * @param b	the other number to be compared
@@ -108,8 +115,14 @@ int min( int a, int b ){
 int max( int a, int b ){
 	return (a>=b)?a:b;
 }
+
 /**
-* WTF HACE??????????????
+* Calculates the edit distance between @a str1 and @a str2.
+*
+* @param str1	first string
+* @param str2	second string
+* @return		a number between 0 and 1 that indicates similarity between
+*				@a str1 and @a str2. greater is better
 */
 double editDistance( const char * str1, const char * str2 ){
 	int i,j,cost=0;
