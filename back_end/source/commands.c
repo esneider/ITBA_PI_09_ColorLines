@@ -32,7 +32,6 @@ const command_t commands[] = {
 	{"help", help}
 };
 
-
 bool newCommand( game_t * game, char * s, char * err ){
 	int i;
 	bool sol;
@@ -62,7 +61,6 @@ bool newCommand( game_t * game, char * s, char * err ){
 		if( strncmp( argv[0], commands[i].com, strlen(commands[i].com) ) == 0 ){
 			err[0] = 0;
 			sol = commands[i].func( game, argc, argv, err );
-
 			if( errorCode() != NOERROR ){
 				err = errorMessage( errorCode() );
 				sol = false;
@@ -126,7 +124,7 @@ bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 	s[0] = 0;
 	for( i = 0 ; i < argc ; i++ )
 		strcat( s, argv[i] );
-
+	
 	int x1, y1, x2, y2;
 	i = sscanf( s, "[%d,%d][%d,%d]", &y1, &x1, &y2, &x2 );
 	if( i < 4 ){
@@ -154,10 +152,15 @@ bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 					"interval [0,%d]", game->options.width - 1 );
 		return false;
 	}
+	printf("%d %d %d\n",y1,x1, game->players[ game->state.next ].board.matrix[y1][x1]);
+	fflush(stdout);
 	if( game->players[ game->state.next ].board.matrix[y1][x1] == 0 ){
 		sprintf( err, "The origin position must not be empty" );
 		return false;
 	}
+	printf("bhjj\n");
+	fflush(stdout);
+	
 	if( game->players[ game->state.next ].board.matrix[y2][x2] != 0 ){
 		sprintf( err, "The target position must not be occupied" );
 		return false;
