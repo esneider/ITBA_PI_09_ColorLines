@@ -1,4 +1,7 @@
-// error.c
+/**
+* error.c
+* Handles all type of errors during the game.
+*/
 #include "error.h"
 
 static error nError;
