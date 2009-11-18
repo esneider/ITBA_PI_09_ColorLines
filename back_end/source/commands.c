@@ -1,8 +1,4 @@
-/**
-* commands.c
-* Handles the commands enter by the user during gameplay.
-*/
-
+// commands.c
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -38,8 +34,7 @@ const command_t commands[] = {
 };
 
 /**
-* Handles the given command. Use {@link #commands[](game_t *, int, char **,
-* char*)} to handle each command.
+* Handles the given command. 
 * 
 * @param game 	contains every information needed of the current game
 * @param s		containins the command about to be processed
@@ -155,9 +150,7 @@ bool areConnected( game_t * game, int x1, int y1, int x2, int y2 ){
 **********************************************************************/
 
 /**
-* Moves token from a position to another checking for winning and losing plays.
-* Use {@link #areConnected(game_t *, int, int ,int int)} to check valid paths.
-* Use {@link #winningPlay(game_t *, int, int, bool)} to see if there are lines.
+* Moves token from a position to another checking for winning and losing plays.	
 * 
 * @param game 	contain every information needed on the current game
 * @param argc	quantity of items in argv
@@ -234,7 +227,7 @@ bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 
 	// if makes a line, erase it and count points (winning play)
 	// else, randFill() and change turn
-	if( ! winningPlay( game, x2, y2) ){
+	if( ! winningPlay( game, x2, y2, true ) ){
 		
 		randFill( game, game->state.next, game->options.tokensPerTurn, false );
 		i = 0; 
@@ -259,11 +252,10 @@ bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 **********************************************************************/
 
 /**
-* Saves the current state of the game.	Use {@link #writeGame(game_t *, char *)}
-* to write the acurrate file.
+* Saves the current state of the game.	
 * 
 * @param game 	contains every information needed on the current game
-* @param argc	quantity of items in @a argv
+* @param argc	quantity of items in argv
 * @param argv   contains the parameters needed by the command
 * @param err    its an output string containing the type of error
 * 
@@ -339,7 +331,7 @@ bool throwItem( game_t  * game, int argc, char ** argv, char * err ){
 * Undo the last move made.	
 * 
 * @param game 	contains every information needed on the current game
-* @param argc	quantity of items in @a argv
+* @param argc	quantity of items in argv
 * @param argv   contains the parameters needed by the command
 * @param err    its an output containing the type of error
 * 
@@ -391,7 +383,7 @@ bool undo( game_t * game, int argc, char ** argv, char * err ){
 * Quits the game.	
 * 
 * @param game 	contains every information needed on the current game
-* @param argc	quantity of items in @a argv
+* @param argc	quantity of items in argv
 * @param argv   contains the parameters needed by the command
 * @param err    its an output containing the type of error
 * 
@@ -423,7 +415,7 @@ bool quit( game_t * game, int argc, char ** argv, char * err ){
 * Prints help for the user.	
 * 
 * @param game 	contains every information needed on the current game
-* @param argc	quantity of items in @a argv
+* @param argc	quantity of items in argv
 * @param argv   contains the parameters needed by the command
 * @param err    its an output containing the type of error
 * 

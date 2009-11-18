@@ -1,6 +1,5 @@
 // playGame.c
-#include <stdbool.h>
-#include <time.h>
+#include <stdlib.h>
 #include "error.h"
 #include "defines.h"
 #include "utils.h"
@@ -57,15 +56,16 @@ typedef struct {
 
 
 /**
-* Look for line, given a position [x,y] checks for tokens of the same 
+* Look for line, given a position [@a x,@a y] checks for tokens of the same 
 * color. If tokens is greater than or equal to tokens per line,
 * erases the line.
 *
-* @param game	Game structure.
-* @param x 		Coordinate.
-* @param y 		Coordinate.
-* @param dir	Structure, where to move while checking for tokens.
-* @return 		new emptySpots, tokens extrancted from the board.
+* @param game	Game structure
+* @param x 		Coordinate
+* @param y 		Coordinate
+* @param dir	Line direction to check
+*
+* @return new empty spots, tokens extrancted from the board
 */
 
 static int lookForLine( game_t * game, int x, int y, direction_t dir ){
@@ -104,14 +104,13 @@ static int lookForLine( game_t * game, int x, int y, direction_t dir ){
 
 
 /**
-* Winning Play uses {@link lookForLine}, if tokens return by lookForLine is
-* greater than 1 erases position [x,y], increases the score depending on
-* number of lines made and tokens aligned.
+* Checks for lines, erases them, actualizes emptySports and, if @a countPoints
+* is true, then it also actualizes points.
 *
-* @param game	game structure
-* @param x 		coordinate
-* @param y 		coordinate
-* @param 
+* @param game			game structure
+* @param x 				coordinate
+* @param y 				coordinate
+* @param countPoints	if false points won't be taken into account
 *
 * @return number of lines deleted
 *
