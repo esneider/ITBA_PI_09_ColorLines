@@ -1,4 +1,7 @@
-// menu.c
+/**
+* @file menu.c
+* Main menu for the game Colored Lines.
+*/
 #include <stdio.h>
 #include "error.h"
 #include "utils.h"
@@ -15,10 +18,11 @@ typedef enum{
 } modeOption_t;
 
 /**
-* Reads an integer and asserts it's in the interval [a,b].
+* Reads an integer and asserts it's in the interval [@a a,@a b].
 *
 * @param a	lower bound
 * @param b	upper bound
+*
 * @return 	integer between a and b
 */
 static int askInt( const int a, const int b ){
@@ -43,15 +47,17 @@ static int askInt( const int a, const int b ){
 }
 
 /**
-* Reads two integers and asserts they are in the intervals [a1,b1] and [a2,b2]
-* respectively.
+* Reads two integers and asserts they are in the intervals [@a a1,@a b1] and
+* [@a a2,@a b2] respectively.
 *
-* @param a1 	lower bound for the first integer
-* @param n1 	pointer to first element
-* @param b1 	upper bound for the first integer
-* @param a2 	lower bound for the second integer
-* @param n2 	pointer to the second element
-* @param b2 	upper bound for the second integer
+* @param a1 	lower bound for the first integer.
+* @param n1 	pointer to first element.
+* @param b1 	upper bound for the first integer.
+* @param a2 	lower bound for the second integer.
+* @param n2 	pointer to the second element.
+* @param b2 	upper bound for the second integer.
+*
+* @return
 */
 
 static void ask2Int( const int a1, int * n1, const int b1,
@@ -79,6 +85,7 @@ static void ask2Int( const int a1, int * n1, const int b1,
 * Reads a string and asserts it's not empty.
 *
 * @param str	empty string
+*
 * @return	 	string with the filename
 */
 
@@ -128,7 +135,8 @@ static modeOption_t chooseMode(){
 * Choose game options. Use {@link ask2Int()} for dimensions of the matrix. 
 * Use {@link askInt()} for other game options.
 *
-* @param mode 	game mode
+* @param mode 	Game mode.
+*
 * @return 		structure containing the options chosen.
 */
 
