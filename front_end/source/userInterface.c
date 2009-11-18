@@ -112,7 +112,11 @@ void drawTable( game_t * game ){
 
 	textattr(CLEAR);
 }
-
+/**
+* prints a text on screen.
+*
+* @param	str	contains what it is about to be printed
+*/
 void drawText( char * str ){
 	static char buffer[ MAX_TEXT ] = "";
 	if( str && str[0] )
