@@ -35,9 +35,9 @@ const command_t commands[] = {
 /**
 * Handles the given command. 
 * 
-* @param game 	pointer to a game_t structure containing every information needed on the current game
-* @param s		string containing the command about to be processed
-* @param err    its an output string containing the type of error
+* @param game 	contains every information needed of the current game
+* @param s		containins the command about to be processed
+* @param err    its an output containing the type of error
 *
 * @return 		false if there is an error, otherwise true
 */
@@ -100,7 +100,7 @@ bool newCommand( game_t * game, char * s, char * err ){
 /**
 * Checks if there is a valid path between two positions in the board
 *
-* @param game	pointer to a game_t structure containing every information needed on the current game
+* @param game	contains every information needed on the current game
 * @param x1		initial x coordenate of the path about to be checked
 * @oaram y1		initial y coordenate of the path about to be checked
 * @param x2		final x coordenate of the path about to be checked
@@ -151,10 +151,10 @@ bool areConnected( game_t * game, int x1, int y1, int x2, int y2 ){
 /**
 * Moves token from a position to another checking for winning and losing plays.	
 * 
-* @param game 	pointer to a game_t structure containing every information needed on the current game
+* @param game 	contain every information needed on the current game
 * @param argc	quantity of items in argv
-* @param argv   a vector of strings containing the parameters needed by the command
-* @param err    its an output string containing the type of error
+* @param argv   containins the parameters needed by the command
+* @param err    its an output containing the type of error
 * 
 * @return		true if the move could be made. otherwise, false
 */
@@ -253,9 +253,9 @@ bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 /**
 * Saves the current state of the game.	
 * 
-* @param game 	pointer to a game_t structure containing every information needed on the current game
+* @param game 	contains every information needed on the current game
 * @param argc	quantity of items in argv
-* @param argv   a vector of strings containing the parameters needed by the command
+* @param argv   contains the parameters needed by the command
 * @param err    its an output string containing the type of error
 * 
 * @return		true if the game could be saved. otherwise, false
@@ -291,10 +291,10 @@ bool save( game_t * game, int argc, char ** argv, char * err ){
 /**
 * Buys an item so that the player can have much more fun!	
 * 
-* @param game 	pointer to a game_t structure containing every information needed on the current game
+* @param game 	contains every information needed on the current game
 * @param argc	quantity of items in argv
-* @param argv   a vector of strings containing the parameters needed by the command
-* @param err    its an output string containing the type of error
+* @param argv   contains the parameters needed by the command
+* @param err    its an output containing the type of error
 * 
 * @return		true if the item could be bought. otherwise, false
 */
@@ -310,10 +310,10 @@ bool buyItem( game_t * game, int argc, char ** argv, char * err ){
 /**
 * Throws the item! Total mayhem in the board!	
 * 
-* @param game 	pointer to a game_t structure containing every information needed on the current game
+* @param game 	contains every information needed on the current game
 * @param argc	quantity of items in argv
 * @param argv   a vector of strings containing the parameters needed by the command
-* @param err    its an output string containing the type of error
+* @param err    its an output containing the type of error
 * 
 * @return		true if the itme could be thrown. otherwise, false
 */
@@ -329,10 +329,10 @@ bool throwItem( game_t  * game, int argc, char ** argv, char * err ){
 /**
 * Undo the last move made.	
 * 
-* @param game 	pointer to a game_t structure containing every information needed on the current game
+* @param game 	contains every information needed on the current game
 * @param argc	quantity of items in argv
-* @param argv   a vector of strings containing the parameters needed by the command
-* @param err    its an output string containing the type of error
+* @param argv   contains the parameters needed by the command
+* @param err    its an output containing the type of error
 * 
 * @return		true if the move could be undone. otherwise, false
 */
@@ -381,10 +381,10 @@ bool undo( game_t * game, int argc, char ** argv, char * err ){
 /**
 * Quits the game.	
 * 
-* @param game 	pointer to a game_t structure containing every information needed on the current game
+* @param game 	contains every information needed on the current game
 * @param argc	quantity of items in argv
-* @param argv   a vector of strings containing the parameters needed by the command
-* @param err    its an output string containing the type of error
+* @param argv   contains the parameters needed by the command
+* @param err    its an output containing the type of error
 * 
 * @return		true if the parameters were valid. otherwise, false
 */
@@ -413,10 +413,10 @@ bool quit( game_t * game, int argc, char ** argv, char * err ){
 /**
 * Prints help for the user.	
 * 
-* @param game 	pointer to a game_t structure containing every information needed on the current game
+* @param game 	contains every information needed on the current game
 * @param argc	quantity of items in argv
-* @param argv   a vector of strings containing the parameters needed by the command
-* @param err    its an output string containing the type of error
+* @param argv   contains the parameters needed by the command
+* @param err    its an output containing the type of error
 * 
 * @return		true if the parameters were valid. otherwise, false
 */
