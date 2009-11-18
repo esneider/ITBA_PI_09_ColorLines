@@ -33,7 +33,7 @@ void raiseError( error num ){
 * Returns the appropieate message depending on the kind of error.
 *
 * @param  error	represents the kind of error	
-* @return error depending on the kind of error
+* @return string depending on the kind of error
 */
 char * errorMessage( error num ){
 	switch(num){
