@@ -1,4 +1,5 @@
 // colorsFront.c
+#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include "error.h"
@@ -54,5 +55,6 @@ int main(){
 			}
 		}
 	}
+	printf("\n");
 	return EXIT_SUCCESS;
 }

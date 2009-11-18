@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <ctype.h>
 #include "error.h"
 #include "utils.h"
 #include "defines.h"
@@ -43,7 +44,7 @@ bool newCommand( game_t * game, char * s, char * err ){
 	argv = newMatrix( MAX_ARGS, MAX_COM_LEN );
 
 	if( errorCode() != NOERROR ){
-		err = errorMessage( errorCode() );
+		sprintf( err, "%s", errorMessage( errorCode() ) );
 		return false;
 	}
 
@@ -60,12 +61,13 @@ bool newCommand( game_t * game, char * s, char * err ){
 
 	for( i = 0 ; i < sizeof(commands)/ sizeof(command_t) ; i++ ){
 
-		if( strncmp( argv[0], commands[i].com, strlen(commands[i].com) ) == 0 ){
+		if( strncmp( argv[0], commands[i].com, strlen(commands[i].com) ) == 0
+							&& !isalpha( argv[0][strlen(commands[i].com)] ) ){
 			maxsim = 0;
 			err[0] = 0;
 			sol = commands[i].func( game, argc, argv, err );
 			if( errorCode() != NOERROR ){
-				err = errorMessage( errorCode() );
+				sprintf( err, "%s", errorMessage( errorCode() ) );
 				sol = false;
 			}
 			break;
@@ -217,15 +219,15 @@ bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 
 bool save( game_t * game, int argc, char ** argv, char * err ){
 
+	if( argc > 2 || strcmp( "save", argv[0] ) != 0 ){
+		sprintf( err, "Wrong usage\n"
+		"Try 'save --help' for more information");
+		return false;	
+	}
 	if( argc == 1 ){
 		sprintf( err, "Missing file operand\n"
 					"Try 'save --help' for more information");
 		return false;
-	}
-	if( argc > 2 ){
-		sprintf( err, "Wrong usage\n"
-					"Try 'save --help' for more information");
-		return false;	
 	}
 	if( strcmp( argv[1], "--help" ) == 0 ){
 		sprintf( err, "Usage: save filename\n"
@@ -268,7 +270,7 @@ bool undo( game_t * game, int argc, char ** argv, char * err ){
 					"and it can't be used two consecutive times" );
 		return false;
 	}
-	if( argc > 1 ){
+	if( argc > 1  || strcmp( "undo", argv[0] ) != 0 ){
 		sprintf( err, "Wrong usage\n"
 					"Try 'undo --help' for more information");
 		return false;
@@ -305,7 +307,7 @@ bool quit( game_t * game, int argc, char ** argv, char * err ){
 					"Quits the current game" );
 		return false;
 	}
-	if( argc > 1){
+	if( argc > 1 || strcmp( "quit", argv[0] ) != 0 ){
 		sprintf( err, "Wrong usage\n"
 			"Try 'quit --help' for more information");
 		return false;
@@ -324,6 +326,11 @@ bool help( game_t * game, int argc, char ** argv, char * err ){
 	if( argc == 2 && strcmp( argv[1], "--help" ) == 0 ){
 		sprintf( err, "Usage: help\n"
 					"Shows available commands" );
+		return false;
+	}
+	if( argc > 1 || strcmp( "help", argv[0] ) != 0 ){
+		sprintf( err, "Wrong usage\n"
+		"Try 'help --help' for more information");
 		return false;
 	}
 	sprintf( err, //"These commands are defined internally\n"
