@@ -1,4 +1,7 @@
-// playGame.c
+/**
+* playGame.c
+* Handles the gameplay, counts points and adds tokens per turn.
+*/
 #include <stdbool.h>
 #include <time.h>
 #include "error.h"
@@ -52,7 +55,7 @@ typedef struct {
 }direction_t;
 
 /**
-* Look for line, given a position [x,y] checks for tokens of the same 
+* Look for line, given a position [@a x,@a y] checks for tokens of the same 
 * color. If tokens is greater than or equal to tokens per line,
 * erases the line.
 *
@@ -60,6 +63,7 @@ typedef struct {
 * @param x 		Coordinate.
 * @param y 		Coordinate.
 * @param dir	Structure, where to move while checking for tokens.
+*
 * @return 		new emptySpots, tokens extrancted from the board.
 */
 
@@ -98,13 +102,15 @@ static int lookForLine( game_t * game, int x, int y, direction_t dir ){
 }
 
 /**
-* Winning Play uses {@link lookForLine}, if tokens return by lookForLine is
-* greater than 1 erases position [x,y], increases the score depending on
-* number of lines made and tokens aligned.
+* Winning Play uses {@link lookForLine()}, if @a tokens returned by
+* {@c lookForLine} is greater than 1 erases position [@a x,@a y] 
+* and increases the score depending on number of lines
+* made and tokens aligned.
 *
 * @param game	Game structure.
 * @param x 		Coordinate.
 * @param y 		Coordinate.
+*
 * @return 		number of lines deleted.
 */
 
