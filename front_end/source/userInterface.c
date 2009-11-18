@@ -64,7 +64,7 @@ void drawTable( game_t * game ){
 				if(col)
 					printf("%d", (int)col );
 				else
-					prontf(" ");
+					printf(" ");
 				textcolor(BLANCO);
 			}
 			printf(" |   ");
