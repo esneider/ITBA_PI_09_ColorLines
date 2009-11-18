@@ -11,7 +11,13 @@ static char commandsBuffer[ MAX_PANEL_LINES ][ MAX_COM_LEN + 1 ];
 
 static int commandsBufferPos = -1;
 
+/**
+*Clears the screen printing '\n'
+*
+*@param
 
+*@return
+*/
 
 void clearScreen(){
 	int i;
@@ -21,6 +27,14 @@ void clearScreen(){
 	textattr(CLEAR);
 }
 
+/**
+*Draw table prints the matrix of each player in the game, the score and if
+*necessary the time left.
+*
+*@param game Game structure
+
+*@return
+*/
 
 void drawTable( game_t * game ){
 	int i, j, player, col;
