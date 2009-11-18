@@ -62,7 +62,7 @@ game_t * newGame( options_t * options ){
 		sol->players[i].lastBoard.matrix =
 			newMatrix( sol->options.height, sol->options.width );
 
-			if( !sol->players[i].board.matrix || !sol->players[i].lastBoard.matrix ){
+		if( !sol->players[i].board.matrix || !sol->players[i].lastBoard.matrix ){
 			for( j = 0 ; j <= i ; j++ ){
 				freeMatrix( sol->players[j].lastBoard.matrix, sol->options.height );
 				freeMatrix( sol->players[j].board.matrix, sol->options.height );
@@ -163,6 +163,7 @@ static bool validateGame( game_t * game ){
 	}
 	return true;
 }
+
 game_t * readGame(char * file){
 	int i,x,y;
 	options_t options;
@@ -187,7 +188,9 @@ game_t * readGame(char * file){
 	SAFE_FREAD_INT( options.tokensPerLine );
 	SAFE_FREAD_INT( options.tokensPerTurn );
 
+	options.initialTokens = 0;
 	sol = newGame( &options );
+	raiseErrorIf(errorCode()==NOERROR,errorCode(),NULL);
 	sol->state = state;
 
 	for( i = 0 ; i < sol->numPlayers ; i++ ){
@@ -197,7 +200,7 @@ game_t * readGame(char * file){
 				SAFE_FREAD_CHAR( sol->players[i].board.matrix[y][x] );
 				sol->players[i].board.matrix[y][x] -= '0';
 				if( sol->players[i].board.matrix[y][x] )
-					sol->players[i].board.emptySpots --;
+					sol->players[i].board.emptySpots--;
 			}
 	}
 	raiseErrorIf(!fread( &i, sizeof(int), 1, in ),CORRUPTFILE,NULL);

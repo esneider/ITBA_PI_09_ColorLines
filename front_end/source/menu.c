@@ -22,7 +22,7 @@ typedef enum{
 *
 *@return sol integer between a and b
 */
-static int askInt( const int a, const int b){
+static int askInt( const int a, const int b ){
 	int sol;
 	char c;
 	static char error[MAX_ERR_LEN];
@@ -70,7 +70,7 @@ static void ask2Int( const int a1, int * n1, const int b1,
 		askCommand( buffer );
 		raiseErrorIf( errorCode() == NOERROR, errorCode(), );
 		error[0] = 0;
-		if( ( c = sscanf( buffer, " %d %d %c", n1, n2, &c)) !=2 && buffer[0]!='\n')
+		if( ( c = sscanf( buffer, " %d %d %c", n1, n2, &c ) ) != 2 && buffer[0] != '\n' )
 			sprintf( error, "Format error:\nMust be two integers, "
 						"space separated" );
 	}while( c != 2 || !validateInt( a1, *n1, b1+1, error ) ||
@@ -80,9 +80,7 @@ static void ask2Int( const int a1, int * n1, const int b1,
 /**
 *Reads a string and asserts it's not empty.
 *
-*@param str empty string
-
-*@return string with the filename
+*
 */
 
 static char * askString( char * str ){
@@ -108,7 +106,7 @@ static char * askString( char * str ){
 *
 *@param void
 
-*@return game mode
+*@return modeOption_t game mode
 */
  
 static modeOption_t chooseMode(){
@@ -130,12 +128,11 @@ static modeOption_t chooseMode(){
 }
 
 /**
-*Choose game options. Use {@link ask2Int} for dimensions of the matrix. 
-*Use {@link askInt} for other game options.
+*Choose game options. Use {@link ask2Int} for dimensions of the matrix. Use {@link askInt} for other game options.
 *
 *@param mode game mode
 
-*@return structure containing the options chosen.
+*@return options structure containing the options chosen.
 */
 
 static options_t chooseOptions( modus_t mode ){
@@ -177,16 +174,8 @@ static options_t chooseOptions( modus_t mode ){
 	return options;
 }
 
-/**
-*Display game menu. Use {@link chooseMode},  for modes 1, 2 and 3 
-*use {@link chooseOptions} and {@link newGame}, for mode 4 
-*use {@link askString} and {@link readGame}.
-*
-*@param void
 
-*@return If mode is Quit Null, else a pointer to the main structure of the game.
-*/
-
+// Display game menu
 game_t * menu(){
 
 	options_t options;

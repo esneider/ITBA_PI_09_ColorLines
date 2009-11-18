@@ -100,8 +100,8 @@ bool areConnected( game_t * game, int x1, int y1, int x2, int y2 ){
 		for( i = 0 ; i < sizeof(move)/sizeof(struct coord) ; i++ ){
 			x = queue[read].x + move[i].x;
 			y = queue[read].y + move[i].y;
-			if( entre(0,x,game->options.width)
-				&& entre(0,y,game->options.height)
+			if( entre( 0, x, game->options.width )
+				&& entre( 0, y, game->options.height )
 				&& game->players[ game->state.next ].board.matrix[y][x] == 0
 				&& !touched[y][x] ){
 						touched[y][x] = true;
@@ -109,7 +109,6 @@ bool areConnected( game_t * game, int x1, int y1, int x2, int y2 ){
 			}
 		}
 	}
-
 	return read < write;
 }
 

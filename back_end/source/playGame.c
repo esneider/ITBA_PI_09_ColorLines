@@ -12,7 +12,9 @@
 bool notFree( game_t * game, int nPlayer, size_t x, size_t y, color c){
 	return false;
 }
-
+// TODO TODO TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// TODO TODO TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// TODO TODO TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 void randFill( game_t * game, int nPlayer, size_t cant, bool force ){
 	int i;
 	size_t x, y;
