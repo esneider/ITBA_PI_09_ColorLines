@@ -27,7 +27,12 @@
 	do{ raiseErrorIf( fread( &(x), sizeof(char), 1, in ),				\
 					feof(in) ? CORRUPTFILE : FILEERROR, NULL ); }while(0)
 
-// creates a new game
+/**
+* Creates a new game.
+*
+* @param options	a pointer to an options_t structure containing data about the game
+* @return game_t structure with all the data about the game
+*/
 game_t * newGame( options_t * options ){
 
 	int i,j;
@@ -35,7 +40,7 @@ game_t * newGame( options_t * options ){
 	raiseErrorIf( sol, MEMORYERROR, NULL );
 
 	sol->options = *options;
-
+	//defining the game mode
 	switch( sol->options.mode ){
 		case SINGLEMODE:
 		case TIMEMODE:
@@ -48,14 +53,14 @@ game_t * newGame( options_t * options ){
 			sol->numPlayers = 0;
 			break;
 	};
-
+	//defining the players
 	sol->players = malloc( sol->numPlayers * sizeof(player_t) );
 	if( !sol->players ){
 		free( sol );
 		raiseError( MEMORYERROR );
 		return NULL;
 	}
-
+	//defining the players boards
 	for( i = 0 ; i < sol->numPlayers ; i++ ){
 		sol->players[i].board.matrix=
 			newMatrix( sol->options.height, sol->options.width );
@@ -80,14 +85,19 @@ game_t * newGame( options_t * options ){
 		sol->players[i].width = sol->options.width;
 		randFill( sol, i, sol->options.initialTokens, true );
 	}
-
+	//defining the starting conditions
 	sol->state.next = 0;
 	sol->state.lastTime = time(NULL);
 	sol->state.timeLeft = sol->options.initialSeconds;
 
 	return sol;
 }
-
+/**
+* Frees the momery of any reserved space by the game.
+*
+* @param  game	the game_t structure about to be freed
+* @return void
+*/
 void freeGame( game_t * game ){
 	int i;
 	for( i = 0 ; i <= game->numPlayers ; i++ ){
@@ -97,14 +107,22 @@ void freeGame( game_t * game ){
 	free( game->players );
 	free( game );
 }
-
+/**
+* Saves the current game by saving it in a file.
+*
+* @param  game	a pointer to a game_t containing all the data about the game
+* @param  file	a string containing the name of file about to be saved
+* @return void
+*/
 void writeGame( game_t * game, char * file ){
 	int i,x,y;
 	int int_;
 	char char_;
+	//opening the file
 	FILE * out = fopen(file, "wb");
 	raiseErrorIf(out,FILEERROR,);
-
+	
+	// saving all the content in the file
 	SAFE_FWRITE_INT( game->options.mode );
 	if( game->options.mode == TIMEMODE ){
 		time_t aux = time(NULL);
@@ -125,12 +143,19 @@ void writeGame( game_t * game, char * file ){
 			for( x = 0 ; x < game->options.width ; x++ )
 				SAFE_FWRITE_CHAR( game->players[i].board.matrix[y][x] + '0' );
 	}
+	//finishing and closing the file
 	i = fclose(out);
 	raiseErrorIf(i==0,FILEERROR,);
 }
-
+/**
+* Validates if a game is valid.
+* 
+* @param  game	a pointer to a game_t containing all the data about the game
+* @return 		true if the game is valid, otherwise, false
+*/
 static bool validateGame( game_t * game ){
 	int i,x,y;
+	//checking every option of the game
 	if( !entre( 0, game->options.mode, 3 ) )
 		return false;
 	if( game->options.mode == TIMEMODE &&
@@ -163,16 +188,22 @@ static bool validateGame( game_t * game ){
 	}
 	return true;
 }
-
+/**
+* Reads a game from a file.
+* 
+* @param file	string containing the name of the file about to be read
+* @return 		a pointer to a game_t containing all the data about the game
+*/
 game_t * readGame(char * file){
 	int i,x,y;
 	options_t options;
 	state_t state;
 	game_t * sol;
-
+	//opening the file
 	FILE * in  = fopen(file,"rb");
 	raiseErrorIf(in,FILEERROR,NULL);
-
+	
+	//reading the hole file
 	SAFE_FREAD_INT( options.mode );
 	state.next = 0;
 	if( options.mode == TIMEMODE ){
@@ -203,6 +234,7 @@ game_t * readGame(char * file){
 					sol->players[i].board.emptySpots--;
 			}
 	}
+	//finishing reading and closing the file
 	raiseErrorIf(!fread( &i, sizeof(int), 1, in ),CORRUPTFILE,NULL);
 	i = fclose(in);
 	raiseErrorIf(i==0,FILEERROR,NULL);
