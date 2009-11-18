@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "error.h"
 #include "utils.h"
 
@@ -54,4 +55,34 @@ bool validateInt( int a, int b, int c, char * err ){
 
 int min( int a, int b ){
 	return (a<=b)?a:b;
+}
+
+int max( int a, int b ){
+	return (a>=b)?a:b;
+}
+
+double editDistance( const char * str1, const char * str2 ){
+	int i,j,cost=0;
+	int s1len=strlen(str1);
+	int s2len=strlen(str2);
+	int mat[ s1len+1 ][ s2len+1 ];
+	
+	if( min( s1len, s2len ) < 3 )
+		return 0;
+	
+	for( i = 0 ; i <= s1len ; i++ )
+		mat[i][0] = i;
+	for( i = 0 ; i <= s2len ; i++ )
+		mat[0][i] = i;
+	
+	for( i = 0 ; i <= s1len ; i++ )
+		for( j = 0 ; j <= s2len ; j++ ){
+			cost = toupper(str1[i]) != toupper(str2[j]);
+			mat[i+1][j+1] =
+			min( mat[i][j+1]+1, min( mat[i+1][j]+1, mat[i][j]+cost ) );
+			if( i && j && toupper(str1[i]) == toupper(str2[j-1])
+						&& toupper(str1[i-1]) == toupper(str2[j]) )
+				mat[i+1][j+1] = min( mat[i+1][j+1], mat[i-1][j-1] + cost );
+		}
+		return 1 - mat[s1len][s2len] / (double)max( s1len, s2len );
 }

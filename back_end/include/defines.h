@@ -23,5 +23,6 @@
 #define MAX_COLORS 9
 #define MIN_TOK_PER_LINE 3
 
+#define MIN_SIMILARITY 0.5
 
 #endif // DEFINES_H

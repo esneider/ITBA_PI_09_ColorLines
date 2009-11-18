@@ -54,11 +54,14 @@ bool newCommand( game_t * game, char * s, char * err ){
 	if( argc < 1  ) return true;
 
 	sol = false;
-	sprintf( err, "Unknown command");
+	sprintf( err, "Unknown command" );
+	double auxsim, maxsim = 0;
+	int maxi;
 
-	for( i = 0 ; i < sizeof(commands)/ sizeof(command_t) ; i++ )
+	for( i = 0 ; i < sizeof(commands)/ sizeof(command_t) ; i++ ){
 
 		if( strncmp( argv[0], commands[i].com, strlen(commands[i].com) ) == 0 ){
+			maxsim = 0;
 			err[0] = 0;
 			sol = commands[i].func( game, argc, argv, err );
 			if( errorCode() != NOERROR ){
@@ -67,6 +70,13 @@ bool newCommand( game_t * game, char * s, char * err ){
 			}
 			break;
 		}
+		if( ( auxsim = editDistance( argv[0], commands[i].com ) ) > maxsim ){
+			maxsim = auxsim;
+			maxi = i;
+		}
+	}
+	if( maxsim >= MIN_SIMILARITY )
+		sprintf( err+15, "\nDid you meant \"%s\"?", commands[maxi].com );
 
 	freeMatrix( argv, MAX_ARGS );
 	return sol;

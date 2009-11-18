@@ -27,5 +27,12 @@ void clearBuffer();
 // returns min(a,b)
 int min( int a, int b );
 
+// returns max(a,b)
+int max( int a, int b );
+
+// return the similarity of str1 and str2 based on their edit distance
+// returns a number \in [0,1] 1=equal 0=different
+double editDistance( const char * str1, const char * str2 );
+
 
 #endif // UTILS_H
