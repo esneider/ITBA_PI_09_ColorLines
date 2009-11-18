@@ -5,50 +5,6 @@
 #include "utils.h"
 #include "colors.h"
 #include "playGame.h"
-#include "userInterface.h"
-
-
-/**
-* WTF?
-*
-*/
-
-bool notFree( game_t * game, int nPlayer, size_t x, size_t y, color c){
-	return false;
-}
-// TODO TODO TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// TODO TODO TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// TODO TODO TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
-/**
-* Fills the board with a certain number of random tokens.
-*
-* @param game		contains all the information about the current game
-* @param nPlayer	indicates the current player
-* @param cant 		indicates the number of tokens about to be placed
-* @param force		indicates if when a line is made, and tokens are erased,
-*					tokens should still be filled until @a cant are reached
-*/
-
-void randFill( game_t * game, int nPlayer, size_t cant, bool force ){
-	int i;
-	size_t x, y;
-	color c;
-
-	for( i = 0 ; i < cant ; i++ ){
-		if( game->players[nPlayer].board.emptySpots <= 0 )
-			break;
-		do{
-			x = rand() % game->options.width;
-			y = rand() % game->options.height;
-			c = rand() % game->options.numColors + 1;
-		}while( game->players[nPlayer].board.matrix[y][x] != 0 ||
-				( force && notFree( game, nPlayer, x, y, c ) ) );
-		game->players[nPlayer].board.matrix[y][x] = c;
-		game->players[nPlayer].board.emptySpots--;
-	}
-}
 
 typedef struct {
 	int x,y;
@@ -157,4 +113,52 @@ int winningPlay( game_t *game, int x, int y, bool countPoints ){
 		}
 	}
 	return emptySpots;
+}
+
+
+/**
+* Fills the board with a certain number of random tokens.
+*
+* @param game		contains all the information about the current game
+* @param nPlayer	indicates the current player
+* @param cant 		indicates the number of tokens about to be placed
+* @param force		indicates if when a line is made, and tokens are erased,
+*					tokens should still be filled until @a cant are reached
+*
+* @see winningPlay()
+*/
+
+void randFill( game_t * game, int nPlayer, size_t cant, bool force ){
+	int i, j, pos;
+	color c;
+	
+	struct point{
+		int x,y;
+	} vec[ game->players[nPlayer].board.emptySpots ], aux;
+	
+	do{
+		// fill vec with the coordinates of all the empty spots
+		pos = 0;
+		for( i = 0 ; i < game->options.height ; i++ )
+			for( j = 0 ; j < game->options.width ; j++ )
+				if( !game->players[nPlayer].board.matrix[i][j] )
+					vec[pos++] = (struct point){j,i};
+				// random shuffle vec
+				for( i = 0 ; i < game->players[nPlayer].board.emptySpots ; i++ ){
+					pos = rand() % game->players[nPlayer].board.emptySpots;
+					aux = vec[i];
+					vec[i] = vec[pos];
+					vec[pos] = aux;
+				}
+				// fill with cant tokens
+				j = 0;
+				for( i = 0 ; i < cant ; i++ ){
+					if( game->players[nPlayer].board.emptySpots <= 0 )
+						break;
+					game->players[nPlayer].board.emptySpots--;
+					game->players[nPlayer].board.matrix[ vec[i].y ][ vec[i].x ] =
+					rand() % game->options.numColors + 1;
+					cant -= 1 - winningPlay( game, vec[i].x, vea[i].y, false );
+				}
+	}while( force && cant < 0 && game->players[nPlayer].board.emptySpots > 0 );
 }
