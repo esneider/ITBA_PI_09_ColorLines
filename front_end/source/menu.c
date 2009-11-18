@@ -14,8 +14,14 @@ typedef enum{
 	QUIT
 } modeOption_t;
 
-
-// reads an integer and asserts it's in the interval [a,b]
+/**
+*Reads an integer and asserts it's in the interval [a,b].
+*
+*@param a lower bound
+*@param b upper bound
+*
+*@return sol integer between a and b
+*/
 static int askInt( const int a, const int b){
 	int sol;
 	char c;
@@ -37,8 +43,19 @@ static int askInt( const int a, const int b){
 	return sol;
 }
 
-// reads two integers and asserts they are in the intervals [a1,b1]
-// and [a2,b2] respectively
+/**
+*Reads two integers and asserts they are in the intervals [a1,b1] and [a2,b2] respectively.
+*
+*@param a1 lower bound for the first integer
+*@param *n1 pointer to first element
+*@param b1 upper bound for the first integer
+*@param a2 lower bound for the second integer
+*@param *n2 pointer to the second element
+*@param b2 upper bound for the second integer
+
+*@return void
+*/
+
 static void ask2Int( const int a1, int * n1, const int b1,
 					 const int a2, int * n2, const int b2 ){
 	char c;
@@ -60,7 +77,12 @@ static void ask2Int( const int a1, int * n1, const int b1,
 						!validateInt( a2, *n2, b2+1, error ) );
 }
 
-// reads a string and asserts it's not empty
+/**
+*Reads a string and asserts it's not empty.
+*
+*
+*/
+
 static char * askString( char * str ){
 	char c;
 	static char error[MAX_ERR_LEN];
@@ -79,7 +101,14 @@ static char * askString( char * str ){
 	return str;
 }
 
-// Choose game mode
+/**
+*Choose game mode. Use {@link askInt{1, 5}} to ask for an integer.
+*
+*@param void
+
+*@return modeOption_t game mode
+*/
+ 
 static modeOption_t chooseMode(){
 	drawText("Enter the game mode [1-5]:\n"
 			"  1. Single player normal mode\n"
@@ -98,7 +127,14 @@ static modeOption_t chooseMode(){
 	}
 }
 
-// Choose game options
+/**
+*Choose game options. Use {@link ask2Int} for dimensions of the matrix. Use {@link askInt} for other game options.
+*
+*@param mode game mode
+
+*@return options structure containing the options chosen.
+*/
+
 static options_t chooseOptions( modus_t mode ){
 	options_t options;
 	int h, w;
@@ -137,6 +173,7 @@ static options_t chooseOptions( modus_t mode ){
 
 	return options;
 }
+
 
 // Display game menu
 game_t * menu(){
