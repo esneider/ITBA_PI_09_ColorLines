@@ -32,6 +32,7 @@ const command_t commands[] = {
 	{"quit", quit},
 	{"help", help}
 };
+
 /**
 * Handles the given command. Use {@link #commands[](game_t *, int, char **,
 * char*)} to handle each command.
@@ -103,7 +104,7 @@ bool newCommand( game_t * game, char * s, char * err ){
 *
 * @param game	contains every information needed on the current game
 * @param x1		initial x coordenate of the path about to be checked
-* @oaram y1		initial y coordenate of the path about to be checked
+* @param y1		initial y coordenate of the path about to be checked
 * @param x2		final x coordenate of the path about to be checked
 * @param y2		final y coordenate of the path about to be checked
 *
