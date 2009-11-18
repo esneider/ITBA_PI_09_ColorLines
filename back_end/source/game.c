@@ -1,4 +1,8 @@
-// game.c
+/**
+* game.c
+* Handles actions in the game such as create, save, read or free. 
+*/
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
@@ -34,6 +38,7 @@
 *
 * @return 	 		contains all the data about the game
 */
+
 game_t * newGame( options_t * options ){
 
 	int i,j;
@@ -99,6 +104,7 @@ game_t * newGame( options_t * options ){
 *
 * @param  game	the information of the game about to be freed
 */
+
 void freeGame( game_t * game ){
 	int i;
 	for( i = 0 ; i <= game->numPlayers ; i++ ){
@@ -115,6 +121,7 @@ void freeGame( game_t * game ){
 * @param  game	contains all the data about the game
 * @param  file	contains the name of file about to be saved
 */
+
 void writeGame( game_t * game, char * file ){
 	int i,x,y;
 	int int_;
@@ -194,7 +201,7 @@ static bool validateGame( game_t * game ){
 }
 
 /**
-* Reads a game from a file.  Use {@link newGame()} to load the game.
+* Reads a game from a #a file.  Use {@link newGame()} to load the game.
 *
 * @param file	contains the name of the file about to be read.
 *
