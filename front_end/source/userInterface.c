@@ -61,7 +61,10 @@ void drawTable( game_t * game ){
 
 				printf(" | ");
 				textcolor( colores[ (int)col ] );
-				printf("%d", (int)col );
+				if(col)
+					printf("%d", (int)col );
+				else
+					prontf(" ");
 				textcolor(BLANCO);
 			}
 			printf(" |   ");
@@ -76,7 +79,7 @@ void drawTable( game_t * game ){
 		}
 		printf("\n");
 	}
-// draw 
+// draw points, time/player
 	char s[10], t[10];
 	sprintf( s, "%%%ds", game->options.width * 4 - 4 );
 
