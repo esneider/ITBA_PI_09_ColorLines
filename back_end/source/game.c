@@ -183,7 +183,7 @@ static bool validateGame( game_t * game ){
 			return false;
 		for( y = 0 ; y < game->options.height ; y++ )
 			for( x = 0 ; x < game->options.width ; x++ )
-				if( !entre( 0, game->players[i].board.matrix[y][x], MAX_COLORS + 1 ) )
+				if( !entre( 0, game->players[i].board.matrix[y][x], MAX_COLORS +1))
 					return false;
 	}
 	return true;

@@ -40,16 +40,16 @@ typedef struct {
 
 char dd[20];
 /**
-*Look for line, given a position [x,y] checks for tokens of the same 
-*color. If tokens is greater than or equal to tokens per line,
-*erases the line.
+* Look for line, given a position [x,y] checks for tokens of the same 
+* color. If tokens is greater than or equal to tokens per line,
+* erases the line.
 *
-*@param game Game structure.
-*@param x Coordinate.
-*@param y Coordinate.
-*@param dir Structure, where to move while checking for tokens.
+* @param game	Game structure.
+* @param x 		Coordinate.
+* @param y 		Coordinate.
+* @param dir	Structure, where to move while checking for tokens.
 
-*return new emptySpots, tokens extrancted from the board.
+* return 		new emptySpots, tokens extrancted from the board.
 */
 
 static int lookForLine( game_t * game, int x, int y, direction_t dir ){
@@ -87,15 +87,15 @@ static int lookForLine( game_t * game, int x, int y, direction_t dir ){
 }
 
 /**
-*Winning Play uses {@link lookForLine}, if tokens return by lookForLine is
-*greater than 1 erases position [x,y], increases the score depending on
-*number of lines made and tokens aligned.
+* Winning Play uses {@link lookForLine}, if tokens return by lookForLine is
+* greater than 1 erases position [x,y], increases the score depending on
+* number of lines made and tokens aligned.
 *
-*@param game Game structure.
-*@param x Coordinate.
-*@param y Coordinate.
+* @param game	Game structure.
+* @param x 		Coordinate.
+* @param y 		Coordinate.
 
-*@return number of lines deleted.
+*@return 		number of lines deleted.
 */
 
 int winningPlay( game_t *game, int x, int y ){
