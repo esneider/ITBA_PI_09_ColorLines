@@ -76,7 +76,7 @@ bool newCommand( game_t * game, char * s, char * err ){
 		}
 	}
 	if( maxsim >= MIN_SIMILARITY )
-		sprintf( err+15, "\nDid you meant \"%s\"?", commands[maxi].com );
+		sprintf( err+15, "\nDid you mean: \"%s\"", commands[maxi].com );
 
 	freeMatrix( argv, MAX_ARGS );
 	return sol;
