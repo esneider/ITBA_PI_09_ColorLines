@@ -53,8 +53,6 @@ static int askInt( const int a, const int b ){
 * @param a2 	lower bound for the second integer
 * @param *n2 	pointer to the second element
 * @param b2 	upper bound for the second integer
-
-* @return
 */
 
 static void ask2Int( const int a1, int * n1, const int b1,
@@ -82,7 +80,7 @@ static void ask2Int( const int a1, int * n1, const int b1,
 * Reads a string and asserts it's not empty.
 *
 * @param str 	empty string
-
+*
 * @return string with the filename
 */
 
@@ -108,7 +106,7 @@ static char * askString( char * str ){
 * Choose game mode. Use {@link askInt{1, 5}} to ask for an integer.
 *
 * @param
-
+*
 * @return	game mode
 */
  
@@ -135,7 +133,7 @@ static modeOption_t chooseMode(){
 * Use {@link askInt} for other game options.
 *
 * @param mode 	game mode
-
+*
 * @return 		structure containing the options chosen.
 */
 
