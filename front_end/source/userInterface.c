@@ -1,4 +1,7 @@
-// ui.c
+/**
+* userInterface.c
+* Handles the printing on the screen.
+*/
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
