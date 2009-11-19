@@ -19,8 +19,17 @@
 * other function, including the ones on the frontend, which print everything,
 * and the ones on the back end, which process everything.
 *
-* @return	a code to be handled by the operating system depending of the state
-* 			of the program
+* @return a code to be handled by the operating system depending of the state
+* 		  of the program
+*
+* @see menu()
+* @see drawTable()
+* @see drawText()
+* @see drawPanel()
+* @see clearScree()
+* @see askCommand()
+* @see newCommand()
+* @see freeGame()
 */
 
 int main(){
