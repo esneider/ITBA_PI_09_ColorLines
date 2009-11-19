@@ -26,10 +26,8 @@
 * @see drawTable()
 * @see drawText()
 * @see drawPanel()
-* @see clearScree()
 * @see askCommand()
 * @see newCommand()
-* @see freeGame()
 */
 
 int main(){

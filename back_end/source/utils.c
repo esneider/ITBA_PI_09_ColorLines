@@ -1,4 +1,8 @@
-// utils.c
+/**
+* @file utils.c
+* Contains useful functions that are used several times across the code.
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
