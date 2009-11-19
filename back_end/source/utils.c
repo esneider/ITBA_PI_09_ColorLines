@@ -170,24 +170,35 @@ double editDistance( const char * str1, const char * str2 ){
 	int i,j,cost=0;
 	int s1len=strlen(str1);
 	int s2len=strlen(str2);
-	int mat[ s1len+1 ][ s2len+1 ];
+	int mat[3][ s2len+1 ];
+	int prev2, prev, this = 0;
 
 	if( min( s1len, s2len ) < MIN_EDIT_LEN || max( s1len, s2len ) > MAX_EDIT_LEN )
 		return 0;
 
-	for( i = 0 ; i <= s1len ; i++ )
-		mat[i][0] = i;
 	for( i = 0 ; i <= s2len ; i++ )
 		mat[0][i] = i;
 
-	for( i = 0 ; i <= s1len ; i++ )
+	for( i = 0 ; i <= s1len ; i++ ){
+
+		prev2 = prev;
+		prev = this;
+		this = (i+1) % 3;
+
+		mat[this][0] = i+1;
+
 		for( j = 0 ; j <= s2len ; j++ ){
 			cost = toupper(str1[i]) != toupper(str2[j]);
-			mat[i+1][j+1] =
-			min( mat[i][j+1]+1, min( mat[i+1][j]+1, mat[i][j]+cost ) );
+			// in this order: deletions, insertions, substitutions
+			mat[this][j+1] =
+			min( mat[prev][j+1]+1, min( mat[this][j]+1, mat[prev][j]+cost ) );
+			// transposes
 			if( i && j && toupper(str1[i]) == toupper(str2[j-1])
-						&& toupper(str1[i-1]) == toupper(str2[j]) )
-				mat[i+1][j+1] = min( mat[i+1][j+1], mat[i-1][j-1] + cost );
+				&& toupper(str1[i-1]) == toupper(str2[j]) )
+
+				mat[this][j+1] = min( mat[this][j+1], mat[prev2][j-1] + cost );
 		}
-		return 1 - mat[s1len][s2len] / (double)max( s1len, s2len );
+	}
+
+	return 1 - mat[prev][s2len] / (double)max( s1len, s2len );
 }
