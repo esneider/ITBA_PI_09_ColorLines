@@ -1,4 +1,9 @@
-// game.c
+/**
+* game.c
+* handles the creation and preservation of the game
+*
+*/
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
@@ -37,7 +42,9 @@
 * @param options	contains options about the game
 *
 * @return 	 		a pointer to the new game
+* @see	 randfill() 
 */
+
 game_t * newGame( options_t * options ){
 
 	int i,j;
@@ -112,6 +119,7 @@ game_t * newGame( options_t * options ){
 *
 * @param  game	the information of the game about to be freed
 */
+
 void freeGame( game_t * game ){
 	int i;
 	for( i = 0 ; i < game->numPlayers ; i++ ){
@@ -128,6 +136,7 @@ void freeGame( game_t * game ){
 * @param  game	contains all the data about the game
 * @param  file	contains the name of file about to be saved
 */
+
 void writeGame( game_t * game, char * file ){
 	int i,x,y;
 	int int_;
@@ -169,6 +178,7 @@ void writeGame( game_t * game, char * file ){
 *
 * @return 		true if the game is valid, otherwise, false
 */
+
 static bool validateGame( game_t * game ){
 	int i,x,y;
 	//checking every option of the game
@@ -212,7 +222,9 @@ static bool validateGame( game_t * game ){
 * @param file	contains the name of the file about to be read.
 *
 * @return 		a pointer to a game_t containing all the data about the game
+* @see newgame();
 */
+
 game_t * readGame(char * file){
 	int i,x,y;
 	options_t options;

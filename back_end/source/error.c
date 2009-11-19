@@ -20,7 +20,7 @@ void clearError(){
 
 
 /**
-* Returns the current error code
+* Returns the current error code.
 *
 * @return error code
 *
@@ -33,7 +33,7 @@ error errorCode(){
 
 
 /**
-* Raise an error
+* Raise an error.
 *
 * @param num	error code
 */

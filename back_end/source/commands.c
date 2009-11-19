@@ -41,7 +41,7 @@ const command_t commands[] = {
 
 
 /**
-* Parses the command and calls the corresponding function
+* Parses the command and calls the corresponding function.
 *
 * @param game		contains all information about current game
 * @param s			containins the command line about to be processed
