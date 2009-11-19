@@ -27,7 +27,7 @@ void backColor( color c ){
 /**
 * Dummy function, used when not in Unix nor Windows.
 *
-* @param c	color
+* @param a	color
 */
 
 void textAttr( attr a ){
