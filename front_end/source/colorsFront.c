@@ -3,7 +3,6 @@
 * Contains the main function with the game loop.
 */
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include "error.h"
@@ -13,6 +12,7 @@
 #include "menu.h"
 #include "userInterface.h"
 #include "playGame.h"
+
 
 /**
 * This function is actually the hole game loop. It takes care of calling every
@@ -36,45 +36,19 @@ int main(){
 	char command[ MAX_COM_LEN ];
 	char message[ MAX_ERR_LEN ];
 
-	while( true ){
-		clearError();
-				// show menu
-		game = menu();
-				// error
+	while( menu( &game ) ){
 		if( errorCode() != NOERROR ){
 			drawPanel( errorMessage( errorCode() ) );
 			continue;
 		}
-				// exit
-		if( game == NULL )
-			break;
-				// actual game-loop
 		message[0]=0;
-		while( !gameOver( game, game->state.next ) ){
+		while( !game->state.quit && !gameOver( game, game->state.next ) ){
 			clearError();
-					// start drawing
 			clearScreen();
 			drawTable( game );
 			drawPanel( message );
-					// end drawing
-					// ask command
-			message[0]=0;
 			askCommand( command );
-					// check for error while asking command
-			if( errorCode() != NOERROR ){
-				drawText( errorMessage( errorCode() ) );
-				continue;
-			}
-					// analize command
-			if( !newCommand( game, command, message ) && !message[0] ){
-				freeGame(game);
-				break;
-			}
-					// check for error while analizing command
-			if( errorCode() != NOERROR ){
-				drawText( errorMessage( errorCode() ) );
-				continue;
-			}
+			newCommand( game, command, message );
 		}
 		if( gameOver( game, game->state.next ) ){
 			clearScreen();
@@ -82,7 +56,7 @@ int main(){
 			drawPanel("GAME OVER\nPress ENTER to return to main menu\n");
 			askCommand( command );
 		}
+		freeGame( game );
 	}
-	printf("\n");
 	return EXIT_SUCCESS;
 }

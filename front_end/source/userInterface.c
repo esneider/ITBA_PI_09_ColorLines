@@ -196,15 +196,17 @@ void drawPanel( const char * message ){
 * Reads a command from the standard input.
 *
 * @param[out] str	buffer ( has at least MAX_COM_LEN size allocated )
+*
+* @return string with the command (@a str)
 */
 
-void askCommand( char * result ){
+char * askCommand( char * result ){
 	backColor(BLACK);
 	textColor(WHITE);
 
 	result[ MAX_COM_LEN-5 ] = 0;
 
-	raiseErrorIf( fgets( result, MAX_COM_LEN-3, stdin ), INPUTERROR, );
+	raiseErrorIf( fgets( result, MAX_COM_LEN-3, stdin ), INPUTERROR, NULL);
 
 	if( result[ MAX_COM_LEN-5 ] ){		// we make sure it's \n terminated
 		result[ MAX_COM_LEN-5 ] = '\n';
@@ -214,4 +216,7 @@ void askCommand( char * result ){
 	commandsBufferPos %= MAX_PANEL_LINES;
 
 	textAttr(CLEAR);
+	printf("\n");
+
+	return result;
 }

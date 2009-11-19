@@ -66,7 +66,10 @@ bool newCommand( game_t * game, const char * s, char * msg ){
 	int argc;
 	char ** argv;
 
-	clearError();
+	if( errorCode() != NOERROR ){
+		sprintf( msg, "%s", errorMessage( errorCode() ) );
+		return false;
+	}
 
 	argv = newMatrix( MAX_ARGS, MAX_COM_LEN );
 
@@ -74,6 +77,8 @@ bool newCommand( game_t * game, const char * s, char * msg ){
 		sprintf( msg, "%s", errorMessage( errorCode() ) );
 		return false;
 	}
+
+	msg[0] = 0;
 	// parse the command
 	argc = sscanf( s, "%s %s %s %s %s %s %s %s %s %s",
 				   argv[0], argv[1], argv[2], argv[3], argv[4],
@@ -425,8 +430,8 @@ bool quit( game_t * game, int argc, char ** argv, char * msg ){
 			"Try 'quit --help' for more information");
 		return false;
 	}
-	msg[0]=0;
-	return false;
+	game->state.quit = true;
+	return true;
 }
 
 

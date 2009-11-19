@@ -17,7 +17,7 @@ void drawText( const char * message );
 
 void drawPanel( const char * message );
 
-void askCommand( char * result );
+char * askCommand( char * result );
 
 
 #endif // UI_H

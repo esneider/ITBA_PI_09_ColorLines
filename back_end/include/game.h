@@ -30,6 +30,7 @@ typedef struct{
 	time_t lastTime;
 	time_t timeLeft; // seconds left (mode 1)
 	int next; // next player (mode 2)
+	bool quit;
 } state_t;
 
 typedef struct{

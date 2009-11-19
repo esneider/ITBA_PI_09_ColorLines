@@ -112,6 +112,7 @@ game_t * newGame( options_t * options ){
 	sol->state.next = 0;
 	sol->state.lastTime = time(NULL);
 	sol->state.timeLeft = sol->options.initialSeconds;
+	sol->state.quit = false;
 
 	return sol;
 }
@@ -255,6 +256,7 @@ game_t * readGame( const char * file ){
 
 	SAFE_FREAD_INT( options.mode );
 	state.next = 0;
+	state.quit = false;
 	if( options.mode == TIMEMODE ){
 		SAFE_FREAD_INT( state.timeLeft );
 		state.lastTime = time(NULL);

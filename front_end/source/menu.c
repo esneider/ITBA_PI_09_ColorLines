@@ -204,6 +204,7 @@ static options_t chooseOptions( modus_t mode ){
 	return options;
 }
 
+
 /**
 * Displays the game menu. Uses {@link chooseMode()},
 * for @b MODE0, @b MODE1, @b MODE2 calls {@link chooseOptions()}
@@ -213,8 +214,9 @@ static options_t chooseOptions( modus_t mode ){
 * @throws COMPUTATIONALERROR	if after @b MAX_WAITING_TIME time no solution
 *								for {@link randFill()} has been obtained
 *
-* @return If mode is "quit" NULL, else a pointer to the
-* 		  main structure of the game.
+* @param[out] game pointer to a @c game_t structure
+*
+* @return false if user wants to quit game, true otherwise
 *
 * @see chooseMode()
 * @see chooseOptions()
@@ -222,12 +224,15 @@ static options_t chooseOptions( modus_t mode ){
 * @see readGame()
 */
 
-game_t * menu(){
+bool menu( game_t ** game ){
 
 	options_t options;
 	char str[MAX_COM_LEN];
+	modeOption_t modeOption;
 
-	modeOption_t modeOption = chooseMode();
+	clearError();
+
+	modeOption = chooseMode();
 
 	raiseErrorIf( errorCode() == NOERROR, errorCode(), NULL );
 
@@ -237,12 +242,14 @@ game_t * menu(){
 		case MODE2:
 			options = chooseOptions( (modus_t)modeOption );
 			raiseErrorIf( errorCode() == NOERROR, errorCode(), NULL );
-			return newGame( &options );
+			*game = newGame( &options );
+			return true;
 		case READFROMFILE:
-			drawText("Enter the name of the file:\n");
-			return readGame( askString( str ) );
+		drawText("Enter the name of the file:\n");
+			*game = readGame( askString( str ) );
+			return true;
 		case QUIT:
 		default:
-			return NULL;
+			return false;
 	}
 }

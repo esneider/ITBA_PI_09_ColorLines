@@ -9,7 +9,7 @@
 #include "game.h"
 
 
-game_t * menu();
+bool menu( game_t ** game );
 
 
 #endif // MENU_H
