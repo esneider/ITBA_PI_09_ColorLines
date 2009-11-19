@@ -9,7 +9,7 @@
 
 #define MAX_TEXT 5000
 #define MAX_PANEL_LINES 25
-#define PANEL_LINES 11	// may be a variable
+#define PANEL_LINES 10	// may be a variable
 
 #define HOR_LINES true	// may be a variable
 #define VER_LINES true	// may be a variable , not implemented yet
@@ -24,5 +24,7 @@
 #define MIN_TOK_PER_LINE 3
 
 #define MIN_SIMILARITY 0.65
+#define MIN_EDIT_LEN 3
+#define MAX_EDIT_LEN 35
 
 #endif // DEFINES_H

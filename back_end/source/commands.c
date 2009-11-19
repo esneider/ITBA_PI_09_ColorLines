@@ -1,8 +1,4 @@
-/**
-* commands.c
-* Handles commands during gameplay.
-*/
-
+// commands.c
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -48,7 +44,6 @@ const command_t commands[] = {
 *
 * @return 		false if there is an error, otherwise true
 */
-
 bool newCommand( game_t * game, char * s, char * err ){
 	int i;
 	bool sol;
@@ -106,7 +101,7 @@ bool newCommand( game_t * game, char * s, char * err ){
 
 
 /**
-* Checks if there is a valid path between two positions in the board.
+* Checks if there is a valid path between two positions in the board
 *
 * @param game	contains every information needed on the current game
 * @param x1		initial x coordenate of the path about to be checked
@@ -116,7 +111,6 @@ bool newCommand( game_t * game, char * s, char * err ){
 *
 * @return 		true if there is a valid path, otherwise false
 */
-
 bool areConnected( game_t * game, int x1, int y1, int x2, int y2 ){
 	// BFS to find minimum path
 
@@ -167,7 +161,6 @@ bool areConnected( game_t * game, int x1, int y1, int x2, int y2 ){
 *
 * @return		true if the move could be made. otherwise, false
 */
-
 bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 	int i;
 	char s[ argc * MAX_ARGS ];
@@ -234,7 +227,7 @@ bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 	game->players[ game->state.next ].board.matrix[y1][x1] = 0;
 
 	// if made a line, erase it and count points (winning play)
-	if( ! winningPlay( game, x2, y2, true ) ){
+	if( ! winningPlay( game, game->state.next, x2, y2, true ) ){
 		// else, randFill()
 		randFill( game, game->state.next, game->options.tokensPerTurn, false );
 		// change turn
@@ -276,7 +269,6 @@ bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 * 
 * @return		true if the game could be saved. otherwise, false
 */
-
 bool save( game_t * game, int argc, char ** argv, char * err ){
 
 	//checking that the given command in argv is valid
@@ -306,7 +298,7 @@ bool save( game_t * game, int argc, char ** argv, char * err ){
 **********************************************************************/
 
 /**
-* Buys an item so that the player can have much more fun!.	
+* Buys an item so that the player can have much more fun!	
 * 
 * @param game 	contains every information needed on the current game
 * @param argc	quantity of items in argv
@@ -315,7 +307,6 @@ bool save( game_t * game, int argc, char ** argv, char * err ){
 * 
 * @return		true if the item could be bought. otherwise, false
 */
-
 bool buyItem( game_t * game, int argc, char ** argv, char * err ){
 	//TODO
 	return true;
@@ -326,7 +317,7 @@ bool buyItem( game_t * game, int argc, char ** argv, char * err ){
 **********************************************************************/
 
 /**
-* Throws the item! Total mayhem in the board!.	
+* Throws the item! Total mayhem in the board!	
 * 
 * @param game 	contains every information needed on the current game
 * @param argc	quantity of items in argv
@@ -335,7 +326,6 @@ bool buyItem( game_t * game, int argc, char ** argv, char * err ){
 * 
 * @return		true if the itme could be thrown. otherwise, false
 */
-
 bool throwItem( game_t  * game, int argc, char ** argv, char * err ){
 	//TODO
 	return true;
@@ -355,7 +345,6 @@ bool throwItem( game_t  * game, int argc, char ** argv, char * err ){
 * 
 * @return		true if the move could be undone. otherwise, false
 */
-
 bool undo( game_t * game, int argc, char ** argv, char * err ){
 	
 	//checking that the given command in argv is valid
@@ -408,7 +397,6 @@ bool undo( game_t * game, int argc, char ** argv, char * err ){
 * 
 * @return		true if the parameters were valid. otherwise, false
 */
-
 bool quit( game_t * game, int argc, char ** argv, char * err ){
 	//checking that the parameters in argv are valid
 	if( argc == 2 && strcmp( argv[1], "--help" ) == 0 ){
@@ -487,17 +475,28 @@ bool help( game_t * game, int argc, char ** argv, char * err ){
 
 bool roflcopter( game_t * game, int argc, char ** argv, char * err ){
 	sprintf( err,
-			".......................__ .........\n"
+#ifdef __unix__
+			"\033[5mROFL:ROFL\033[25m:LOL:\033[5mROFL:ROFL\033[25m\n"
+			"           |\n"
+			" \033[5mL\033[25m   /---------\n"
+			"\033[5mL\033[25mO\033[5mL\033[25m===       []\\\n"
+			" \033[5mL\033[25m    \\         \\\n"
+			"       \\_________\\\n"
+			"         |     |\n"
+			"      -------------/\n"
+#else
 			".............<ROFL ROFL ROFL ROFL>.\n"
 			".......................| |.........\n"
-			"................... __\\||/____.....\n"
-			".\\\\...............|'-|-| .\\\\...\\...\n"
-			"..\\ \\_...........|--|---|..\\\\...\\..\n"
+			"................... __\\||/___......\n"
+			".\\\\...............|'-|-|.\\\\...\\....\n"
+			"..\\ \\_...........|--|--|..\\\\...\\...\n"
 			"../ L \\______,/---------\\___\\___\\..\n"
 			".|L O L|------------O------ ----,\\.\n"
 			"..\\ L /________,---''----------, /.\n"
 			"../ /...........\\____________ ,/...\n"
-			".//............____//___ __\\\\__/...\n"
+			".//............\\___//__/\\__\\\\__/...\n"
+#endif
 			);
+
 	return false;
 }

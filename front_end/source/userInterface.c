@@ -1,11 +1,9 @@
-/**
-* userInterface.c
-* Handles the printing on the screen.
-*/
+// ui.c
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
 #include "error.h"
+#include "utils.h"
 #include "defines.h"
 #include "userInterface.h"
 
@@ -169,19 +167,14 @@ void drawPanel( char * message ){
 	textattr(CLEAR);
 }
 
-/**
-* Makes sure a command is '\n' terminated and copies it into the buffer.
-*
-* @param restul	string from which to take the command.
-*
-* @return
-*/
-
 void askCommand( char * result ){
 	backcolor(NEGRO);
 	textcolor(BLANCO);
 
 	raiseErrorIf( fgets( result, MAX_COM_LEN, stdin ), INPUTERROR, );
+
+	if( result[ strlen(result)-1 ] != '\n' )
+		clearBuffer();
 
 	if( result[ MAX_COM_LEN-2 ] )		// we make sure it's \n terminated
 		result[ MAX_COM_LEN-2 ] = '\n';

@@ -1,8 +1,4 @@
-/**
-* game.c
-* Handles actions in the game such as create, save, read or free. 
-*/
-
+// game.c
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
@@ -35,9 +31,9 @@
 * Creates a new game.
 *
 * @param options	contains options about the current game
+*
 * @return 	 		contains all the data about the game
 */
-
 game_t * newGame( options_t * options ){
 
 	int i,j;
@@ -103,7 +99,6 @@ game_t * newGame( options_t * options ){
 *
 * @param  game	the information of the game about to be freed
 */
-
 void freeGame( game_t * game ){
 	int i;
 	for( i = 0 ; i <= game->numPlayers ; i++ ){
@@ -120,7 +115,6 @@ void freeGame( game_t * game ){
 * @param  game	contains all the data about the game
 * @param  file	contains the name of file about to be saved
 */
-
 void writeGame( game_t * game, char * file ){
 	int i,x,y;
 	int int_;
@@ -159,9 +153,9 @@ void writeGame( game_t * game, char * file ){
 * Validates a game, in order to prevent corrupted input files.
 *
 * @param  game	contains all the data about the game
+*
 * @return 		true if the game is valid, otherwise, false
 */
-
 static bool validateGame( game_t * game ){
 	int i,x,y;
 	//checking every option of the game
@@ -200,12 +194,12 @@ static bool validateGame( game_t * game ){
 }
 
 /**
-* Reads a game from a #a file.  Use {@link newGame()} to load the game.
+* Reads a game from a file.  Use {@link newGame()} to load the game.
 *
-* @param file	contains the name of the file about to be read
+* @param file	contains the name of the file about to be read.
+*
 * @return 		a pointer to a game_t containing all the data about the game
 */
-
 game_t * readGame(char * file){
 	int i,x,y;
 	options_t options;
