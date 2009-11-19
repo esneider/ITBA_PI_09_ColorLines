@@ -11,14 +11,18 @@
 #include "defines.h"
 #include "utils.h"
 
+
 /**
 * Creates a new matrix and starts its elemnts in 0.
 *
-* @throws MEMORYERROR			if there was a problem while allocating memory
+* @throws MEMORYERROR if there was a problem while allocating memory
 *
 * @param height	height of the new matrix
 * @param width	width of the new matrix
-* @return		a matrix of characters. every element in the matrix is a 0
+*
+* @return a matrix of characters. every element in the matrix is a 0
+*
+* @see freeMatrix()
 */
 
 char ** newMatrix( int height, int width ){
@@ -38,11 +42,14 @@ char ** newMatrix( int height, int width ){
 	return sol;
 }
 
+
 /**
-* Frees the reserved memory for a matrix.
+* Frees the reserved memory for a matrix created by {@link newMatrix()}.
 *
 * @param mat	the matrix of characters about to be freed
 * @param height	the height of the matrix
+*
+* @see newMatrix()
 */
 
 void freeMatrix( char ** mat, int height ){
@@ -52,6 +59,7 @@ void freeMatrix( char ** mat, int height ){
 	free(mat);
 }
 
+
 /**
 * Copies a matrix to another one.
 *
@@ -59,6 +67,9 @@ void freeMatrix( char ** mat, int height ){
 * @param to		output matrix in wich from was copied
 * @param height	the height of the matrix
 * @param width 	the width of the matrix
+*
+* @see newMatrix()
+* @see freeMatrix()
 */
 
 void copyMatrix( char ** from, char ** to, int height, int width ){
@@ -66,21 +77,47 @@ void copyMatrix( char ** from, char ** to, int height, int width ){
 		memcpy( to[height], from[height], width );
 }
 
+
 /**
-* Checks if a number is between two other numbers.
+* Checks if @a b is in the interval [@a a,@a c).
 *
-* @param a	the lower limit @a b is permitted to be
-* @param b	the number about to be compared
-* @param c 	the upper limit @a b is permitted to be
-* @return	true if @a b is between @a a and @a c, otherwise, false
+* @param a	lower limit
+* @param b	number to be compared
+* @param c 	the upper limit
+*
+* @return	true if @a b is in [@a a,@a c), otherwise, false
 */
 
 bool entre( const int a, const int b, const int c ){
 	return a<=b && b<c;
 }
 
+
 /**
-* Clears the entrance buffer.
+* Checks if a number is between to other numbers. Might return an error.
+*
+* @param a			lower limit
+* @param b			number to be compared
+* @param c 			the upper limit
+* @param[out] err	buffer to print the @b RANGEERROR message
+*
+* @return	true if @a b is in [@a a,@a c), otherwise, false
+*
+* @see entre()
+*/
+
+bool validateInt( int a, int b, int c, char * err ){
+	if( !entre(a,b,c) ){
+		sprintf( err, "Range error:\nIt must belong to the "
+		"interval [%d,%d]", a, c-1 );
+		return false;
+	}
+	return true;
+}
+
+
+/**
+* Clears the standard input buffer.
 *
 */
 
@@ -88,59 +125,44 @@ void clearBuffer(){
 	while(getchar() != '\n');
 }
 
-/**
-* Checks if a number is between to other numbers. Might return an error.
-*
-* @param a		the lower limit @a b is permitted to be
-* @param b		the number about to be compared
-* @param c 		the upper limit @a b is permitted to be
-* @param err	an output string containing the type of error in case there is one
-* @return		true if @a b is between @a a and @a c, otherwise, false
-*/
-
-bool validateInt( int a, int b, int c, char * err ){
-	if( !entre(a,b,c) ){
-		sprintf( err, "Rank error:\nIt must belong to the "
-		"interval [%d,%d]", a, c-1 );
-		return false;
-	}
-	return true;
-}
 
 /**
-* Calculetes the minimum between two numbers.
+* Calculates the minimum between two numbers.
 *
-* @param a	one of the numbers to be compared
-* @param b	the other number to be compared
-* @return	the minimum of the two numbers
+* @param a	first number
+* @param b	second number
+*
+* @return the minimum beetween @a a and @a b
 */
 
 int min( int a, int b ){
 	return (a<=b)?a:b;
 }
 
+
 /**
 * Calculates the maximum between two numbers.
 *
-* @param a	one of the numbers to be compared
-* @param b	the other number to be compared
-* @return	the maximum of the two numbers
+* @param a	first number
+* @param b	second number
+*
+* @return the maximum beetween @a a and @a b
 */
 
 int max( int a, int b ){
 	return (a>=b)?a:b;
 }
 
+
 /**
-* Calculates the edit distance between @a str1 and @a str2.
-*
-* @throws INPUTERROR	if the lenght of the strings is less or more than
-*						supported
+* Calculates the edit distance between @a str1 and @a str2
+* (a.k.a Damerau–Levenshtein distance).
 *
 * @param str1	first string
 * @param str2	second string
-* @return		a number between 0 and 1 that indicates similarity between
-*				@a str1 and @a str2. greater is better
+*
+* @return a number between 0 and 1 that indicates similarity between
+*		  @a str1 and @a str2. greater is better
 */
 
 double editDistance( const char * str1, const char * str2 ){
@@ -148,15 +170,15 @@ double editDistance( const char * str1, const char * str2 ){
 	int s1len=strlen(str1);
 	int s2len=strlen(str2);
 	int mat[ s1len+1 ][ s2len+1 ];
-	
+
 	if( min( s1len, s2len ) < MIN_EDIT_LEN || max( s1len, s2len ) > MAX_EDIT_LEN )
 		return 0;
-	
+
 	for( i = 0 ; i <= s1len ; i++ )
 		mat[i][0] = i;
 	for( i = 0 ; i <= s2len ; i++ )
 		mat[0][i] = i;
-	
+
 	for( i = 0 ; i <= s1len ; i++ )
 		for( j = 0 ; j <= s2len ; j++ ){
 			cost = toupper(str1[i]) != toupper(str2[j]);
