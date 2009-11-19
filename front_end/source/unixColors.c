@@ -1,46 +1,49 @@
 /**
-* unixColores.c
-* Sets the colors if the operating system is linux.
+* @file unixColores.c
+* Console colors in Unix.
 */
 
 #include <stdio.h>
 
-const char color2font_color[] = 
+static const char color2font_color[] =
 { 30,31,32,33,34,35,36,37,90,91,92,93,94,95,96,97 };
-const char color2font_bkcolor[] =
+static const char color2font_bkcolor[] =
 { 40,41,42,43,44,45,46,47,100,101,102,103,104,105,106,107 };
-const char attr2font_attr[] =
+static const char attr2font_attr[] =
 { 0,10,1,4,5,7,22,24,25,27 };
 
+
 /**
-* Sets the fontcolor if the operating system is linux.
+* Sets the font color.
 *
-* @param	c	a code depending on the desired color
+* @param c	color
 */
 
-void textcolor( color c ){
+void textColor( color c ){
 	if( !USE_COLORS ) return;
 	printf( "\033[%dm", color2font_color[(int)c] );
 }
 
+
 /**
-* Sets the backcolor if the operating system is linux.
+* Sets the background color.
 *
-* @param	c	a code depending on the desired color
+* @param c	color
 */
 
-void backcolor( color c ){
+void backColor( color c ){
 	if( !USE_COLORS ) return;
 	printf( "\033[%dm", color2font_bkcolor[(int)c] );
 }
 
+
 /**
-* Sets the text attribute if the operating system is linux.
+* Sets text attributes.
 *
-* @param	c	a code depending on the desired color
+* @param a attribute
 */
 
-void textattr( attr a ){
+void textAttr( attr a ){
 	if( !USE_COLORS ) return;
 	printf( "\033[%dm", attr2font_attr[(int)a] );
 }

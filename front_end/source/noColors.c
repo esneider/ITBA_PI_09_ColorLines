@@ -1,30 +1,34 @@
 /**
-* noColors.c
-* Sets the colors in case the operating system is not linux nor windows.
+* @file noColors.c
+* Dummy library, used when not in Unix nor Windows.
 */
 
 
 /**
-* Sets the textcolor as default in case the operating system is not linux nor
-* windows.
+* Dummy function, used when not in Unix nor Windows.
 *
-* @param	c	a code depending on the desired color
+* @param c	color
 */
-void textcolor( color c ){
+
+void textColor( color c ){
 }
+
+
 /**
-* Sets the backcolor as default in case the operating system is not linux nor
-* windows.
+* Dummy function, used when not in Unix nor Windows.
 *
-* @param	c	a code depending on the desired color
+* @param c	color
 */
-void backcolor( color c ){
+
+void backColor( color c ){
 }
+
+
 /**
-* Sets the  text atribute as default in case the operating system is not linux
-* nor windows.
+* Dummy function, used when not in Unix nor Windows.
 *
-* @param	c	a code depending on the desired color
+* @param c	color
 */
-void textattr( attr a ){
+
+void textAttr( attr a ){
 }

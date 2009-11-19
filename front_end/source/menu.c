@@ -132,7 +132,7 @@ static char * askString( char * str ){
 *
 * @see askInt()
 */
- 
+
 static modeOption_t chooseMode(){
 	drawText("Enter the game mode [1-5]:\n"
 			"  1. Single player normal mode\n"
@@ -207,9 +207,11 @@ static options_t chooseOptions( modus_t mode ){
 * for @b MODE0, @b MODE1, @b MODE2 calls {@link chooseOptions()}
 * for @b READFROMFILE calls {@link readGame()}.
 *
-* @throws INPUTERROR	if input was larger than buffer
+* @throws INPUTERROR			if input was larger than buffer
+* @throws COMPUTATIONALERROR	if after @b MAX_WAITING_TIME time no solution
+*								for {@link randFill()} has been obtained
 *
-* @return If mode is "quit" NULL, else a pointer to the 
+* @return If mode is "quit" NULL, else a pointer to the
 * 		  main structure of the game.
 *
 * @see chooseMode()

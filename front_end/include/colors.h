@@ -20,30 +20,30 @@ typedef enum {
 	VIOLETA_CLARO,
 	CELESTE_CLARO,
 	BLANCO
-	
+
 } color;
 
 typedef enum {
 	CLEAR        ,
 	NONE         ,
-	
+
 	NEGRITA      ,
 	SUBRAYADO    ,
 	BLINK        ,
 	INVERTIDO    ,
-	
+
 	NO_NEGRITA   ,
 	NO_SUBRAYADO ,
 	NO_BLINK     ,
 	NO_INVERTIDO
-	
+
 } attr;
 
-void textcolor( color c );
+void textColor( color c );
 
-void backcolor( color c );
+void backColor( color c );
 
-void textattr( attr a );
+void textAttr( attr a );
 
 
 #endif

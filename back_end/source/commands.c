@@ -270,6 +270,10 @@ bool movePiece( game_t * game, int argc, char ** argv, char * msg ){
 								game->options.width * game->options.height ){
 
 		randFill( game, game->state.next, game->options.tokensPerTurn, true );
+		if( errorCode() != NOERROR ){
+			sprintf( msg, "%s", errorMessage( errorCode() ) );
+			return false;
+		}
 	}
 
 	return true;

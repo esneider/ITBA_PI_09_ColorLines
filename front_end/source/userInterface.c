@@ -1,4 +1,8 @@
-// ui.c
+/**
+* @file userInterface.c
+* funtions for human-computer interaction
+*/
+
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
@@ -13,6 +17,7 @@ static char commandsBuffer[ MAX_PANEL_LINES ][ MAX_COM_LEN + 1 ];
 
 static int commandsBufferPos = -1;
 
+
 /**
 * Clears the screen printing '\n'
 *
@@ -20,27 +25,28 @@ static int commandsBufferPos = -1;
 
 void clearScreen(){
 	int i;
-	backcolor(NEGRO);
+	backColor(NEGRO);
 	for( i = 0 ; i < MAX_TAB_DIM ; i++ )
 		printf("\n");
-	textattr(CLEAR);
+	textAttr(CLEAR);
 }
 
 /**
-* Draw table prints the matrix of each player in the game, the score and if
-* necessary the time left.
+* Draws the boards of each player in the game, the score and if necessary
+* the time left, provided that it's not game over, in which case it prints
+* just the score and "GAME OVER"
 *
-* @param game 	Game structure
+* @param game	contains all information about current game
 */
 
 void drawTable( game_t * game ){
 	int i, j, player, col;
-	static const int colores[] = {
+	static const int colors[] = {
 		NEGRO, ROJO, AZUL_CLARO, VERDE, AMARILLO,
 		VIOLETA, ROSA, CELESTE, MARRON, VERDE_CLARO
 	};
-	backcolor(NEGRO);
-	textcolor(BLANCO);
+	backColor(NEGRO);
+	textColor(BLANCO);
 
 	printf("\n   ");
 	for( player = 0 ; player < game->numPlayers ; player++ ){
@@ -71,12 +77,12 @@ void drawTable( game_t * game ){
 				].board.matrix[i][j];
 
 				printf(" | ");
-				textcolor( colores[ (int)col ] );
+				textColor( colors[ (int)col ] );
 				if(col)
 					printf("%d", (int)col );
 				else
 					printf(" ");
-				textcolor(BLANCO);
+				textColor(BLANCO);
 			}
 			printf(" |   ");
 		}
@@ -90,7 +96,7 @@ void drawTable( game_t * game ){
 		}
 		printf("\n");
 	}
-// draw points, time/player
+	// draw points, time/player/GAME OVER
 	char s[15], t[15];
 	sprintf( s, "%%%ds", game->options.width * 4 - 10 );
 
@@ -118,23 +124,34 @@ void drawTable( game_t * game ){
 		printf("   ");
 	}
 
-	textattr(CLEAR);
+	textAttr(CLEAR);
 }
+
+
 /**
-* prints a text on screen.
+* Draws the text main panel. If @a str is provided, then the text is set to be
+* it, else if @a str is NULL, the last text provided is used.
 *
-* @param str	contains what it is about to be printed
+* @param str	text to print (can be NULL)
 */
+
 void drawText( char * str ){
 	static char buffer[ MAX_TEXT ] = "";
 	if( str && str[0] )
 		strcpy( buffer, str );
-	backcolor(NEGRO);
-	textcolor(BLANCO);
+	backColor(NEGRO);
+	textColor(BLANCO);
 	printf("%s",buffer);
-	textattr(CLEAR);
+	textAttr(CLEAR);
 }
 
+
+/**
+* Draws the text panel (secondary). If @a message is provided, then it is
+* printed. All the previous commands and ' > ' are printed in either case.
+*
+* @param str	text to print (can be NULL or empty)
+*/
 
 void drawPanel( char * message ){
 	char msg[ MAX_ERR_LEN ];
@@ -146,7 +163,7 @@ void drawPanel( char * message ){
 		commandsBufferPos = 0;
 	}
 
-	backcolor(NEGRO);
+	backColor(NEGRO);
 
 	if( message && message[0] ){
 		sprintf( msg, "%s", message );
@@ -162,21 +179,28 @@ void drawPanel( char * message ){
 	for( i = PANEL_LINES ; i > 0 ; i-- ){
 		if( commandsBuffer[ (commandsBufferPos-i+MAX_PANEL_LINES)
 												% MAX_PANEL_LINES ][1] == '>' )
-			textcolor(BLANCO);
+			textColor(BLANCO);
 		else
-			textcolor(GRIS);
+			textColor(GRIS);
 		printf( "%s", commandsBuffer[ (commandsBufferPos-i+MAX_PANEL_LINES)
 														% MAX_PANEL_LINES ] );
 	}
 
-	textcolor(BLANCO);
+	textColor(BLANCO);
 	printf( " > " );
-	textattr(CLEAR);
+	textAttr(CLEAR);
 }
 
+
+/**
+* Reads a command from the standard input.
+*
+* @param str	buffer ( has at least MAX_COM_LEN size allocated )
+*/
+
 void askCommand( char * result ){
-	backcolor(NEGRO);
-	textcolor(BLANCO);
+	backColor(NEGRO);
+	textColor(BLANCO);
 
 	result[ MAX_COM_LEN-5 ] = 0;
 
@@ -189,5 +213,5 @@ void askCommand( char * result ){
 	sprintf( commandsBuffer[ commandsBufferPos++ ], " > %s", result );
 	commandsBufferPos %= MAX_PANEL_LINES;
 
-	textattr(CLEAR);
+	textAttr(CLEAR);
 }

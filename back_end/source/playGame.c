@@ -124,6 +124,9 @@ int winningPlay( game_t *game, int nPlayer, int x, int y, bool countPoints ){
 /**
 * Fills the board with a certain number of random tokens.
 *
+* @throws COMPUTATIONALERROR	if after @b MAX_WAITING_TIME time no solution
+*								has been obtained (just on force mode)
+*
 * @param game		contains all the information about the current game
 * @param nPlayer	player number
 * @param cant 		indicates the number of tokens about to be placed
@@ -135,6 +138,7 @@ int winningPlay( game_t *game, int nPlayer, int x, int y, bool countPoints ){
 
 void randFill( game_t * game, int nPlayer, size_t cant, bool force ){
 	int i, j, pos;
+	time_t initTime = time(NULL);
 
 	struct point{
 		int x,y;
@@ -165,6 +169,9 @@ void randFill( game_t * game, int nPlayer, size_t cant, bool force ){
 			j += 1 - winningPlay( game, nPlayer, vec[i].x, vec[i].y, false );
 		}
 		cant -= j;
+
+		raiseErrorIf( time(NULL)-initTime < MAX_WAITING_TIME, COMPUTATIONALERROR,);
+
 	}while( force && cant > 0 && game->players[nPlayer].board.emptySpots > 0 );
 }
 

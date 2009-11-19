@@ -28,11 +28,15 @@
 					feof(in) ? CORRUPTFILE : FILEERROR, NULL ); }while(0)
 
 /**
-* Creates a new game.
+* Creates a new game, based on @a options.
 *
-* @param options	contains options about the current game
+* @throws MEMORYERROR			if there was a problem while allocating memory
+* @throws COMPUTATIONALERROR	if after @b MAX_WAITING_TIME time no solution
+*								for {@link randFill()} has been obtained
 *
-* @return 	 		contains all the data about the game
+* @param options	contains options about the game
+*
+* @return 	 		a pointer to the new game
 */
 game_t * newGame( options_t * options ){
 
@@ -82,7 +86,18 @@ game_t * newGame( options_t * options ){
 		sol->players[i].board.points = 0;
 		sol->players[i].board.emptySpots = sol->options.height * sol->options.width;
 		sol->players[i].canUndo = false;
+
 		randFill( sol, i, sol->options.initialTokens, true );
+
+		if( errorCode() != NOERROR ){
+			for( j = 0 ; j <= i ; j++ ){
+				freeMatrix( sol->players[j].lastBoard.matrix, sol->options.height );
+				freeMatrix( sol->players[j].board.matrix, sol->options.height );
+			}
+			free( sol->players );
+			free( sol );
+			return NULL;
+		}
 	}
 	//defining the starting conditions
 	sol->state.next = 0;

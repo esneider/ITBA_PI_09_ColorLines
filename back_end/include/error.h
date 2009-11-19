@@ -15,7 +15,8 @@ typedef enum{
 	FILEERROR,
 	TIMEERROR,
 	INPUTERROR,
-	CORRUPTFILE
+	CORRUPTFILE,
+	COMPUTATIONALERROR
 } error;
 
 // Quita errores pasados
@@ -26,7 +27,7 @@ error errorCode();
 
 // if "comp" is TRUE raise error "num" and return "ret"
 #define raiseErrorIf( comp, num, ret ) \
-			do{ if(!(comp)){raiseError(num); return ret;} }while(0) 
+			do{ if(!(comp)){raiseError(num); return ret;} }while(0)
 
 // raise error "num"
 void raiseError( error num );
