@@ -14,6 +14,8 @@
 /**
 * Creates a new matrix and starts its elemnts in 0.
 *
+* @throws MEMORYERROR			if there was a problem while allocating memory
+*
 * @param height	height of the new matrix
 * @param width	width of the new matrix
 * @return		a matrix of characters. every element in the matrix is a 0
@@ -131,6 +133,9 @@ int max( int a, int b ){
 
 /**
 * Calculates the edit distance between @a str1 and @a str2.
+*
+* @throws INPUTERROR	if the lenght of the strings is less or more than
+*						supported
 *
 * @param str1	first string
 * @param str2	second string
