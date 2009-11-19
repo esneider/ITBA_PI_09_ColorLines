@@ -211,6 +211,9 @@ static options_t chooseOptions( modus_t mode ){
 * for @b READFROMFILE calls {@link readGame()}.
 *
 * @throws INPUTERROR			if input was larger than buffer
+* @throws MEMORYERROR			if there was a problem while allocating memory
+* @throws FILEERROR				if there was an problem while opening/reading
+*								from file
 * @throws COMPUTATIONALERROR	if after @b MAX_WAITING_TIME time no solution
 *								for {@link randFill()} has been obtained
 *
@@ -234,19 +237,21 @@ bool menu( game_t ** game ){
 
 	modeOption = chooseMode();
 
-	raiseErrorIf( errorCode() == NOERROR, errorCode(), NULL );
+	raiseErrorIf( errorCode() == NOERROR, errorCode(), true );
 
 	switch( modeOption ){
 		case MODE0:
 		case MODE1:
 		case MODE2:
 			options = chooseOptions( (modus_t)modeOption );
-			raiseErrorIf( errorCode() == NOERROR, errorCode(), NULL );
+			raiseErrorIf( errorCode() == NOERROR, errorCode(), true );
 			*game = newGame( &options );
+			raiseErrorIf( errorCode() == NOERROR, errorCode(), true );
 			return true;
 		case READFROMFILE:
-		drawText("Enter the name of the file:\n");
+			drawText("Enter the name of the file:\n");
 			*game = readGame( askString( str ) );
+			raiseErrorIf( errorCode() == NOERROR, errorCode(), true );
 			return true;
 		case QUIT:
 		default:
