@@ -1,33 +1,47 @@
-// error.c
+/**
+* @file error.c
+* error handling
+*/
+
 #include "error.h"
 
 static error nError;
 
+
 /**
 * Clears errors.
 *
+* @see raiseError()
 */
+
 void clearError(){
 	nError = NOERROR;
 }
+
 
 /**
 * Returns the current error code
 *
 * @return error code
+*
+* @see raiseError()
 */
+
 error errorCode(){
 	return nError;
 }
+
 
 /**
 * Raise an error
 *
 * @param num	error code
 */
+
 void raiseError( error num ){
 	nError = num;
 }
+
 
 /**
 * Returns the error message corresponding to the given error code.
@@ -35,7 +49,10 @@ void raiseError( error num ){
 * @param  error	error code
 *
 * @return		error message
+*
+* @see raiseError();
 */
+
 char * errorMessage( error num ){
 	switch(num){
 		case NOERROR:			return "No error";
