@@ -25,7 +25,7 @@ static int commandsBufferPos = -1;
 
 void clearScreen(){
 	int i;
-	backColor(NEGRO);
+	backColor(BLACK);
 	for( i = 0 ; i < MAX_TAB_DIM ; i++ )
 		printf("\n");
 	textAttr(CLEAR);
@@ -42,11 +42,11 @@ void clearScreen(){
 void drawTable( game_t * game ){
 	int i, j, player, col;
 	static const int colors[] = {
-		NEGRO, ROJO, AZUL_CLARO, VERDE, AMARILLO,
-		VIOLETA, ROSA, CELESTE, MARRON, VERDE_CLARO
+		BLACK, RED, LIGHT_BLUE, GREEN, YELLOW,
+		VIOLET, PINK, SKY_BLUE, BROWN, LIGHT_GREEN
 	};
-	backColor(NEGRO);
-	textColor(BLANCO);
+	backColor(BLACK);
+	textColor(WHITE);
 
 	printf("\n   ");
 	for( player = 0 ; player < game->numPlayers ; player++ ){
@@ -82,7 +82,7 @@ void drawTable( game_t * game ){
 					printf("%d", (int)col );
 				else
 					printf(" ");
-				textColor(BLANCO);
+				textColor(WHITE);
 			}
 			printf(" |   ");
 		}
@@ -139,8 +139,8 @@ void drawText( char * str ){
 	static char buffer[ MAX_TEXT ] = "";
 	if( str && str[0] )
 		strcpy( buffer, str );
-	backColor(NEGRO);
-	textColor(BLANCO);
+	backColor(BLACK);
+	textColor(WHITE);
 	printf("%s",buffer);
 	textAttr(CLEAR);
 }
@@ -163,7 +163,7 @@ void drawPanel( char * message ){
 		commandsBufferPos = 0;
 	}
 
-	backColor(NEGRO);
+	backColor(BLACK);
 
 	if( message && message[0] ){
 		sprintf( msg, "%s", message );
@@ -179,14 +179,14 @@ void drawPanel( char * message ){
 	for( i = PANEL_LINES ; i > 0 ; i-- ){
 		if( commandsBuffer[ (commandsBufferPos-i+MAX_PANEL_LINES)
 												% MAX_PANEL_LINES ][1] == '>' )
-			textColor(BLANCO);
+			textColor(WHITE);
 		else
-			textColor(GRIS);
+			textColor(GRAY);
 		printf( "%s", commandsBuffer[ (commandsBufferPos-i+MAX_PANEL_LINES)
 														% MAX_PANEL_LINES ] );
 	}
 
-	textColor(BLANCO);
+	textColor(WHITE);
 	printf( " > " );
 	textAttr(CLEAR);
 }
@@ -199,8 +199,8 @@ void drawPanel( char * message ){
 */
 
 void askCommand( char * result ){
-	backColor(NEGRO);
-	textColor(BLANCO);
+	backColor(BLACK);
+	textColor(WHITE);
 
 	result[ MAX_COM_LEN-5 ] = 0;
 

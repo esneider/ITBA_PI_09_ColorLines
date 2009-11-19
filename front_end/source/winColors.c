@@ -8,11 +8,11 @@
 #include <stdio.h>
 
 static const char crazyWinColorsMap[] = {
-	/*NEGRO*/NEGRO,/*ROJO*/AZUL,/*VERDE*/VERDE,/*MARRON*/CELESTE,
-	/*AZUL*/ROJO,/*VIOLETA*/VIOLETA,/*CELESTE*/MARRON,/*GRIS_CLARO*/GRIS_CLARO,
-	/*GRIS*/GRIS,/*ROSA*/AZUL_CLARO,/*VERDE_CLARO*/VERDE_CLARO,/*AMARILLO*/CELESTE_CLARO,
-	/*AZUL_CLARO*/ROSA,/*VIOLETA_CLARO*/VIOLETA_CLARO,/*CELESTE_CLARO*/AMARILLO,
-	/*BLANCO*/BLANCO
+	/*NEGRO*/BLACK,/*ROJO*/BLUE,/*VERDE*/GREEN,/*MARRON*/SKY_BLUE,
+	/*AZUL*/RED,/*VIOLETA*/VIOLET,/*CELESTE*/BROWN,/*GRIS_CLARO*/LIGHT_BLUE,
+	/*GRIS*/GRAY,/*ROSA*/LIGHT_BLUE,/*VERDE_CLARO*/LIGHT_GREEN,/*AMARILLO*/LIGHT_BLUE_SKY,
+	/*AZUL_CLARO*/PINK,/*VIOLETA_CLARO*/LIGHT_VIOLET,/*CELESTE_CLARO*/YELLOW,
+	/*BLANCO*/WHITE
 };
 
 static const char color2font_color[] =
@@ -85,7 +85,7 @@ void backColor( color c ){
 void textAttr( attr a ){
 	if( !USE_COLORS ) return;
 	if( a == CLEAR ){
-		backcolor(NEGRO);
-		frontcolor(BLANCO);
+		backcolor(BLACK);
+		frontcolor(WHITE);
 	}
 }

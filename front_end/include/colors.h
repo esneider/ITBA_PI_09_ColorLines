@@ -8,22 +8,22 @@
 
 
 typedef enum {
-	NEGRO        ,
-	ROJO         ,
-	VERDE        ,
-	MARRON       ,
-	AZUL         ,
-	VIOLETA      ,
-	CELESTE      ,
-	GRIS_CLARO   ,
-	GRIS         ,
-	ROSA         ,
-	VERDE_CLARO  ,
-	AMARILLO     ,
-	AZUL_CLARO   ,
-	VIOLETA_CLARO,
-	CELESTE_CLARO,
-	BLANCO
+	BLACK         ,
+	RED           ,
+	GREEN         ,
+	BROWN         ,
+	BLUE          ,
+	VIOLET        ,
+	SKY_BLUE      ,
+	LIGHT_GREY    ,
+	GRAY          ,
+	PINK          ,
+	LIGHT_GREEN   ,
+	YELLOW        ,
+	LIGHT_BLUE    ,
+	LIGHT_VIOLET  ,
+	LIGHT_SKY_BLUE,
+	WHITE
 
 } color;
 
@@ -31,15 +31,15 @@ typedef enum {
 	CLEAR        ,
 	NONE         ,
 
-	NEGRITA      ,
-	SUBRAYADO    ,
+	BOLD         ,
+	UNDERLINE    ,
 	BLINK        ,
-	INVERTIDO    ,
+	INVERTED     ,
 
-	NO_NEGRITA   ,
-	NO_SUBRAYADO ,
+	NO_BOLD      ,
+	NO_UNDERLINE ,
 	NO_BLINK     ,
-	NO_INVERTIDO
+	NO_INVERTED
 
 } attr;
 
