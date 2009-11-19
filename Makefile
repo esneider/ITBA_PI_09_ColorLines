@@ -31,7 +31,7 @@ RELEASEFLAGS=-O3
 CC=gcc
 
 ### possible targets: debug release clean
-all: debug
+all: release
 
 OBJS=$(addsuffix .o,$(SOURCES) )
 OUTPUT_OPTION=-o $(OPATH)$@
