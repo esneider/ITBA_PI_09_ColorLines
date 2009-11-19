@@ -1,6 +1,6 @@
 /**
 * @file error.h
-* error handling
+* Error handling
 */
 
 #ifndef ERROR_H

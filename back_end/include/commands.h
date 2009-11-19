@@ -1,6 +1,6 @@
 /**
 * @file command.h
-* command handling
+* Command handling
 */
 
 #ifndef COMMANDS_H

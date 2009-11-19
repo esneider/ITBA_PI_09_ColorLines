@@ -1,6 +1,6 @@
 /**
 * @file playGame.c
-* functions for token handling
+* Functions for token handling
 */
 
 #include <stdlib.h>

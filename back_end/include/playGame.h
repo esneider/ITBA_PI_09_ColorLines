@@ -1,6 +1,6 @@
 /**
 * @file playGame.h
-* functions for token handling
+* Functions for token handling
 */
 
 #ifndef PLAYGAME_H

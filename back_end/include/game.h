@@ -1,6 +1,6 @@
 /**
 * @file game.h
-* operations for the struct @c game
+* Operations for the struct @c game
 */
 
 #ifndef GAME_H

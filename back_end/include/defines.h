@@ -1,6 +1,6 @@
 /**
 * @file defines.h
-* contains definitions
+* Contains definitions
 */
 
 #ifndef DEFINES_H

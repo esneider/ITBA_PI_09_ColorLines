@@ -1,6 +1,6 @@
 /**
 * @file command.c
-* command handling
+* Command handling
 */
 
 #include <stdio.h>

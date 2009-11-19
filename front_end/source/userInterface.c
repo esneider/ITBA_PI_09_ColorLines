@@ -1,6 +1,6 @@
 /**
 * @file userInterface.c
-* funtions for human-computer interaction
+* Funtions for human-computer interaction
 */
 
 #include <stdio.h>

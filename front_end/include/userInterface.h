@@ -1,6 +1,6 @@
 /**
 * @file userInterface.h
-* funtions for human-computer interaction
+* Funtions for human-computer interaction
 */
 
 #ifndef UI_H
