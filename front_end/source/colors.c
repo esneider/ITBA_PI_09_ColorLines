@@ -1,5 +1,5 @@
 /**
-* colors.c
+* @file colors.c
 * Contains some definitions to be used in the implementation of colors.
 */
 

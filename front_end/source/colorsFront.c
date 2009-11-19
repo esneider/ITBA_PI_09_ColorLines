@@ -1,5 +1,5 @@
 /**
-* colorsFront.c
+* @file colorsFront.c
 * Contains the main function with the game loop.
 */
 
@@ -68,6 +68,7 @@ int main(){
 			}
 		}
 	}
+	freeGame(game);
 	printf("\n");
 	return EXIT_SUCCESS;
 }
