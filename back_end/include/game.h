@@ -19,8 +19,6 @@ typedef struct{
 typedef struct{
 	board_t board;
 	board_t lastBoard;
-	size_t height;
-	size_t width;
 	bool canUndo;
 } player_t;
 

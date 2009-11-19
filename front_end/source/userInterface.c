@@ -1,5 +1,4 @@
 // ui.c
-
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
@@ -66,7 +65,7 @@ void drawTable( game_t * game ){
 			printf("%2d",i);
 			for( j = 0 ; j < game->options.width; j++ ){
 
-				col = game->players[ 
+				col = game->players[
 						( game->state.next + player ) % game->numPlayers
 				].board.matrix[i][j];
 
@@ -92,11 +91,11 @@ void drawTable( game_t * game ){
 	}
 // draw points, time/player
 	char s[10], t[10];
-	sprintf( s, "%%%ds", game->options.width * 4 - 4 );
+	sprintf( s, "%%%ds", game->options.width * 4 - 10 );
 
 	for( player = 0 ; player < game->numPlayers ; player++ ){
 		i = ( game->state.next + player ) % game->numPlayers;
-		printf("    %-4d", game->players[i].board.points );
+		printf("    SCORE %-4d", game->players[i].board.points );
 		if( game->options.mode == TIMEMODE ){
 			j = game->state.timeLeft - time(NULL) + game->state.lastTime;
 			if( j >= 60 )
@@ -115,11 +114,10 @@ void drawTable( game_t * game ){
 	textattr(CLEAR);
 }
 /**
-* Prints a text on screen.
+* prints a text on screen.
 *
 * @param str	contains what it is about to be printed
 */
-
 void drawText( char * str ){
 	static char buffer[ MAX_TEXT ] = "";
 	if( str && str[0] )
@@ -155,7 +153,7 @@ void drawPanel( char * message ){
 
 	printf("\n\n");
 	for( i = PANEL_LINES ; i > 0 ; i-- ){
-		if( commandsBuffer[ (commandsBufferPos-i+MAX_PANEL_LINES) 
+		if( commandsBuffer[ (commandsBufferPos-i+MAX_PANEL_LINES)
 												% MAX_PANEL_LINES ][1] == '>' )
 			textcolor(BLANCO);
 		else
@@ -169,25 +167,18 @@ void drawPanel( char * message ){
 	textattr(CLEAR);
 }
 
-
-/**
-* Makes sure a command is '\n' terminated and copies it into the buffer.
-*
-* @param restul	string from which to take the command.
-*/
-
 void askCommand( char * result ){
 	backcolor(NEGRO);
 	textcolor(BLANCO);
 
-	raiseErrorIf( fgets( result, MAX_COM_LEN, stdin ), INPUTERROR, );
+	result[ MAX_COM_LEN-5 ] = 0;
 
-	if( result[ strlen(result)-1 ] != '\n' )
+	raiseErrorIf( fgets( result, MAX_COM_LEN-3, stdin ), INPUTERROR, );
+
+	if( result[ MAX_COM_LEN-5 ] ){		// we make sure it's \n terminated
+		result[ MAX_COM_LEN-5 ] = '\n';
 		clearBuffer();
-
-	if( result[ MAX_COM_LEN-2 ] )		// we make sure it's \n terminated
-		result[ MAX_COM_LEN-2 ] = '\n';
-
+	}
 	sprintf( commandsBuffer[ commandsBufferPos++ ], " > %s", result );
 	commandsBufferPos %= MAX_PANEL_LINES;
 
