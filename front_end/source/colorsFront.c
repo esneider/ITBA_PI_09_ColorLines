@@ -50,7 +50,7 @@ int main(){
 			break;
 				// actual game-loop
 		message[0]=0;
-		while( true ){
+		while( !gameOver( game, game->state.next ) ){
 			clearError();
 					// start drawing
 			clearScreen();
@@ -75,6 +75,12 @@ int main(){
 				drawText( errorMessage( errorCode() ) );
 				continue;
 			}
+		}
+		if( gameOver( game, game->state.next ) ){
+			clearScreen();
+			drawTable( game );
+			drawPanel("GAME OVER\nPress ENTER to return to main menu\n");
+			askCommand( command );
 		}
 	}
 	printf("\n");

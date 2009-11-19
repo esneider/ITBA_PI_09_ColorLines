@@ -88,7 +88,7 @@ bool newCommand( game_t * game, char * s, char * msg ){
 	sprintf( msg, "Unknown command" );
 	double auxsim, maxsim = 0;
 	int maxi;
-	
+
 	//call the appropiate function
 	for( i = 0 ; i < sizeof(commands)/ sizeof(command_t) ; i++ ){
 		if( strncmp( argv[0], commands[i].com, strlen(commands[i].com) ) == 0
@@ -193,7 +193,7 @@ bool movePiece( game_t * game, int argc, char ** argv, char * msg ){
 	s[0] = 0;
 	for( i = 0 ; i < argc ; i++ )
 		strcat( s, argv[i] );
-	
+
 	int x1, y1, x2, y2;
 	i = sscanf( s, "[%d,%d][%d,%d]", &y1, &x1, &y2, &x2 );
 	if( i < 4 ){
@@ -236,7 +236,7 @@ bool movePiece( game_t * game, int argc, char ** argv, char * msg ){
 	}
 	// maintain undo
 	game->players[ game->state.next ].canUndo = true;
-	
+
 	copyMatrix( game->players[ game->state.next ].board.matrix,
 				game->players[ game->state.next ].lastBoard. matrix,
 				game->options.height, game->options.width );
@@ -257,7 +257,7 @@ bool movePiece( game_t * game, int argc, char ** argv, char * msg ){
 		// else, randFill()
 		randFill( game, game->state.next, game->options.tokensPerTurn, false );
 		// change turn
-		i = 0; 
+		i = 0;
 		do{
 			game->state.next++;
 			game->state.next %= game->numPlayers;
@@ -271,12 +271,6 @@ bool movePiece( game_t * game, int argc, char ** argv, char * msg ){
 
 		randFill( game, game->state.next, game->options.tokensPerTurn, true );
 	}
-
-// 		check for gameover
-// 	if( i > game->numPlayers ||
-// 		time(NULL) - game->state.lastTime >= game->state.timeLeft ){
-// 			GAME OVER FOR EVERYONE
-// 	}
 
 	return true;
 }

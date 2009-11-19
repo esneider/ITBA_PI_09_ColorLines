@@ -5,6 +5,7 @@
 #include "error.h"
 #include "utils.h"
 #include "defines.h"
+#include "playGame.h"
 #include "userInterface.h"
 
 
@@ -90,12 +91,18 @@ void drawTable( game_t * game ){
 		printf("\n");
 	}
 // draw points, time/player
-	char s[10], t[10];
+	char s[15], t[15];
 	sprintf( s, "%%%ds", game->options.width * 4 - 10 );
 
 	for( player = 0 ; player < game->numPlayers ; player++ ){
+
 		i = ( game->state.next + player ) % game->numPlayers;
+
 		printf("    SCORE %-4d", game->players[i].board.points );
+
+		if( gameOver( game, player ) ){
+			printf( s, "GAME OVER" );
+		}else
 		if( game->options.mode == TIMEMODE ){
 			j = game->state.timeLeft - time(NULL) + game->state.lastTime;
 			if( j >= 60 )

@@ -4,6 +4,7 @@
 */
 
 #include <stdlib.h>
+#include <time.h>
 #include "error.h"
 #include "defines.h"
 #include "utils.h"
@@ -16,14 +17,15 @@ typedef struct {
 
 
 /**
-* Look for line, given a position [@a x,@a y] checks for tokens of the same 
+* Look for line, given a position [@a x,@a y] checks for tokens of the same
 * color. If tokens is greater than or equal to tokens per line,
 * erases the line.
 *
-* @param game	Game structure
-* @param x 		Coordinate
-* @param y 		Coordinate
-* @param dir	Line direction to check
+* @param game	game structure
+* @param x 		coordinate
+* @param y 		coordinate
+* @param dir	line direction to check
+*
 * @return new empty spots, tokens extrancted from the board
 */
 
@@ -70,6 +72,7 @@ static int lookForLine( game_t * game, int nPlayer, int x, int y, direction_t di
 * @param x 				coordinate
 * @param y 				coordinate
 * @param countPoints	if false points won't be taken into account
+*
 * @return number of lines deleted
 *
 * @see lookForLine()
@@ -122,20 +125,21 @@ int winningPlay( game_t *game, int nPlayer, int x, int y, bool countPoints ){
 * Fills the board with a certain number of random tokens.
 *
 * @param game		contains all the information about the current game
-* @param nPlayer	indicates the current player
+* @param nPlayer	player number
 * @param cant 		indicates the number of tokens about to be placed
 * @param force		indicates if when a line is made, and tokens are erased,
 *					tokens should still be filled until @a cant are reached
+*
 * @see winningPlay()
 */
 
 void randFill( game_t * game, int nPlayer, size_t cant, bool force ){
 	int i, j, pos;
-	
+
 	struct point{
 		int x,y;
 	} vec[ game->players[nPlayer].board.emptySpots ], aux;
-	
+
 	do{
 		// fill vec with the coordinates of all the empty spots
 		pos = 0;
@@ -162,4 +166,19 @@ void randFill( game_t * game, int nPlayer, size_t cant, bool force ){
 		}
 		cant -= j;
 	}while( force && cant > 0 && game->players[nPlayer].board.emptySpots > 0 );
+}
+
+
+/**
+* Checks if game is over for player @a nPlayer
+*
+* @param nPlayer player number
+*
+* @returns true if game is over for player @a nPlayer. false otherwise
+*/
+
+bool gameOver( game_t * game, int nPlayer ){
+	return ( game->options.mode == TIMEMODE
+			&& game->state.timeLeft - time(NULL) + game->state.lastTime <= 0 )
+			|| game->players[nPlayer].board.emptySpots <= 0;
 }
