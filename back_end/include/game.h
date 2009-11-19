@@ -1,7 +1,6 @@
 /**
 * @file game.h
-* handles the creation and preservation of the game
-*
+* operations for the struct @c game
 */
 
 #ifndef GAME_H
