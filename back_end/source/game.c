@@ -47,8 +47,9 @@
 * @see randfill()
 */
 
-game_t * newGame( options_t * options ){
-
+game_t *
+newGame( options_t * options )
+{
 	int i,j;
 	game_t * sol = malloc( sizeof(game_t) );
 	raiseErrorIf( sol, MEMORYERROR, NULL );
@@ -127,7 +128,9 @@ game_t * newGame( options_t * options ){
 * @see freeMatrix()
 */
 
-void freeGame( game_t * game ){
+void
+freeGame( game_t * game )
+{
 	int i;
 	for( i = 0 ; i < game->numPlayers ; i++ ){
 		freeMatrix( game->players[i].lastBoard.matrix, game->options.height );
@@ -149,7 +152,9 @@ void freeGame( game_t * game ){
 * @see readGame()
 */
 
-void writeGame( game_t * game, const char * file ){
+void
+writeGame( game_t * game, const char * file )
+{
 	int i,x,y;
 	int int_;
 	char char_;
@@ -190,9 +195,13 @@ void writeGame( game_t * game, const char * file ){
 * @param  game	contains all the data about the game
 *
 * @return true if the game is valid, otherwise, false
+*
+* @see readGame()
 */
 
-static bool validateGame( game_t * game ){
+static bool
+validateGame( game_t * game )
+{
 	int i,x,y;
 
 	if( !entre( 0, game->options.mode, 3 ) )
@@ -245,7 +254,9 @@ static bool validateGame( game_t * game ){
 * @see validateGame()
 */
 
-game_t * readGame( const char * file ){
+game_t *
+readGame( const char * file )
+{
 	int i,x,y;
 	options_t options;
 	state_t state;

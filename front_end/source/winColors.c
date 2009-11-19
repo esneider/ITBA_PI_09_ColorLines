@@ -44,7 +44,9 @@ static const char color2font_bkcolor[] =
 * @param c	color
 */
 
-void textColor( color c ){
+void
+textColor( color c )
+{
 	WORD wColor;
 	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
@@ -63,7 +65,9 @@ void textColor( color c ){
 * @param c	color
 */
 
-void backColor( color c ){
+void
+backColor( color c )
+{
 	WORD wColor;
 	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
@@ -82,7 +86,9 @@ void backColor( color c ){
 * @param a attribute
 */
 
-void textAttr( attr a ){
+void
+textAttr( attr a )
+{
 	if( !USE_COLORS ) return;
 	if( a == CLEAR ){
 		backcolor(BLACK);

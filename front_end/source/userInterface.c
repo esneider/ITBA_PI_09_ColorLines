@@ -23,7 +23,9 @@ static int commandsBufferPos = -1;
 *
 */
 
-void clearScreen(){
+void
+clearScreen()
+{
 	int i;
 	backColor(BLACK);
 	for( i = 0 ; i < MAX_TAB_DIM ; i++ )
@@ -39,7 +41,9 @@ void clearScreen(){
 * @param game	contains all information about current game
 */
 
-void drawTable( game_t * game ){
+void
+drawTable( game_t * game )
+{
 	int i, j, player, col;
 	static const int colors[] = {
 		BLACK, RED, LIGHT_BLUE, GREEN, YELLOW,
@@ -135,7 +139,9 @@ void drawTable( game_t * game ){
 * @param str	text to print (can be NULL)
 */
 
-void drawText( const char * message ){
+void
+drawText( const char * message )
+{
 	static char buffer[ MAX_TEXT ] = "";
 	if( message && message[0] )
 		strcpy( buffer, message );
@@ -153,7 +159,9 @@ void drawText( const char * message ){
 * @param str	text to print (can be NULL or empty)
 */
 
-void drawPanel( const char * message ){
+void
+drawPanel( const char * message )
+{
 	char msg[ MAX_ERR_LEN ];
 	int i;
 
@@ -195,12 +203,16 @@ void drawPanel( const char * message ){
 /**
 * Reads a command from the standard input.
 *
+* @throws INPUTERROR	if there was an error while reading from standard input
+*
 * @param[out] str	buffer ( has at least MAX_COM_LEN size allocated )
 *
 * @return string with the command (@a str)
 */
 
-char * askCommand( char * result ){
+char *
+askCommand( char * result )
+{
 	backColor(BLACK);
 	textColor(WHITE);
 

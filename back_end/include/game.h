@@ -52,17 +52,17 @@ typedef struct{
 } game_t;
 
 
-// creates a new game
-game_t * newGame( options_t * options );
+game_t *
+newGame( options_t * options );
 
-// frees allocated space for game
-void freeGame( game_t * game );
+void
+freeGame( game_t * game );
 
-// writes game to file
-void writeGame( game_t * game, const char * file );
+void
+writeGame( game_t * game, const char * file );
 
-// reads game from file
-game_t * readGame( const char * file );
+game_t *
+readGame( const char * file );
 
 
 #endif // GAME_H

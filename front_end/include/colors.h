@@ -43,11 +43,14 @@ typedef enum {
 
 } attr;
 
-void textColor( color c );
+void
+textColor( color c );
 
-void backColor( color c );
+void
+backColor( color c );
 
-void textAttr( attr a );
+void
+textAttr( attr a );
 
 
-#endif
+#endif // COLORS_H

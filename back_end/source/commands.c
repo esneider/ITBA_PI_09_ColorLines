@@ -57,10 +57,12 @@ const command_t commands[] = {
 * @see undo()
 * @see quit()
 * @see help()
-* @see ROFLcopter
+* @see ROFLcopter()
 */
 
-bool newCommand( game_t * game, const char * s, char * msg ){
+bool
+newCommand( game_t * game, const char * s, char * msg )
+{
 	int i;
 	bool sol;
 	int argc;
@@ -129,18 +131,21 @@ bool newCommand( game_t * game, const char * s, char * msg ){
 
 
 /**
-* Checks if there is a valid path between two positions in the board.
+* Checks if there is a valid path between (@a x1,@a y1) and (@a x2,@a y2)
+* in the board.
 *
 * @param game	contains all information about current game
-* @param x1		initial x coordenate of the path about to be checked
-* @param y1		initial y coordenate of the path about to be checked
-* @param x2		final x coordenate of the path about to be checked
-* @param y2		final y coordenate of the path about to be checked
+* @param x1		initial x coordenate
+* @param y1		initial y coordenate
+* @param x2		final x coordenate
+* @param y2		final y coordenate
 *
 * @return true if there is a valid path, otherwise false
 */
 
-bool areConnected( game_t * game, int x1, int y1, int x2, int y2 ){
+bool
+areConnected( game_t * game, int x1, int y1, int x2, int y2 )
+{
 	// BFS to find minimum path
 	struct coord{
 		int x,y;
@@ -191,7 +196,9 @@ bool areConnected( game_t * game, int x1, int y1, int x2, int y2 ){
 * @see winningPlay()
 */
 
-bool movePiece( game_t * game, int argc, char ** argv, char * msg ){
+bool
+movePiece( game_t * game, int argc, char ** argv, char * msg )
+{
 	int i;
 	char s[ argc * MAX_ARGS ];
 
@@ -298,8 +305,9 @@ bool movePiece( game_t * game, int argc, char ** argv, char * msg ){
 * @see writeGame()
 */
 
-bool save( game_t * game, int argc, char ** argv, char * msg ){
-
+bool
+save( game_t * game, int argc, char ** argv, char * msg )
+{
 	if( argc > 2 || strcmp( "save", argv[0] ) != 0 ){
 		sprintf( msg, "Wrong usage\n"
 		"Try 'save --help' for more information");
@@ -335,9 +343,13 @@ bool save( game_t * game, int argc, char ** argv, char * msg ){
 * @param[out] msg	output with message to write in the panel
 *
 * @return false if some message is to be written
+*
+* @see throwItem()
 */
 
-bool buyItem( game_t * game, int argc, char ** argv, char * msg ){
+bool
+buyItem( game_t * game, int argc, char ** argv, char * msg )
+{
 	//TODO
 	return true;
 }
@@ -352,16 +364,20 @@ bool buyItem( game_t * game, int argc, char ** argv, char * msg ){
 * @param[out] msg	output with message to write in the panel
 *
 * @return false if some message is to be written
+*
+* @see buyItem()
 */
 
-bool throwItem( game_t  * game, int argc, char ** argv, char * msg ){
+bool
+throwItem( game_t  * game, int argc, char ** argv, char * msg )
+{
 	//TODO
 	return true;
 }
 
 
 /**
-* Undo the last move made.
+* Undoes the last move made.
 *
 * @param game		contains all information about current game
 * @param argc		size of @a argv
@@ -371,8 +387,9 @@ bool throwItem( game_t  * game, int argc, char ** argv, char * msg ){
 * @return false if some message is to be written
 */
 
-bool undo( game_t * game, int argc, char ** argv, char * msg ){
-
+bool
+undo( game_t * game, int argc, char ** argv, char * msg )
+{
 	if( argc == 2 && strcmp( argv[1], "--help" ) == 0 ){
 		sprintf( msg, "Usage: undo\n"
 					"Undoes the last move\n"
@@ -419,7 +436,9 @@ bool undo( game_t * game, int argc, char ** argv, char * msg ){
 * @return false if some message is to be written
 */
 
-bool quit( game_t * game, int argc, char ** argv, char * msg ){
+bool
+quit( game_t * game, int argc, char ** argv, char * msg )
+{
 	if( argc == 2 && strcmp( argv[1], "--help" ) == 0 ){
 		sprintf( msg, "Usage: quit\n"
 					"Quits the current game" );
@@ -446,8 +465,9 @@ bool quit( game_t * game, int argc, char ** argv, char * msg ){
 * @return false if some message is to be written
 */
 
-bool help( game_t * game, int argc, char ** argv, char * msg ){
-
+bool
+help( game_t * game, int argc, char ** argv, char * msg )
+{
 	if( argc == 2 && strcmp( argv[1], "--help" ) == 0 ){
 		sprintf( msg, "Usage: help\n"
 					"Shows available commands" );
@@ -484,7 +504,9 @@ bool help( game_t * game, int argc, char ** argv, char * msg ){
 * @return false if some message is to be written
 */
 
-bool roflcopter( game_t * game, int argc, char ** argv, char * msg ){
+bool
+roflcopter( game_t * game, int argc, char ** argv, char * msg )
+{
 	sprintf( msg,
 #ifdef __unix__
 			"\033[5mROFL:ROFL\033[25m:LOL:\033[5mROFL:ROFL\033[25m\n"

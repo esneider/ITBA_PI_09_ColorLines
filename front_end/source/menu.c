@@ -22,7 +22,7 @@ typedef enum{
 /**
 * Reads an integer and asserts it's in the interval [@a a,@a b].
 *
-* @throws INPUTERROR	if input was larger than buffer
+* @throws INPUTERROR	if there was an error while reading from standard input
 *
 * @param a	lower bound
 * @param b	upper bound
@@ -33,7 +33,9 @@ typedef enum{
 * @see validateInt()
 */
 
-static int askInt( const int a, const int b ){
+static int
+askInt( int a, int b )
+{
 	int sol;
 	char c;
 	static char error[MAX_ERR_LEN];
@@ -59,7 +61,7 @@ static int askInt( const int a, const int b ){
 * Reads two integers and asserts they are in the intervals [@a a1,@a b1] and
 * [@a a2,@a b2] respectively.
 *
-* @throws INPUTERROR	if input was larger than buffer
+* @throws INPUTERROR	if there was an error while reading from standard input
 *
 * @param a1			lower bound for @a n1
 * @param[out] n1	pointer to first element
@@ -72,8 +74,9 @@ static int askInt( const int a, const int b ){
 * @see validateInt()
 */
 
-static void ask2Int( const int a1, int * n1, const int b1,
-					 const int a2, int * n2, const int b2 ){
+static void
+ask2Int( int a1, int * n1, int b1, int a2, int * n2, int b2 )
+{
 	char c;
 	static char error[MAX_ERR_LEN];
 	static char buffer[MAX_COM_LEN];
@@ -97,7 +100,7 @@ static void ask2Int( const int a1, int * n1, const int b1,
 /**
 * Reads a string and asserts it's not empty.
 *
-* @throws INPUTERROR	if input was larger than buffer
+* @throws INPUTERROR	if there was an error while reading from standard input
 *
 * @param[out] str	destination string
 *
@@ -106,7 +109,9 @@ static void ask2Int( const int a1, int * n1, const int b1,
 * @see askCommand()
 */
 
-static char * askString( char * str ){
+static char *
+askString( char * str )
+{
 	char c;
 	static char error[MAX_ERR_LEN];
 	static char buffer[MAX_COM_LEN];
@@ -127,14 +132,16 @@ static char * askString( char * str ){
 /**
 * Displays mode menu and asks game mode.
 *
-* @throws INPUTERROR	if input was larger than buffer
+* @throws INPUTERROR	if there was an error while reading from standard input
 *
 * @return game mode
 *
 * @see askInt()
 */
 
-static modeOption_t chooseMode(){
+static modeOption_t
+chooseMode()
+{
 	drawText("Enter the game mode [1-5]:\n"
 			"  1. Single player normal mode\n"
 			"  2. Single player time mode\n"
@@ -155,7 +162,7 @@ static modeOption_t chooseMode(){
 /**
 * Displays game options menu and asks for them.
 *
-* @throws INPUTERROR	if input was larger than buffer
+* @throws INPUTERROR	if there was an error while reading from standard input
 *
 * @param mode 	game mode
 *
@@ -165,7 +172,9 @@ static modeOption_t chooseMode(){
 * @see ask2Int()
 */
 
-static options_t chooseOptions( modus_t mode ){
+static options_t
+chooseOptions( modus_t mode )
+{
 	options_t options;
 	int h, w;
 
@@ -210,7 +219,8 @@ static options_t chooseOptions( modus_t mode ){
 * for @b MODE0, @b MODE1, @b MODE2 calls {@link chooseOptions()}
 * for @b READFROMFILE calls {@link readGame()}.
 *
-* @throws INPUTERROR			if input was larger than buffer
+* @throws INPUTERROR			if there was an error while reading from
+*								standard input
 * @throws MEMORYERROR			if there was a problem while allocating memory
 * @throws FILEERROR				if there was an problem while opening/reading
 *								from file
@@ -227,8 +237,9 @@ static options_t chooseOptions( modus_t mode ){
 * @see readGame()
 */
 
-bool menu( game_t ** game ){
-
+bool
+menu( game_t ** game )
+{
 	options_t options;
 	char str[MAX_COM_LEN];
 	modeOption_t modeOption;
@@ -246,12 +257,10 @@ bool menu( game_t ** game ){
 			options = chooseOptions( (modus_t)modeOption );
 			raiseErrorIf( errorCode() == NOERROR, errorCode(), true );
 			*game = newGame( &options );
-			raiseErrorIf( errorCode() == NOERROR, errorCode(), true );
 			return true;
 		case READFROMFILE:
 			drawText("Enter the name of the file:\n");
 			*game = readGame( askString( str ) );
-			raiseErrorIf( errorCode() == NOERROR, errorCode(), true );
 			return true;
 		case QUIT:
 		default:

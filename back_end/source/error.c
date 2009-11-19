@@ -14,7 +14,9 @@ static error nError;
 * @see raiseError()
 */
 
-void clearError(){
+void
+clearError()
+{
 	nError = NOERROR;
 }
 
@@ -27,7 +29,9 @@ void clearError(){
 * @see raiseError()
 */
 
-error errorCode(){
+error
+errorCode()
+{
 	return nError;
 }
 
@@ -38,7 +42,9 @@ error errorCode(){
 * @param num	error code
 */
 
-void raiseError( error num ){
+void
+raiseError( error num )
+{
 	nError = num;
 }
 
@@ -48,12 +54,14 @@ void raiseError( error num ){
 *
 * @param  error	error code
 *
-* @return		error message
+* @return error message
 *
 * @see raiseError();
 */
 
-char * errorMessage( error num ){
+char *
+errorMessage( error num )
+{
 	switch(num){
 		case NOERROR:			return "No error";
 		case ARITHMETICERROR:	return "Arithmetic error";

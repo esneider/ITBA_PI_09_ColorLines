@@ -10,7 +10,9 @@
 * @param c	color
 */
 
-void textColor( color c ){
+void
+textColor( color c )
+{
 }
 
 
@@ -20,7 +22,9 @@ void textColor( color c ){
 * @param c	color
 */
 
-void backColor( color c ){
+void
+backColor( color c )
+{
 }
 
 
@@ -30,5 +34,7 @@ void backColor( color c ){
 * @param a	attribute
 */
 
-void textAttr( attr a ){
+void
+textAttr( attr a )
+{
 }

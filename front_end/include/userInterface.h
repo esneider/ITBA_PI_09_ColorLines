@@ -9,15 +9,20 @@
 #include "game.h"
 #include "colors.h"
 
-void clearScreen();
+void
+clearScreen();
 
-void drawTable( game_t * game  );
+void
+drawTable( game_t * game  );
 
-void drawText( const char * message );
+void
+drawText( const char * message );
 
-void drawPanel( const char * message );
+void
+drawPanel( const char * message );
 
-char * askCommand( char * result );
+char *
+askCommand( char * result );
 
 
 #endif // UI_H

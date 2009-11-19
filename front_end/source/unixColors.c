@@ -19,7 +19,9 @@ static const char attr2font_attr[] =
 * @param c	color
 */
 
-void textColor( color c ){
+void
+textColor( color c )
+{
 	if( !USE_COLORS ) return;
 	printf( "\033[%dm", color2font_color[(int)c] );
 }
@@ -31,7 +33,9 @@ void textColor( color c ){
 * @param c	color
 */
 
-void backColor( color c ){
+void
+backColor( color c )
+{
 	if( !USE_COLORS ) return;
 	printf( "\033[%dm", color2font_bkcolor[(int)c] );
 }
@@ -43,7 +47,9 @@ void backColor( color c ){
 * @param a attribute
 */
 
-void textAttr( attr a ){
+void
+textAttr( attr a )
+{
 	if( !USE_COLORS ) return;
 	printf( "\033[%dm", attr2font_attr[(int)a] );
 }

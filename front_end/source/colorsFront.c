@@ -30,8 +30,9 @@
 * @see newCommand()
 */
 
-int main(){
-
+int
+main()
+{
 	game_t * game;
 	char command[ MAX_COM_LEN ];
 	char message[ MAX_ERR_LEN ];

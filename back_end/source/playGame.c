@@ -17,9 +17,8 @@ typedef struct {
 
 
 /**
-* Look for line, given a position [@a x,@a y] checks for tokens of the same
-* color. If tokens is greater than or equal to tokens per line,
-* erases the line.
+* Looks for lines of the same color, intersecting (@a x,@a y). If lines are
+* found, they are erased.
 *
 * @param game	game structure
 * @param x 		coordinate
@@ -29,7 +28,9 @@ typedef struct {
 * @return new empty spots, tokens extrancted from the board
 */
 
-static int lookForLine( game_t * game, int nPlayer, size_t x, size_t y, direction_t dir ){
+static int
+lookForLine( game_t * game, int nPlayer, size_t x, size_t y, direction_t dir )
+{
 	int i, dx, dy, tokens = 1;
 
 	color c = game->players[nPlayer].board.matrix[y][x];
@@ -78,8 +79,9 @@ static int lookForLine( game_t * game, int nPlayer, size_t x, size_t y, directio
 * @see lookForLine()
 */
 
-int winningPlay( game_t *game, int nPlayer, size_t x, size_t y, bool countPoints ){
-
+int
+winningPlay( game_t *game, int nPlayer, size_t x, size_t y, bool countPoints )
+{
 	int i, aux, emptySpots=0, lines = 0;
 	direction_t directions[]={ {0,1}, {1,0}, {1,1}, {-1,1} };
 
@@ -136,7 +138,9 @@ int winningPlay( game_t *game, int nPlayer, size_t x, size_t y, bool countPoints
 * @see winningPlay()
 */
 
-void randFill( game_t * game, int nPlayer, size_t cant, bool force ){
+void
+randFill( game_t * game, int nPlayer, size_t cant, bool force )
+{
 	int i, j, pos;
 	time_t initTime = time(NULL);
 
@@ -184,7 +188,9 @@ void randFill( game_t * game, int nPlayer, size_t cant, bool force ){
 * @returns true if game is over for player @a nPlayer. false otherwise
 */
 
-bool gameOver( game_t * game, int nPlayer ){
+bool
+gameOver( game_t * game, int nPlayer )
+{
 	return ( game->options.mode == TIMEMODE
 			&& game->state.timeLeft - time(NULL) + game->state.lastTime <= 0 )
 			|| game->players[nPlayer].board.emptySpots <= 0;

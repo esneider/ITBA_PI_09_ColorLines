@@ -13,7 +13,7 @@
 
 
 /**
-* Creates a new matrix and starts its elemnts in 0.
+* Creates a new matrix and fills it with 0.
 *
 * @throws MEMORYERROR if there was a problem while allocating memory
 *
@@ -25,7 +25,9 @@
 * @see freeMatrix()
 */
 
-char ** newMatrix( size_t height, size_t width ){
+char **
+newMatrix( size_t height, size_t width )
+{
 	int i;
 	char ** sol = malloc( height * sizeof(char*) );
 	raiseErrorIf( sol, MEMORYERROR, NULL );
@@ -52,7 +54,9 @@ char ** newMatrix( size_t height, size_t width ){
 * @see newMatrix()
 */
 
-void freeMatrix( char ** mat, size_t height ){
+void
+freeMatrix( char ** mat, size_t height )
+{
 	int i;
 	for( i = 0 ; i < height ; i++ )
 		free( mat[i] );
@@ -72,7 +76,9 @@ void freeMatrix( char ** mat, size_t height ){
 * @see freeMatrix()
 */
 
-void copyMatrix( char ** to, char ** from, size_t height, size_t width ){
+void
+copyMatrix( char ** to, char ** from, size_t height, size_t width )
+{
 	int i;
 	for( i = 0 ; i < height ; i++ )
 		memcpy( to[i], from[i], width );
@@ -89,13 +95,16 @@ void copyMatrix( char ** to, char ** from, size_t height, size_t width ){
 * @return	true if @a b is in [@a a,@a c), otherwise, false
 */
 
-bool entre( int a, int b, int c ){
+bool
+entre( int a, int b, int c )
+{
 	return a<=b && b<c;
 }
 
 
 /**
-* Checks if a number is between to other numbers. Might return an error.
+* Checks if @a b is in the interval [@a a,@a c). If it's not, returns the
+* corresponding message.
 *
 * @param a			lower limit
 * @param b			number to be compared
@@ -107,7 +116,9 @@ bool entre( int a, int b, int c ){
 * @see entre()
 */
 
-bool validateInt( int a, int b, int c, char * err ){
+bool
+validateInt( int a, int b, int c, char * err )
+{
 	if( !entre(a,b,c) ){
 		sprintf( err, "Range error:\nIt must belong to the "
 		"interval [%d,%d]", a, c-1 );
@@ -122,7 +133,9 @@ bool validateInt( int a, int b, int c, char * err ){
 *
 */
 
-void clearBuffer(){
+void
+clearBuffer()
+{
 	while(getchar() != '\n');
 }
 
@@ -136,7 +149,9 @@ void clearBuffer(){
 * @return the minimum beetween @a a and @a b
 */
 
-int min( int a, int b ){
+int
+min( int a, int b )
+{
 	return (a<=b)?a:b;
 }
 
@@ -150,7 +165,9 @@ int min( int a, int b ){
 * @return the maximum beetween @a a and @a b
 */
 
-int max( int a, int b ){
+int
+max( int a, int b )
+{
 	return (a>=b)?a:b;
 }
 
@@ -164,9 +181,17 @@ int max( int a, int b ){
 *
 * @return a number between 0 and 1 that indicates similarity between
 *		  @a str1 and @a str2. greater is better
+*
+* @see F.J. Damerau. A technique for computer detection and correction of
+* 					spelling errors. Communications of the ACM, 1964.
+*
+* @see V.I. Levenshtein. Binary codes capable of correcting deletions,
+* 						insertions, and reversals. Soviet Physics Doklady, 1966.
 */
 
-double editDistance( const char * str1, const char * str2 ){
+double
+editDistance( const char * str1, const char * str2 )
+{
 	int i,j,cost=0;
 	int s1len=strlen(str1);
 	int s2len=strlen(str2);
