@@ -1,4 +1,7 @@
-// menu.c
+/**
+* menu.c
+* Main menu for the game.
+*/
 #include <stdio.h>
 #include "error.h"
 #include "utils.h"
