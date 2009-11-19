@@ -1,4 +1,8 @@
-// playGame.c
+/**
+* @file playGame.c
+* functions for token handling
+*/
+
 #include <stdlib.h>
 #include "error.h"
 #include "defines.h"
@@ -130,7 +134,6 @@ int winningPlay( game_t *game, int x, int y, bool countPoints ){
 
 void randFill( game_t * game, int nPlayer, size_t cant, bool force ){
 	int i, j, pos;
-	color c;
 	
 	struct point{
 		int x,y;
@@ -158,7 +161,8 @@ void randFill( game_t * game, int nPlayer, size_t cant, bool force ){
 					game->players[nPlayer].board.emptySpots--;
 					game->players[nPlayer].board.matrix[ vec[i].y ][ vec[i].x ] =
 					rand() % game->options.numColors + 1;
-					cant -= 1 - winningPlay( game, vec[i].x, vea[i].y, false );
+					j += 1 - winningPlay( game, vec[i].x, vec[i].y, false );
 				}
+				cant -= j;
 	}while( force && cant < 0 && game->players[nPlayer].board.emptySpots > 0 );
 }

@@ -150,20 +150,19 @@ bool areConnected( game_t * game, int x1, int y1, int x2, int y2 ){
 **********************************************************************/
 
 /**
-* Moves token from a position to another checking for winning and losing plays.	
-* 
+* Moves token from a position to another checking for winning and losing plays.
+*
 * @param game 	contain every information needed on the current game
 * @param argc	quantity of items in argv
 * @param argv   containins the parameters needed by the command
 * @param err    its an output containing the type of error
-* 
+*
 * @return		true if the move could be made. otherwise, false
 */
 bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 	int i;
 	char s[ argc * MAX_ARGS ];
-    
-	
+
 	s[0] = 0;
 	//reading the command given in argv
 	for( i = 0 ; i < argc ; i++ )
@@ -225,11 +224,12 @@ bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 					game->players[ game->state.next ].board.matrix[y1][x1];
 	game->players[ game->state.next ].board.matrix[y1][x1] = 0;
 
-	// if makes a line, erase it and count points (winning play)
-	// else, randFill() and change turn
+	// if made a line, erase it and count points (winning play)
+	printf("%d",game->players[game->state.next].board.emptySpots); getchar();
 	if( ! winningPlay( game, x2, y2, true ) ){
-		
+		// else, randFill()
 		randFill( game, game->state.next, game->options.tokensPerTurn, false );
+		// change turn
 		i = 0; 
 		do{
 			game->state.next++;
@@ -237,7 +237,14 @@ bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 			i++;
 		}while( game->players[ game->state.next ].board.emptySpots <= 0 &&
 					i <= game->numPlayers );
+	}else
+	// board is empty
+	if( game->players[ game->state.next ].board.emptySpots >=
+								game->options.width * game->options.height ){
+
+		randFill( game, game->state.next, game->options.tokensPerTurn, true );
 	}
+
 // 		check for gameover
 // 	if( i > game->numPlayers ||
 // 		time(NULL) - game->state.lastTime >= game->state.timeLeft ){
