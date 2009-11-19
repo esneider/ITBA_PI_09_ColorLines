@@ -225,7 +225,6 @@ bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 	game->players[ game->state.next ].board.matrix[y1][x1] = 0;
 
 	// if made a line, erase it and count points (winning play)
-	printf("%d",game->players[game->state.next].board.emptySpots); getchar();
 	if( ! winningPlay( game, x2, y2, true ) ){
 		// else, randFill()
 		randFill( game, game->state.next, game->options.tokensPerTurn, false );
