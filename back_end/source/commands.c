@@ -1,4 +1,8 @@
-// commands.c
+/**
+* commands.c
+* Handles commands during gameplay.
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -44,6 +48,7 @@ const command_t commands[] = {
 *
 * @return 		false if there is an error, otherwise true
 */
+
 bool newCommand( game_t * game, char * s, char * err ){
 	int i;
 	bool sol;
@@ -111,6 +116,7 @@ bool newCommand( game_t * game, char * s, char * err ){
 *
 * @return 		true if there is a valid path, otherwise false
 */
+
 bool areConnected( game_t * game, int x1, int y1, int x2, int y2 ){
 	// BFS to find minimum path
 
@@ -161,6 +167,7 @@ bool areConnected( game_t * game, int x1, int y1, int x2, int y2 ){
 *
 * @return		true if the move could be made. otherwise, false
 */
+
 bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 	int i;
 	char s[ argc * MAX_ARGS ];
@@ -269,6 +276,7 @@ bool movePiece( game_t * game, int argc, char ** argv, char * err ){
 * 
 * @return		true if the game could be saved. otherwise, false
 */
+
 bool save( game_t * game, int argc, char ** argv, char * err ){
 
 	//checking that the given command in argv is valid
@@ -307,6 +315,7 @@ bool save( game_t * game, int argc, char ** argv, char * err ){
 * 
 * @return		true if the item could be bought. otherwise, false
 */
+
 bool buyItem( game_t * game, int argc, char ** argv, char * err ){
 	//TODO
 	return true;
@@ -326,6 +335,7 @@ bool buyItem( game_t * game, int argc, char ** argv, char * err ){
 * 
 * @return		true if the itme could be thrown. otherwise, false
 */
+
 bool throwItem( game_t  * game, int argc, char ** argv, char * err ){
 	//TODO
 	return true;
@@ -345,6 +355,7 @@ bool throwItem( game_t  * game, int argc, char ** argv, char * err ){
 * 
 * @return		true if the move could be undone. otherwise, false
 */
+
 bool undo( game_t * game, int argc, char ** argv, char * err ){
 	
 	//checking that the given command in argv is valid
@@ -397,6 +408,7 @@ bool undo( game_t * game, int argc, char ** argv, char * err ){
 * 
 * @return		true if the parameters were valid. otherwise, false
 */
+
 bool quit( game_t * game, int argc, char ** argv, char * err ){
 	//checking that the parameters in argv are valid
 	if( argc == 2 && strcmp( argv[1], "--help" ) == 0 ){
