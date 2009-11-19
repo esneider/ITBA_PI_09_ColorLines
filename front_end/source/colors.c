@@ -1,6 +1,6 @@
 /**
 * @file colors.c
-* Contains the definitions of the color functions depending on the OS.
+* Contains console color functions depending on the OS.
 */
 
 #include "stdbool.h"

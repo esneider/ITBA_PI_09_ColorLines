@@ -1,5 +1,5 @@
 /**
-* @game.c
+* @file game.c
 * handles the creation and preservation of the game
 *
 */
@@ -32,6 +32,7 @@
 	do{ raiseErrorIf( fread( &(x), sizeof(char), 1, in ),				\
 					feof(in) ? CORRUPTFILE : FILEERROR, NULL ); }while(0)
 
+
 /**
 * Creates a new game, based on @a options.
 *
@@ -41,8 +42,10 @@
 *
 * @param options	contains options about the game
 *
-* @return 	 		a pointer to the new game
-* @see	 randfill() 
+* @return a pointer to the new game
+*
+* @see newMatrix()
+* @see randfill()
 */
 
 game_t * newGame( options_t * options ){
@@ -52,7 +55,7 @@ game_t * newGame( options_t * options ){
 	raiseErrorIf( sol, MEMORYERROR, NULL );
 
 	sol->options = *options;
-	//defining the game mode
+	// filling the game mode
 	switch( sol->options.mode ){
 		case SINGLEMODE:
 		case TIMEMODE:
@@ -65,14 +68,14 @@ game_t * newGame( options_t * options ){
 			sol->numPlayers = 0;
 			break;
 	};
-	//defining the players
+	// filling players
 	sol->players = malloc( sol->numPlayers * sizeof(player_t) );
 	if( !sol->players ){
 		free( sol );
 		raiseError( MEMORYERROR );
 		return NULL;
 	}
-	//defining the players boards
+	// filling the players boards
 	for( i = 0 ; i < sol->numPlayers ; i++ ){
 		sol->players[i].board.matrix=
 			newMatrix( sol->options.height, sol->options.width );
@@ -106,7 +109,7 @@ game_t * newGame( options_t * options ){
 			return NULL;
 		}
 	}
-	//defining the starting conditions
+	// filling the starting conditions
 	sol->state.next = 0;
 	sol->state.lastTime = time(NULL);
 	sol->state.timeLeft = sol->options.initialSeconds;
@@ -114,10 +117,14 @@ game_t * newGame( options_t * options ){
 	return sol;
 }
 
+
 /**
 * Frees the memory reserved by {@link newGame()}.
 *
 * @param  game	the information of the game about to be freed
+*
+* @see newGame()
+* @see freeMatrix()
 */
 
 void freeGame( game_t * game ){
@@ -130,11 +137,16 @@ void freeGame( game_t * game ){
 	free( game );
 }
 
+
 /**
-* Saves the current game in a file.
+* Saves @a game in a file.
+*
+* @throws FILEERROR	if there was an problem while opening/writing the file
 *
 * @param  game	contains all the data about the game
 * @param  file	contains the name of file about to be saved
+*
+* @see readGame()
 */
 
 void writeGame( game_t * game, char * file ){
@@ -144,7 +156,7 @@ void writeGame( game_t * game, char * file ){
 	//opening the file
 	FILE * out = fopen(file, "wb");
 	raiseErrorIf(out,FILEERROR,);
-	
+
 	// saving all the content in the file
 	SAFE_FWRITE_INT( game->options.mode );
 	if( game->options.mode == TIMEMODE ){
@@ -171,17 +183,18 @@ void writeGame( game_t * game, char * file ){
 	raiseErrorIf(i==0,FILEERROR,);
 }
 
+
 /**
-* Validates a game, in order to prevent corrupted input files.
+* Validates @a game, in order to prevent corrupted input files.
 *
 * @param  game	contains all the data about the game
 *
-* @return 		true if the game is valid, otherwise, false
+* @return true if the game is valid, otherwise, false
 */
 
 static bool validateGame( game_t * game ){
 	int i,x,y;
-	//checking every option of the game
+
 	if( !entre( 0, game->options.mode, 3 ) )
 		return false;
 	if( game->options.mode == TIMEMODE &&
@@ -216,13 +229,19 @@ static bool validateGame( game_t * game ){
 	return true;
 }
 
+
 /**
 * Reads a game from a file.  Use {@link newGame()} to load the game.
 *
-* @param file	contains the name of the file about to be read.
+* @throws MEMORYERROR	if there was an problem while allocating memory
+* @throws FILEERROR		if there was an problem while opening/reading from file
 *
-* @return 		a pointer to a game_t containing all the data about the game
-* @see newgame();
+* @param file	contains the name of the file about to be read
+*
+* @return a pointer to a game_t containing all the data about the game
+*
+* @see writeGame()
+* @see newgame()
 */
 
 game_t * readGame(char * file){
@@ -230,11 +249,10 @@ game_t * readGame(char * file){
 	options_t options;
 	state_t state;
 	game_t * sol;
-	//opening the file
+
 	FILE * in  = fopen(file,"rb");
 	raiseErrorIf(in,FILEERROR,NULL);
 
-	//reading the hole file
 	SAFE_FREAD_INT( options.mode );
 	state.next = 0;
 	if( options.mode == TIMEMODE ){
@@ -266,7 +284,6 @@ game_t * readGame(char * file){
 					sol->players[i].board.emptySpots--;
 			}
 	}
-	//finishing reading and closing the file
 	raiseErrorIf(!fread( &i, sizeof(int), 1, in ),CORRUPTFILE,NULL);
 	i = fclose(in);
 	raiseErrorIf(i==0,FILEERROR,NULL);
