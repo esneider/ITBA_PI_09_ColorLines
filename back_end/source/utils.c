@@ -1,4 +1,7 @@
-// utils.c
+/**
+* utils.c
+* Contains useful functions that are used many times during the program.
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -13,6 +16,7 @@
 * @param width	width of the new matrix
 * @return		a matrix of characters. every element in the matrix is a 0
 */
+
 char ** newMatrix( int height, int width ){
 	int i;
 	char ** sol = malloc( height * sizeof(char*) );
@@ -36,6 +40,7 @@ char ** newMatrix( int height, int width ){
 * @param mat	the matrix of characters about to be freed
 * @param height	the height of the matrix
 */
+
 void freeMatrix( char ** mat, int height ){
 	int i;
 	for( i = 0 ; i < height ; i++ )
@@ -51,6 +56,7 @@ void freeMatrix( char ** mat, int height ){
 * @param height	the height of the matrix
 * @param width 	the width of the matrix
 */
+
 void copyMatrix( char ** from, char ** to, int height, int width ){
 	for( height-- ; height >= 0 ; height-- )
 		memcpy( to[height], from[height], width );
@@ -64,6 +70,7 @@ void copyMatrix( char ** from, char ** to, int height, int width ){
 * @param c 	the upper limit @a b is permitted to be
 * @return	true if @a b is between @a a and @a c, otherwise, false
 */
+
 bool entre( const int a, const int b, const int c ){
 	return a<=b && b<c;
 }
@@ -85,6 +92,7 @@ void clearBuffer(){
 * @param err	an output string containing the type of error in case there is one
 * @return		true if @a b is between @a a and @a c, otherwise, false
 */
+
 bool validateInt( int a, int b, int c, char * err ){
 	if( !entre(a,b,c) ){
 		sprintf( err, "Rank error:\nIt must belong to the "
@@ -101,6 +109,7 @@ bool validateInt( int a, int b, int c, char * err ){
 * @param b	the other number to be compared
 * @return	the minimum of the two numbers
 */
+
 int min( int a, int b ){
 	return (a<=b)?a:b;
 }
@@ -112,6 +121,7 @@ int min( int a, int b ){
 * @param b	the other number to be compared
 * @return	the maximum of the two numbers
 */
+
 int max( int a, int b ){
 	return (a>=b)?a:b;
 }
@@ -124,6 +134,7 @@ int max( int a, int b ){
 * @return		a number between 0 and 1 that indicates similarity between
 *				@a str1 and @a str2. greater is better
 */
+
 double editDistance( const char * str1, const char * str2 ){
 	int i,j,cost=0;
 	int s1len=strlen(str1);

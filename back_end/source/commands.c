@@ -106,7 +106,7 @@ bool newCommand( game_t * game, char * s, char * err ){
 
 
 /**
-* Checks if there is a valid path between two positions in the board
+* Checks if there is a valid path between two positions in the board.
 *
 * @param game	contains every information needed on the current game
 * @param x1		initial x coordenate of the path about to be checked
@@ -306,7 +306,7 @@ bool save( game_t * game, int argc, char ** argv, char * err ){
 **********************************************************************/
 
 /**
-* Buys an item so that the player can have much more fun!	
+* Buys an item so that the player can have much more fun!.	
 * 
 * @param game 	contains every information needed on the current game
 * @param argc	quantity of items in argv
@@ -326,7 +326,7 @@ bool buyItem( game_t * game, int argc, char ** argv, char * err ){
 **********************************************************************/
 
 /**
-* Throws the item! Total mayhem in the board!	
+* Throws the item! Total mayhem in the board!.	
 * 
 * @param game 	contains every information needed on the current game
 * @param argc	quantity of items in argv

@@ -24,7 +24,6 @@ typedef struct {
 * @param x 		Coordinate
 * @param y 		Coordinate
 * @param dir	Line direction to check
-*
 * @return new empty spots, tokens extrancted from the board
 */
 
@@ -71,7 +70,6 @@ static int lookForLine( game_t * game, int x, int y, direction_t dir ){
 * @param x 				coordinate
 * @param y 				coordinate
 * @param countPoints	if false points won't be taken into account
-*
 * @return number of lines deleted
 *
 * @see lookForLine()
@@ -128,7 +126,6 @@ int winningPlay( game_t *game, int x, int y, bool countPoints ){
 * @param cant 		indicates the number of tokens about to be placed
 * @param force		indicates if when a line is made, and tokens are erased,
 *					tokens should still be filled until @a cant are reached
-*
 * @see winningPlay()
 */
 
