@@ -1,4 +1,8 @@
-// commands.h
+/**
+* @file command.h
+* command handling
+*/
+
 #ifndef COMMANDS_H
 #define COMMANDS_H
 

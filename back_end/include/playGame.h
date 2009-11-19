@@ -1,4 +1,8 @@
-// playGame.h
+/**
+* @file playGame.h
+* functions for token handling
+*/
+
 #ifndef PLAYGAME_H
 #define PLAYGAME_H
 

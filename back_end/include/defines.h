@@ -1,4 +1,8 @@
-// defines.h
+/**
+* @file defines.h
+* contains definitions
+*/
+
 #ifndef DEFINES_H
 #define DEFINES_H
 

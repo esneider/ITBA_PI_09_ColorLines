@@ -1,5 +1,8 @@
-// utils.h
-// potpourri of useful functions/procedures
+/**
+* @file utils.h
+* Contains useful functions that are used several times across the code.
+*/
+
 #ifndef UTILS_H
 #define UTILS_H
 

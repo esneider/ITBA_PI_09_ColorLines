@@ -1,4 +1,9 @@
-// game.h
+/**
+* @file game.h
+* handles the creation and preservation of the game
+*
+*/
+
 #ifndef GAME_H
 #define GAME_H
 

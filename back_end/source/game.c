@@ -1,5 +1,5 @@
 /**
-* game.c
+* @game.c
 * handles the creation and preservation of the game
 *
 */
