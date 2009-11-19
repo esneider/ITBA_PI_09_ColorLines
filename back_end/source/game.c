@@ -82,8 +82,6 @@ game_t * newGame( options_t * options ){
 		sol->players[i].board.points = 0;
 		sol->players[i].board.emptySpots = sol->options.height * sol->options.width;
 		sol->players[i].canUndo = false;
-// 		sol->players[i].height = sol->options.height;
-// 		sol->players[i].width = sol->options.width;
 		randFill( sol, i, sol->options.initialTokens, true );
 	}
 	//defining the starting conditions
