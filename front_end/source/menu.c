@@ -226,7 +226,9 @@ game_t * menu(){
 
 	options_t options;
 	char str[MAX_COM_LEN];
+
 	modeOption_t modeOption = chooseMode();
+
 	raiseErrorIf( errorCode() == NOERROR, errorCode(), NULL );
 
 	switch( modeOption ){

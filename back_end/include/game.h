@@ -58,10 +58,10 @@ game_t * newGame( options_t * options );
 void freeGame( game_t * game );
 
 // writes game to file
-void writeGame( game_t * game, char * file );
+void writeGame( game_t * game, const char * file );
 
 // reads game from file
-game_t * readGame( char * file );
+game_t * readGame( const char * file );
 
 
 #endif // GAME_H

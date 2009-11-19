@@ -13,9 +13,9 @@ void clearScreen();
 
 void drawTable( game_t * game  );
 
-void drawText( char * str );
+void drawText( const char * message );
 
-void drawPanel( char * message );
+void drawPanel( const char * message );
 
 void askCommand( char * result );
 

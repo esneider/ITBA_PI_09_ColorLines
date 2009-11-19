@@ -60,7 +60,7 @@ const command_t commands[] = {
 * @see ROFLcopter
 */
 
-bool newCommand( game_t * game, char * s, char * msg ){
+bool newCommand( game_t * game, const char * s, char * msg ){
 	int i;
 	bool sol;
 	int argc;
@@ -237,8 +237,8 @@ bool movePiece( game_t * game, int argc, char ** argv, char * msg ){
 	// maintain undo
 	game->players[ game->state.next ].canUndo = true;
 
-	copyMatrix( game->players[ game->state.next ].board.matrix,
-				game->players[ game->state.next ].lastBoard. matrix,
+	copyMatrix( game->players[ game->state.next ].lastBoard. matrix,
+				game->players[ game->state.next ].board.matrix,
 				game->options.height, game->options.width );
 
 	game->players[ game->state.next ].lastBoard.points =

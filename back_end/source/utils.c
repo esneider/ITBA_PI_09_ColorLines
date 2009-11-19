@@ -25,7 +25,7 @@
 * @see freeMatrix()
 */
 
-char ** newMatrix( int height, int width ){
+char ** newMatrix( size_t height, size_t width ){
 	int i;
 	char ** sol = malloc( height * sizeof(char*) );
 	raiseErrorIf( sol, MEMORYERROR, NULL );
@@ -52,7 +52,7 @@ char ** newMatrix( int height, int width ){
 * @see newMatrix()
 */
 
-void freeMatrix( char ** mat, int height ){
+void freeMatrix( char ** mat, size_t height ){
 	int i;
 	for( i = 0 ; i < height ; i++ )
 		free( mat[i] );
@@ -63,18 +63,19 @@ void freeMatrix( char ** mat, int height ){
 /**
 * Copies a matrix to another one.
 *
-* @param from	the matrix to be copied
-* @param to		output matrix in wich from was copied
-* @param height	the height of the matrix
-* @param width 	the width of the matrix
+* @param[out] to	output matrix in wich from was copied
+* @param from		the matrix to be copied
+* @param height		the height of the matrix
+* @param width 		the width of the matrix
 *
 * @see newMatrix()
 * @see freeMatrix()
 */
 
-void copyMatrix( char ** from, char ** to, int height, int width ){
-	for( height-- ; height >= 0 ; height-- )
-		memcpy( to[height], from[height], width );
+void copyMatrix( char ** to, char ** from, size_t height, size_t width ){
+	int i;
+	for( i = 0 ; i < height ; i++ )
+		memcpy( to[i], from[i], width );
 }
 
 
@@ -88,7 +89,7 @@ void copyMatrix( char ** from, char ** to, int height, int width ){
 * @return	true if @a b is in [@a a,@a c), otherwise, false
 */
 
-bool entre( const int a, const int b, const int c ){
+bool entre( int a, int b, int c ){
 	return a<=b && b<c;
 }
 

@@ -148,7 +148,7 @@ void freeGame( game_t * game ){
 * @see readGame()
 */
 
-void writeGame( game_t * game, char * file ){
+void writeGame( game_t * game, const char * file ){
 	int i,x,y;
 	int int_;
 	char char_;
@@ -240,10 +240,11 @@ static bool validateGame( game_t * game ){
 * @return a pointer to a game_t containing all the data about the game
 *
 * @see writeGame()
-* @see newgame()
+* @see newGame()
+* @see validateGame()
 */
 
-game_t * readGame(char * file){
+game_t * readGame( const char * file ){
 	int i,x,y;
 	options_t options;
 	state_t state;

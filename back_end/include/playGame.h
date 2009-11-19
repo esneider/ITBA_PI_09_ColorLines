@@ -10,7 +10,7 @@
 #include "colors.h"
 #include "game.h"
 
-int winningPlay( game_t *game, int nPlayer, int x, int y, bool countPoints );
+int winningPlay( game_t *game, int nPlayer, size_t x, size_t y, bool countPoints );
 
 void randFill( game_t * game, int nPlayer, size_t cant, bool force );
 

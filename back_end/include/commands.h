@@ -10,7 +10,7 @@
 #include "game.h"
 
 
-bool newCommand( game_t * game, char * s, char * msg );
+bool newCommand( game_t * game, const char * s, char * msg );
 
 
 #endif // COMMANDS_H

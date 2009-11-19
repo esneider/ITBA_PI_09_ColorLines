@@ -135,10 +135,10 @@ void drawTable( game_t * game ){
 * @param str	text to print (can be NULL)
 */
 
-void drawText( char * str ){
+void drawText( const char * message ){
 	static char buffer[ MAX_TEXT ] = "";
-	if( str && str[0] )
-		strcpy( buffer, str );
+	if( message && message[0] )
+		strcpy( buffer, message );
 	backColor(BLACK);
 	textColor(WHITE);
 	printf("%s",buffer);
@@ -153,7 +153,7 @@ void drawText( char * str ){
 * @param str	text to print (can be NULL or empty)
 */
 
-void drawPanel( char * message ){
+void drawPanel( const char * message ){
 	char msg[ MAX_ERR_LEN ];
 	int i;
 
@@ -195,7 +195,7 @@ void drawPanel( char * message ){
 /**
 * Reads a command from the standard input.
 *
-* @param str	buffer ( has at least MAX_COM_LEN size allocated )
+* @param[out] str	buffer ( has at least MAX_COM_LEN size allocated )
 */
 
 void askCommand( char * result ){

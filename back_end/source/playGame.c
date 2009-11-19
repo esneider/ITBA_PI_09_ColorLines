@@ -29,7 +29,7 @@ typedef struct {
 * @return new empty spots, tokens extrancted from the board
 */
 
-static int lookForLine( game_t * game, int nPlayer, int x, int y, direction_t dir ){
+static int lookForLine( game_t * game, int nPlayer, size_t x, size_t y, direction_t dir ){
 	int i, dx, dy, tokens = 1;
 
 	color c = game->players[nPlayer].board.matrix[y][x];
@@ -78,7 +78,7 @@ static int lookForLine( game_t * game, int nPlayer, int x, int y, direction_t di
 * @see lookForLine()
 */
 
-int winningPlay( game_t *game, int nPlayer, int x, int y, bool countPoints ){
+int winningPlay( game_t *game, int nPlayer, size_t x, size_t y, bool countPoints ){
 
 	int i, aux, emptySpots=0, lines = 0;
 	direction_t directions[]={ {0,1}, {1,0}, {1,1}, {-1,1} };

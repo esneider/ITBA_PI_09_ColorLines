@@ -23,21 +23,17 @@ typedef enum{
 	COMPUTATIONALERROR
 } error;
 
-// Quita errores pasados
 void clearError();
 
-// Actual error code
 error errorCode();
+
+void raiseError( error num );
+
+char * errorMessage( error num );
 
 // if "comp" is TRUE raise error "num" and return "ret"
 #define raiseErrorIf( comp, num, ret ) \
 			do{ if(!(comp)){raiseError(num); return ret;} }while(0)
-
-// raise error "num"
-void raiseError( error num );
-
-// error message for error code "num"
-char * errorMessage( error num );
 
 
 #ifdef DEBUG
