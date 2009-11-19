@@ -2,6 +2,7 @@
 * menu.c
 * Main menu for the game.
 */
+
 #include <stdio.h>
 #include "error.h"
 #include "utils.h"
@@ -163,6 +164,7 @@ static modeOption_t chooseMode(){
 * @see askInt()
 * @see ask2Int()
 */
+
 static options_t chooseOptions( modus_t mode ){
 	options_t options;
 	int h, w;

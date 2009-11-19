@@ -1,4 +1,8 @@
-// winColors.c
+/**
+* unixColores.c
+* Sets the colors if the operating system is windows.
+*/
+
 #include <windows.h>
 #include <wincon.h>
 #include <stdio.h>
@@ -38,6 +42,7 @@ const char color2font_bkcolor[] =
 *
 * @param	c	a code depending on the desired color
 */
+
 void textcolor( color c ){
 	WORD wColor; 
 	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -49,11 +54,13 @@ void textcolor( color c ){
 		SetConsoleTextAttribute(hStdOut, wColor);
 	}
 }
+
 /**
 * Sets the backcolor if the operating system is windows.
 *
 * @param	c	a code depending on the desired color
 */
+
 void backcolor( color c ){
 	WORD wColor; 
 	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -65,11 +72,13 @@ void backcolor( color c ){
 		SetConsoleTextAttribute(hStdOut, wColor);
 	}
 }
+
 /**
 * Sets the text attribute if the operating system is windows.
 *
 * @param	c	a code depending on the desired color
 */
+
 void textattr( attr a ){
 	if( !USE_COLORS ) return;
 	if( a == CLEAR ){

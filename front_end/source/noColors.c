@@ -1,4 +1,9 @@
-// noColors.c
+/**
+* noColors.c
+* Sets the colors in case the operating system is not linux nor windows.
+*/
+
+
 /**
 * Sets the textcolor as default in case the operating system is not linux nor
 * windows.

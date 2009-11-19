@@ -1,4 +1,8 @@
-// colorsFront.c
+/**
+* colorsFront.c
+* Contains the main function with the game loop.
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -18,6 +22,7 @@
 * @return	a code to be handled by the operating system depending of the state
 * 			of the program
 */
+
 int main(){
 
 	game_t * game;

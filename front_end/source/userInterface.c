@@ -1,4 +1,5 @@
 // ui.c
+
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
@@ -114,10 +115,11 @@ void drawTable( game_t * game ){
 	textattr(CLEAR);
 }
 /**
-* prints a text on screen.
+* Prints a text on screen.
 *
 * @param str	contains what it is about to be printed
 */
+
 void drawText( char * str ){
 	static char buffer[ MAX_TEXT ] = "";
 	if( str && str[0] )
@@ -166,6 +168,13 @@ void drawPanel( char * message ){
 	printf( " > " );
 	textattr(CLEAR);
 }
+
+
+/**
+* Makes sure a command is '\n' terminated and copies it into the buffer.
+*
+* @param restul	string from which to take the command.
+*/
 
 void askCommand( char * result ){
 	backcolor(NEGRO);

@@ -1,4 +1,8 @@
-// colors.c
+/**
+* colors.c
+* Contains some definitions to be used in the implementation of colors.
+*/
+
 #include "stdbool.h"
 #include "defines.h"
 #include "colors.h"
