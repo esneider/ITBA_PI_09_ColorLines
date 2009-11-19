@@ -10,13 +10,14 @@
 #include "playGame.h"
 #include "commands.h"
 
-bool movePiece( game_t * game, int argc, char ** argv, char * err );
-bool save     ( game_t * game, int argc, char ** argv, char * err );
-bool buyItem  ( game_t * game, int argc, char ** argv, char * err );
-bool throwItem( game_t * game, int argc, char ** argv, char * err );
-bool undo     ( game_t * game, int argc, char ** argv, char * err );
-bool quit     ( game_t * game, int argc, char ** argv, char * err );
-bool help     ( game_t * game, int argc, char ** argv, char * err );
+bool movePiece ( game_t * game, int argc, char ** argv, char * err );
+bool save      ( game_t * game, int argc, char ** argv, char * err );
+bool buyItem   ( game_t * game, int argc, char ** argv, char * err );
+bool throwItem ( game_t * game, int argc, char ** argv, char * err );
+bool undo      ( game_t * game, int argc, char ** argv, char * err );
+bool quit      ( game_t * game, int argc, char ** argv, char * err );
+bool help      ( game_t * game, int argc, char ** argv, char * err );
+bool roflcopter( game_t * game, int argc, char ** argv, char * err );
 
 typedef struct{
 	char com[ MAX_COM_LEN ];
@@ -30,7 +31,8 @@ const command_t commands[] = {
 	{"throw", throwItem},
 	{"undo", undo},
 	{"quit", quit},
-	{"help", help}
+	{"help", help},
+	{"ROFLcopter",roflcopter}
 };
 
 /**
@@ -417,6 +419,7 @@ bool quit( game_t * game, int argc, char ** argv, char * err ){
 ********************************* help ********************************
 **********************************************************************/
 
+
 /**
 * Prints help for the user.	
 * 
@@ -427,6 +430,7 @@ bool quit( game_t * game, int argc, char ** argv, char * err ){
 * 
 * @return		true if the parameters were valid. otherwise, false
 */
+
 bool help( game_t * game, int argc, char ** argv, char * err ){
 
 	//checking the data given in argv
@@ -452,4 +456,36 @@ bool help( game_t * game, int argc, char ** argv, char * err ){
 				"  buy {item}  TODO\n"
 				"  throw {item}  TODO\n" );
 	return true;
+}
+
+/**********************************************************************
+****************************** roflcopter *****************************
+**********************************************************************/
+
+/**
+* Prints a ROFLcopter.	
+* 
+* @param game 	contains every information needed on the current game
+* @param argc	quantity of items in argv
+* @param argv   contains the parameters needed by the command
+* @param err    its an output containing the type of error
+* 
+* @return		true if the parameters were valid. otherwise, false
+*/
+
+bool roflcopter( game_t * game, int argc, char ** argv, char * err ){
+	sprintf( err,
+			".......................__ .........\n"
+			".............<ROFL ROFL ROFL ROFL>.\n"
+			".......................| |.........\n"
+			"................... __\\||/____.....\n"
+			".\\\\...............|'-|-| .\\\\...\\...\n"
+			"..\\ \\_...........|--|---|..\\\\...\\..\n"
+			"../ L \\______,/---------\\___\\___\\..\n"
+			".|L O L|------------O------ ----,\\.\n"
+			"..\\ L /________,---''----------, /.\n"
+			"../ /...........\\____________ ,/...\n"
+			".//............____//___ __\\\\__/...\n"
+			);
+	return false;
 }

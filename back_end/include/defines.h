@@ -3,13 +3,13 @@
 #define DEFINES_H
 
 
-#define MAX_ERR_LEN 200
+#define MAX_ERR_LEN 1000
 #define MAX_COM_LEN 100
 #define MAX_ARGS 10
 
 #define MAX_TEXT 5000
 #define MAX_PANEL_LINES 25
-#define PANEL_LINES 10	// may be a variable
+#define PANEL_LINES 11	// may be a variable
 
 #define HOR_LINES true	// may be a variable
 #define VER_LINES true	// may be a variable , not implemented yet
