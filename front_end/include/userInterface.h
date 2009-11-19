@@ -1,4 +1,8 @@
-// ui.h
+/**
+* @file userInterface.h
+* funtions for human-computer interaction
+*/
+
 #ifndef UI_H
 #define UI_H
 

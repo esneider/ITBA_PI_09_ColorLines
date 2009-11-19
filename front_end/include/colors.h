@@ -1,4 +1,8 @@
-// colors.h
+/**
+* @file colors.h
+* Contains the definitions of the color functions depending on the OS.
+*/
+
 #ifndef COLORS_H
 #define COLORS_H
 
