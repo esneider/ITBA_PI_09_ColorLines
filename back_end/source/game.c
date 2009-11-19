@@ -101,7 +101,7 @@ game_t * newGame( options_t * options ){
 */
 void freeGame( game_t * game ){
 	int i;
-	for( i = 0 ; i <= game->numPlayers ; i++ ){
+	for( i = 0 ; i < game->numPlayers ; i++ ){
 		freeMatrix( game->players[i].lastBoard.matrix, game->options.height );
 		freeMatrix( game->players[i].board.matrix, game->options.height );
 	}

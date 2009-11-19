@@ -66,8 +66,10 @@ int main(){
 				continue;
 			}
 					// analize command
-			if( !newCommand( game, command, message ) && !message[0] )
+			if( !newCommand( game, command, message ) && !message[0] ){
+				freeGame(game);
 				break;
+			}
 					// check for error while analizing command
 			if( errorCode() != NOERROR ){
 				drawText( errorMessage( errorCode() ) );
@@ -75,7 +77,6 @@ int main(){
 			}
 		}
 	}
-	freeGame(game);
 	printf("\n");
 	return EXIT_SUCCESS;
 }
