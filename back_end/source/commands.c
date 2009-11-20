@@ -94,7 +94,7 @@ newCommand( game_t * game, const char * s, char * msg )
 	sol = false;
 	sprintf( msg, "Unknown command" );
 	double auxsim, maxsim = 0;
-	int maxi;
+	int maxi = 0;
 
 	//call the appropiate function
 	for( i = 0 ; i < sizeof(commands)/ sizeof(command_t) ; i++ ){

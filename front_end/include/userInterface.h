@@ -21,6 +21,9 @@ drawText( const char * message );
 void
 drawPanel( const char * message );
 
+void
+drawWinner( game_t * game );
+
 char *
 askCommand( char * result );
 

@@ -29,7 +29,7 @@
 * @see askCommand()
 * @see newCommand()
 */
-
+#include <stdio.h>
 int
 main()
 {
@@ -52,6 +52,7 @@ main()
 			newCommand( game, command, message );
 		}
 		if( gameOver( game, game->state.next ) ){
+			drawWinner( game );
 			clearScreen();
 			drawTable( game );
 			drawPanel("GAME OVER\nPress ENTER to return to main menu\n");

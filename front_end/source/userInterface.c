@@ -201,6 +201,33 @@ drawPanel( const char * message )
 
 
 /**
+* If in @b MULTIPLMODE, draws in the panel the winner of the game.
+*
+* @param game	contains all information about current game
+*
+* @see drawPanel()
+*/
+
+void
+drawWinner( game_t * game )
+{
+	char str[15];
+	int i=0,j;
+	if( game->options.mode != MULTIPLMODE )
+		return;
+
+	for( j = 1 ; j < game->numPlayers ; j++ )
+		if( game->players[j].board.points >= game->players[i].board.points )
+			i = j;
+	if( i && game->players[0].board.points == game->players[i].board.points )
+		sprintf( str, "Tie game." );
+	else
+		sprintf( str, "Player %d wins!!!", i+1 );
+
+	drawPanel( str );
+}
+
+/**
 * Reads a command from the standard input.
 *
 * @throws INPUTERROR	if there was an error while reading from standard input

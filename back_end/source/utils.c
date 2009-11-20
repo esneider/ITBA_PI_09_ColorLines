@@ -196,7 +196,7 @@ editDistance( const char * str1, const char * str2 )
 	int s1len=strlen(str1);
 	int s2len=strlen(str2);
 	int mat[3][ s2len+1 ];
-	int prev2, prev, this = 0;
+	int prev2, prev=0, this = 0;
 
 	if( min( s1len, s2len ) < MIN_EDIT_LEN || max( s1len, s2len ) > MAX_EDIT_LEN )
 		return 0;

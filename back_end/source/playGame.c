@@ -15,6 +15,7 @@ typedef struct {
 	int x,y;
 }direction_t;
 
+#include <stdio.h>
 
 /**
 * Looks for lines of the same color, intersecting (@a x,@a y). If lines are
@@ -163,19 +164,21 @@ randFill( game_t * game, int nPlayer, size_t cant, bool force )
 			vec[pos] = aux;
 		}
 		// fill with cant tokens
+		pos = game->players[nPlayer].board.emptySpots;
 		j = 0;
 		for( i = 0 ; i < cant ; i++ ){
-			if( game->players[nPlayer].board.emptySpots <= 0 )
+			if( game->players[nPlayer].board.emptySpots <= 0 || pos <= i ){
 				break;
+			}
 			game->players[nPlayer].board.emptySpots--;
 			game->players[nPlayer].board.matrix[ vec[i].y ][ vec[i].x ] =
 										rand() % game->options.numColors + 1;
+
 			j += 1 - winningPlay( game, nPlayer, vec[i].x, vec[i].y, false );
 		}
 		cant -= j;
 
 		raiseErrorIf( time(NULL)-initTime < MAX_WAITING_TIME, COMPUTATIONALERROR,);
-
 	}while( force && cant > 0 && game->players[nPlayer].board.emptySpots > 0 );
 }
 
