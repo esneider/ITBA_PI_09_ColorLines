@@ -359,9 +359,8 @@ undo( game_t * game, int argc, char ** argv, char * msg )
 					"Try 'undo --help' for more information");
 		return false;
 	}
-	if( game->options.mode != SINGLEMODE ){
-		sprintf( msg, "'undo' command is only available in one player"
-					", no time mode" );
+	if( game->options.mode == MULTIPLMODE ){
+		sprintf( msg, "'undo' command is only available in one player mode" );
 		return false;
 	}
 	if( game->players[ game->state.next ].canUndo == false ){
