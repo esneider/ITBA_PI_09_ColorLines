@@ -20,10 +20,11 @@ typedef struct {
 * Looks for lines of the same color, intersecting (@a x,@a y). If lines are
 * found, they are erased.
 *
-* @param game	game structure
-* @param x 		coordinate
-* @param y 		coordinate
-* @param dir	line direction to check
+* @param game		game structure
+* @param nPlayer	player number
+* @param x 			coordinate
+* @param y 			coordinate
+* @param dir		line direction to check
 *
 * @return new empty spots, tokens extrancted from the board
 */
@@ -70,6 +71,7 @@ lookForLine( game_t * game, int nPlayer, size_t x, size_t y, direction_t dir )
 * is true, then it also actualizes points.
 *
 * @param game			game structure
+* @param nPlayer		player number
 * @param x 				coordinate
 * @param y 				coordinate
 * @param countPoints	if false points won't be taken into account
@@ -185,7 +187,8 @@ randFill( game_t * game, int nPlayer, size_t cant, bool force )
 /**
 * Checks if game is over for player @a nPlayer
 *
-* @param nPlayer player number
+* @param game		contains all the information about the current game
+* @param nPlayer	player number
 *
 * @returns true if game is over for player @a nPlayer. false otherwise
 */

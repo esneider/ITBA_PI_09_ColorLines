@@ -52,7 +52,7 @@ raiseError( error num )
 /**
 * Returns the error message corresponding to the given error code.
 *
-* @param  error	error code
+* @param  num	error code
 *
 * @return error message
 *

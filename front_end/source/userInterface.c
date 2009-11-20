@@ -133,10 +133,10 @@ drawTable( game_t * game )
 
 
 /**
-* Draws the text main panel. If @a str is provided, then the text is set to be
-* it, else if @a str is NULL, the last text provided is used.
+* Draws the text main panel. If @a message is provided, then the text is set to be
+* it, else if @a message is NULL, the last text provided is used.
 *
-* @param str	text to print (can be NULL)
+* @param message	text to print (can be NULL)
 */
 
 void
@@ -156,7 +156,7 @@ drawText( const char * message )
 * Draws the text panel (secondary). If @a message is provided, then it is
 * printed. All the previous commands and ' > ' are printed in either case.
 *
-* @param str	text to print (can be NULL or empty)
+* @param message	text to print (can be NULL or empty)
 */
 
 void
@@ -232,7 +232,7 @@ drawWinner( game_t * game )
 *
 * @throws INPUTERROR	if there was an error while reading from standard input
 *
-* @param[out] str	buffer ( has at least MAX_COM_LEN size allocated )
+* @param[out] result	buffer ( has at least MAX_COM_LEN size allocated )
 *
 * @return string with the command (@a str)
 */

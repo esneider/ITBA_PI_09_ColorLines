@@ -5,6 +5,7 @@
 
 #include <stdlib.h>
 #include <stdbool.h>
+#include <time.h>
 #include "error.h"
 #include "defines.h"
 #include "game.h"
@@ -36,6 +37,8 @@ main()
 	game_t * game;
 	char command[ MAX_COM_LEN ];
 	char message[ MAX_ERR_LEN ];
+
+	srand( time(NULL) );
 
 	while( menu( &game ) ){
 		if( errorCode() != NOERROR ){
