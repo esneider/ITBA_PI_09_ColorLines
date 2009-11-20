@@ -16,8 +16,6 @@
 
 bool movePiece ( game_t * game, int argc, char ** argv, char * msg );
 bool save      ( game_t * game, int argc, char ** argv, char * msg );
-bool buyItem   ( game_t * game, int argc, char ** argv, char * msg );
-bool throwItem ( game_t * game, int argc, char ** argv, char * msg );
 bool undo      ( game_t * game, int argc, char ** argv, char * msg );
 bool quit      ( game_t * game, int argc, char ** argv, char * msg );
 bool help      ( game_t * game, int argc, char ** argv, char * msg );
@@ -31,8 +29,6 @@ typedef struct{
 const command_t commands[] = {
 	{"[", movePiece},
 	{"save", save},
-	{"buy", buyItem},
-	{"throw", throwItem},
 	{"undo", undo},
 	{"quit", quit},
 	{"help", help},
@@ -52,8 +48,6 @@ const command_t commands[] = {
 * @see editDistance()
 * @see movePiece()
 * @see save()
-* @see buyItem()
-* @see throwItem()
 * @see undo()
 * @see quit()
 * @see help()
@@ -276,15 +270,20 @@ movePiece( game_t * game, int argc, char ** argv, char * msg )
 			i++;
 		}while( game->players[ game->state.next ].board.emptySpots <= 0 &&
 					i <= game->numPlayers );
-	}else
-	// board is empty
-	if( game->players[ game->state.next ].board.emptySpots >=
-								game->options.width * game->options.height ){
+	}else{
+		// print number of points just made
+		sprintf( msg, "%d point/s move",
+						game->players[ game->state.next ].board.points -
+							game->players[ game->state.next ].lastBoard.points );
+		// if board is empty
+		if( game->players[ game->state.next ].board.emptySpots >=
+									game->options.width * game->options.height ){
 
-		randFill( game, game->state.next, game->options.tokensPerTurn, true );
-		if( errorCode() != NOERROR ){
-			sprintf( msg, "%s", errorMessage( errorCode() ) );
-			return false;
+			randFill( game, game->state.next, game->options.tokensPerTurn, true );
+			if( errorCode() != NOERROR ){
+				sprintf( msg, "%s", errorMessage( errorCode() ) );
+				return false;
+			}
 		}
 	}
 
@@ -330,48 +329,6 @@ save( game_t * game, int argc, char ** argv, char * msg )
 		return false;
 	}
 
-	return true;
-}
-
-
-/**
-* Buys an item so that the player can have much more fun!
-*
-* @param game		contains all information about current game
-* @param argc		size of @a argv
-* @param argv		parameters followinf the command
-* @param[out] msg	output with message to write in the panel
-*
-* @return false if some message is to be written
-*
-* @see throwItem()
-*/
-
-bool
-buyItem( game_t * game, int argc, char ** argv, char * msg )
-{
-	//TODO
-	return true;
-}
-
-
-/**
-* Throws the item! Total mayhem in the board!
-*
-* @param game		contains all information about current game
-* @param argc		size of @a argv
-* @param argv		parameters followinf the command
-* @param[out] msg	output with message to write in the panel
-*
-* @return false if some message is to be written
-*
-* @see buyItem()
-*/
-
-bool
-throwItem( game_t  * game, int argc, char ** argv, char * msg )
-{
-	//TODO
 	return true;
 }
 
@@ -478,16 +435,14 @@ help( game_t * game, int argc, char ** argv, char * msg )
 		"Try 'help --help' for more information");
 		return false;
 	}
-	sprintf( msg, //"These commands are defined internally\n"
+	sprintf( msg,
 				"Type 'name --help' to find out more about the function 'name'"
 				"\n \n"
 				"  [row_1,column_1][row_2,column_2]\n"
 				"  save filename\n"
 				"  undo\n"
 				"  quit\n"
-				"  help\n"
-				"  buy {item}  TODO\n"
-				"  throw {item}  TODO\n" );
+				"  help\n" );
 	return true;
 }
 

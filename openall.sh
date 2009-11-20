@@ -1,7 +1,7 @@
 #!/bin/bash
 
 extensions=".h .c"
-nothaving="Colors test"
+nothaving="test"
 
 files=""
 nothaving=`echo $nothaving | sed "s# #|#g"`
