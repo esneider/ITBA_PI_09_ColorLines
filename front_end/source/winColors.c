@@ -1,5 +1,5 @@
 /**
-* @file unixColores.c
+* @file winColors.c
 * Console colors in Windows.
 */
 

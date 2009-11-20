@@ -15,7 +15,6 @@ typedef struct {
 	int x,y;
 }direction_t;
 
-#include <stdio.h>
 
 /**
 * Looks for lines of the same color, intersecting (@a x,@a y). If lines are

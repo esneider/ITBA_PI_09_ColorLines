@@ -3,7 +3,7 @@
 # executable name
 TARGET=colorLines
 # sources names
-SOURCES=error utils playGame game commands colors menu userInterface colorsFront
+SOURCES=error utils playGame game colorsBack colors menu userInterface colorsFront
 
 ### DIRECTORIES ###
 

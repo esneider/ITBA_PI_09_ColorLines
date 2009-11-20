@@ -1,5 +1,5 @@
 /**
-* @file command.c
+* @file colorsBack.c
 * Command handling
 */
 
@@ -12,7 +12,7 @@
 #include "utils.h"
 #include "defines.h"
 #include "playGame.h"
-#include "commands.h"
+#include "colorsBack.h"
 
 bool movePiece ( game_t * game, int argc, char ** argv, char * msg );
 bool save      ( game_t * game, int argc, char ** argv, char * msg );

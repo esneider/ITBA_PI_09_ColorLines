@@ -1,5 +1,5 @@
 /**
-* @file unixColores.c
+* @file unixColors.c
 * Console colors in Unix.
 */
 

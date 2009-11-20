@@ -8,7 +8,7 @@
 #include "error.h"
 #include "defines.h"
 #include "game.h"
-#include "commands.h"
+#include "colorsBack.h"
 #include "menu.h"
 #include "userInterface.h"
 #include "playGame.h"
@@ -29,7 +29,7 @@
 * @see askCommand()
 * @see newCommand()
 */
-#include <stdio.h>
+
 int
 main()
 {
