@@ -194,15 +194,15 @@ bool
 movePiece( game_t * game, int argc, char ** argv, char * msg )
 {
 	int i;
-	char s[ argc * MAX_ARGS ];
+	char s[ argc * MAX_ARGS ], c, d;
 
 	s[0] = 0;
 	for( i = 0 ; i < argc ; i++ )
 		strcat( s, argv[i] );
 
 	int x1, y1, x2, y2;
-	i = sscanf( s, "[%d,%d][%d,%d]", &y1, &x1, &y2, &x2 );
-	if( i < 4 ){
+	i = sscanf( s, "[%d,%d][%d,%d %c %c", &y1, &x1, &y2, &x2, &c, &d );
+	if( i != 5 || c != ']' ){
 		sprintf( msg, "Format error:\n"
 					"Must be: [ row_1, column_1 ][ row_2, column_2 ]" );
 		return false;
