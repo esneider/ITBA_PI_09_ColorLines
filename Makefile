@@ -46,13 +46,16 @@ $(TARGET): $(OBJS)
 
 debug: override CFLAGS += $(DEBUGFLAGS)
 debug: override TFLAGS += $(DEBUGFLAGS)
-debug: $(TARGET)
+debug: dir $(TARGET)
 
 release: override CFLAGS += $(RELEASEFLAGS)
 release: override TFLAGS += $(RELEASEFLAGS)
-release: $(TARGET)
+release: dir $(TARGET)
 
 clean:
 	rm -f $(OPATH)*.o
 	rm -f $(TARGET)
 	find ./ -name "*~" -delete
+
+dir:
+	mkdir -p $(OPATH)
